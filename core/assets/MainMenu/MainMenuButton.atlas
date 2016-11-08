@@ -1,0 +1,118 @@
+
+MainMenuButton.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+oneOneButton
+  rotate: false
+  xy: 1, 682
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+oneOneButtonSelected
+  rotate: false
+  xy: 1, 455
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+twoTwoButton
+  rotate: false
+  xy: 1, 228
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+twoTwoButtonSelected
+  rotate: false
+  xy: 1, 1
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+
+MainMenuButton2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+configButton
+  rotate: false
+  xy: 1, 682
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+configButtonSelected
+  rotate: false
+  xy: 1, 455
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+creditsButton
+  rotate: false
+  xy: 1, 228
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+creditsButtonSelected
+  rotate: false
+  xy: 1, 1
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+
+MainMenuButton3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+exitButton
+  rotate: false
+  xy: 1, 682
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+exitButtonSelected
+  rotate: false
+  xy: 1, 455
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+startButton
+  rotate: false
+  xy: 1, 228
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+startButtonSelected
+  rotate: false
+  xy: 1, 1
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+
+MainMenuButton4.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tutorialButton
+  rotate: false
+  xy: 1, 228
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
+tutorialButtonSelected
+  rotate: false
+  xy: 1, 1
+  size: 600, 225
+  orig: 600, 225
+  offset: 0, 0
+  index: -1
