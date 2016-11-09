@@ -6,7 +6,7 @@ import net.nbzero.outlive.player.PlayerData;
 //import net.nbzero.outlive.utils.TextureHandler;
 import net.nbzero.outlive.positon.PositionHandler;
 
-public class Luffy extends Character {
+public class Law extends Character {
 	private static Animation standing;
 	private static Animation running;
 	private static Animation attacking;
@@ -19,9 +19,9 @@ public class Luffy extends Character {
 	private static Animation dead;
 	
 	
-	public Luffy(PlayerData playerData){
+	public Law(PlayerData playerData){
 		super(playerData);
-		CharacterFactory.Luffy.load();
+		CharacterFactory.Law.load();
 		standing = drawStanding();
 		running = drawRunning();
 		attacking = drawAttacking();
@@ -36,91 +36,91 @@ public class Luffy extends Character {
 
 	@Override
 	public Animation drawDead() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getDeadFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getDeadFrames());
 	}
 	
 	public Animation getDead(){
-		return Luffy.dead;
+		return Law.dead;
 	}
 	
 	@Override
 	public Animation drawSkilling1() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getSkill1Frames());
+		return new Animation(1f/8f, CharacterFactory.Law.getSkill1Frames());
 	}
 	
 	public Animation getSkilling1(){
-		return Luffy.skilling1;
+		return Law.skilling1;
 	}
 	
 	@Override
 	public Animation drawSkilling2() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getSkill2Frames());
+		return new Animation(1f/8f, CharacterFactory.Law.getSkill2Frames());
 	}
 	
 	public Animation getSkilling2(){
-		return Luffy.skilling2;
+		return Law.skilling2;
 	}
 	
 	@Override
 	public Animation drawStanding() {
-		return new Animation(1f/5f, CharacterFactory.Luffy.getStandFrames());
+		return new Animation(1f/5f, CharacterFactory.Law.getStandFrames());
 	}
 	
 	public Animation getStanding(){
-		return Luffy.standing;
+		return Law.standing;
 	}
 
 	@Override
 	protected Animation drawDashing() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getDashFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getDashFrames());
 	}
 	
 	public Animation getDashing(){
-		return Luffy.dashing;
+		return Law.dashing;
 	}
 	
 	@Override
 	protected Animation drawRunning() {
-		return new Animation(1f/6f, CharacterFactory.Luffy.getRunFrames());
+		return new Animation(1f/6f, CharacterFactory.Law.getRunFrames());
 	}
 	
 	public Animation getRunning(){
-		return Luffy.running;
+		return Law.running;
 	}
 
 	@Override
 	protected Animation drawAttacking() {
-		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames());
+		return new Animation(1f/16f, CharacterFactory.Law.getAttackFrames());
 	}
 	
 	public Animation getAttacking(){
-		return Luffy.attacking;
+		return Law.attacking;
 	}
 	
 	@Override
 	protected Animation drawAttacking2() {
-		return new Animation(1f/14f, CharacterFactory.Luffy.getAttackFrames2());
+		return new Animation(1f/14f, CharacterFactory.Law.getAttackFrames2());
 	}
 	
 	public Animation getAttacking2(){
-		return Luffy.attacking2;
+		return Law.attacking2;
 	}
 	
 	@Override
 	protected Animation drawAttacking3() {
-		return new Animation(1f/12f, CharacterFactory.Luffy.getAttackFrames3());
+		return new Animation(1f/12f, CharacterFactory.Law.getAttackFrames3());
 	}
 	
 	public Animation getAttacking3(){
-		return Luffy.attacking3;
+		return Law.attacking3;
 	}
 
 	@Override
 	protected Animation drawDefending() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getDefenseFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getDefenseFrames());
 	}
 	
 	public Animation getDefending(){
-		return Luffy.defending;
+		return Law.defending;
 	}
 }

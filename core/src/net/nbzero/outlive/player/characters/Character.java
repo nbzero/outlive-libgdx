@@ -30,6 +30,7 @@ abstract public class Character {
 	protected abstract Animation drawSkilling2();
 	protected abstract Animation drawDefending();
 	protected abstract Animation drawDashing();
+	protected abstract Animation drawDead();
 
 
 
