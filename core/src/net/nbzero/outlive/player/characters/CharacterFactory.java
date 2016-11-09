@@ -20,14 +20,16 @@ public enum CharacterFactory {
 			setDefenseFrames(getSprite(1, 1, 2, 2));
 			setAttackFrames(getSprite(0, 7, 6, 8));
 			setAttackFrames2(getSprite(0, 8, 6, 9));
-			setAttackFrames3(getSprite(0, 8, 6, 9));
+			setAttackFrames3(getSprite(0, 9, 6, 10));
+			setSkill1Frames(getSprite(0, 10, 11, 11));
+			setSkill2Frames(getSprite(0, 11, 7, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 		}
 	};
 	
 	// Sprite
 	protected TextureRegion[][] sprite;
-	protected TextureRegion[] standFrames, runFrames, dashFrames, attackFrames, defenseFrames, attackFrames2, attackFrames3;
+	protected TextureRegion[] standFrames, runFrames, dashFrames, attackFrames, defenseFrames, attackFrames2, attackFrames3, skill1Frames, skill2Frames;
 	
 	protected void load() {
 		initial();
@@ -36,6 +38,22 @@ public enum CharacterFactory {
 
 	protected void initial() {
 		setSprite(TextureHandler.TextureSplit("spritesheet/" + name() + ".png", 300, 300, true));
+	}
+	
+	public void setSkill1Frames(TextureRegion[] skill1Frames){
+		this.skill1Frames = skill1Frames;
+	}
+	
+	public TextureRegion[] getSkill1Frames(){
+		return skill1Frames;
+	}
+	
+	public void setSkill2Frames(TextureRegion[] skill2Frames){
+		this.skill2Frames = skill2Frames;
+	}
+	
+	public TextureRegion[] getSkill2Frames(){
+		return skill2Frames;
 	}
 	
 	public void setDashFrames(TextureRegion[] dashFrames){

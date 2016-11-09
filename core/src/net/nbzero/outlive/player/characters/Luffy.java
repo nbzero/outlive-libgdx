@@ -13,6 +13,10 @@ public class Luffy extends Character {
 	private static Animation attacking3;
 	private static Animation defending;
 	private static Animation dashing;
+	private static Animation skilling1;
+	private static Animation skilling2;
+	
+	
 	public Luffy(PlayerData playerData){
 		super(playerData);
 		CharacterFactory.Luffy.load();
@@ -21,10 +25,31 @@ public class Luffy extends Character {
 		attacking = drawAttacking();
 		attacking2 = drawAttacking2();
 		attacking3 = drawAttacking3();
+		skilling1 = drawSkilling1();
+		skilling2 = drawSkilling2();
 		defending = drawDefending();
 		dashing = drawDashing();
 	}
 
+	
+	@Override
+	public Animation drawSkilling1() {
+		return new Animation(1f/8f, CharacterFactory.Luffy.getSkill1Frames());
+	}
+	
+	public Animation getSkilling1(){
+		return Luffy.skilling1;
+	}
+	
+	@Override
+	public Animation drawSkilling2() {
+		return new Animation(1f/8f, CharacterFactory.Luffy.getSkill2Frames());
+	}
+	
+	public Animation getSkilling2(){
+		return Luffy.skilling2;
+	}
+	
 	@Override
 	public Animation drawStanding() {
 		return new Animation(1f/8f, CharacterFactory.Luffy.getStandFrames());
