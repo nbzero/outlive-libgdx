@@ -151,6 +151,24 @@ public class GameScreen implements Screen {
 				delayTime = 0;
 			}
 		}
+		else if(Gdx.input.isKeyPressed(Keys.A)){
+			keyFrame = luffy.getSkilling1().getKeyFrame(elapsedTime, true);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()-100, luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300+100, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+		}
+		else if(Gdx.input.isKeyPressed(Keys.S)){
+			keyFrame = luffy.getSkilling2().getKeyFrame(elapsedTime, true);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()-100, luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300+100, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+		}
 		else {
 			luffy.getPlayer().setHasControl(true);
 			keyFrame = luffy.getStanding().getKeyFrame(elapsedTime, true);
