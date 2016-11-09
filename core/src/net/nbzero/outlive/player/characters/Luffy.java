@@ -19,7 +19,7 @@ public class Luffy extends Character {
 	
 	
 	public Luffy(PlayerData playerData){
-		super(playerData, new PositionHandler(75, 115));
+		super(playerData);
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();
@@ -80,7 +80,7 @@ public class Luffy extends Character {
 
 	@Override
 	protected Animation drawAttacking() {
-		return new Animation(1f/17f, CharacterFactory.Luffy.getAttackFrames());
+		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames());
 	}
 	
 	public Animation getAttacking(){
@@ -89,7 +89,7 @@ public class Luffy extends Character {
 	
 	@Override
 	protected Animation drawAttacking2() {
-		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames2());
+		return new Animation(1f/14f, CharacterFactory.Luffy.getAttackFrames2());
 	}
 	
 	public Animation getAttacking2(){
@@ -98,7 +98,7 @@ public class Luffy extends Character {
 	
 	@Override
 	protected Animation drawAttacking3() {
-		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames3());
+		return new Animation(1f/12f, CharacterFactory.Luffy.getAttackFrames3());
 	}
 	
 	public Animation getAttacking3(){
