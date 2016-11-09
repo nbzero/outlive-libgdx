@@ -18,7 +18,6 @@ public enum CharacterFactory {
 			setStandFrames(getSprite(0, 0, 4, 1));
 			setRunFrames(getSprite(0, 2, 6, 3));
 		}
-
 	};
 	
 	// Sprite
@@ -27,6 +26,7 @@ public enum CharacterFactory {
 	
 	protected void load() {
 		initial();
+		loadSprite();
 	}
 
 	protected void initial() {

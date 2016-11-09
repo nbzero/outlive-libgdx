@@ -15,11 +15,11 @@ public class TextureHandler {
 		Texture texture = getTexture(path);
 		
 		TextureRegion[][] temp = TextureRegion.split(texture, width, height);
-		for(int i = 0; i < temp.length; i++) {
-			for(int j = 0; j < temp[i].length; j++) {
-				temp[i][j].flip(false, flip);
-			}
-		}
+//		for(int i = 0; i < temp.length; i++) {
+//			for(int j = 0; j < temp[i].length; j++) {
+//				temp[i][j].flip(false, flip);
+//			}
+//		}
 		return temp;
 	}
 	
