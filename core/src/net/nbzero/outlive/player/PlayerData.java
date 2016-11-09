@@ -174,7 +174,7 @@ public class PlayerData {
 		this.isDashing = isDashing;
 	}
 
-	public boolean isHasControl() {
+	public boolean hasControl() {
 		return hasControl;
 	}
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 import net.nbzero.outlive.player.PlayerData;
 //import net.nbzero.outlive.utils.TextureHandler;
+import net.nbzero.outlive.positon.PositionHandler;
 
 public class Luffy extends Character {
 	private static Animation standing;
@@ -14,7 +15,7 @@ public class Luffy extends Character {
 	private static Animation defending;
 	private static Animation dashing;
 	public Luffy(PlayerData playerData){
-		super(playerData);
+		super(playerData, new PositionHandler(75, 115));
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();
@@ -27,7 +28,7 @@ public class Luffy extends Character {
 
 	@Override
 	public Animation drawStanding() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getStandFrames());
+		return new Animation(1f/5f, CharacterFactory.Luffy.getStandFrames());
 	}
 	
 	public Animation getStanding(){
@@ -45,7 +46,7 @@ public class Luffy extends Character {
 	
 	@Override
 	protected Animation drawRunning() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getRunFrames());
+		return new Animation(1f/6f, CharacterFactory.Luffy.getRunFrames());
 	}
 	
 	public Animation getRunning(){
@@ -54,7 +55,7 @@ public class Luffy extends Character {
 
 	@Override
 	protected Animation drawAttacking() {
-		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames());
+		return new Animation(1f/17f, CharacterFactory.Luffy.getAttackFrames());
 	}
 	
 	public Animation getAttacking(){
