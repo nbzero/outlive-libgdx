@@ -21,6 +21,8 @@ public class GameScreen implements Screen {
 	private static TextureRegion keyFrame;
 	private static Texture bg;
 	private Luffy luffy;
+	private static int count;
+	private static float delayTime;
 	
 	@Override
 	public void show() {
@@ -29,6 +31,7 @@ public class GameScreen implements Screen {
 		luffy.getPlayer().setLeft(true);
 		bg = new Texture("MainMenu/bg.png");
 		batch = new SpriteBatch();
+		count=0;
 	}
 
 	@Override
@@ -47,21 +50,90 @@ public class GameScreen implements Screen {
 			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
 			luffy.getPlayer().setRight(false);
 			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-5);
-			batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), 0, 300, 300);
+			if(Gdx.input.isKeyPressed(Keys.UP)){
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
+			}
+			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
+			}
+			batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 		} 
 		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
 			luffy.getPlayer().setRight(true);
 			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+5);
-			batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, 0, -300, 300);
+			if(Gdx.input.isKeyPressed(Keys.UP)){
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
+			}
+			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
+			}
+			batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+		}
+		else if(Gdx.input.isKeyPressed(Keys.UP)) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
+			if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			}else{
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			}	
+		}
+		else if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
+			if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			}else{
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+		}
+		else if(Gdx.input.isKeyPressed(Keys.X)){
+			keyFrame = luffy.getDefending().getKeyFrame(elapsedTime);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+		}
+		else if(Gdx.input.isKeyPressed(Keys.Z) && delayTime < elapsedTime){
+			delayTime = elapsedTime+1;
+			if (count%3==0){
+				keyFrame = luffy.getAttacking().getKeyFrame(elapsedTime, true);
+			}
+			else if (count%3==1){
+				keyFrame = luffy.getAttacking2().getKeyFrame(elapsedTime, true);
+			}
+			else if (count%3==2){
+				keyFrame = luffy.getAttacking3().getKeyFrame(elapsedTime, true);
+			}
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+			count++;
+		}
+		else if(Gdx.input.isKeyPressed(Keys.SPACE)){
+			keyFrame = luffy.getDashing().getKeyFrame(elapsedTime);
+			if(!luffy.getPlayer().isRight()){
+				luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-9);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+9);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
 		}
 		else {
 			keyFrame = luffy.getStanding().getKeyFrame(elapsedTime, true);
 			if(!luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), 0, 300, 300);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, 0, -300, 300);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
 		

@@ -26,6 +26,7 @@ public class PlayerData {
 	private boolean isRunning;
 	private boolean isAttacking;
 	private boolean isDefending;
+	private boolean isDashing;
 	private boolean isHitable;
 	private boolean hasControl;
 	
@@ -163,6 +164,14 @@ public class PlayerData {
 
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
+	}
+	
+	public boolean isDashing(){
+		return isDashing;
+	}
+	
+	public void setDashing(boolean isDashing){
+		this.isDashing = isDashing;
 	}
 
 	public boolean isHasControl() {

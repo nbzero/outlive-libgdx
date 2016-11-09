@@ -9,14 +9,20 @@ public class Luffy extends Character {
 	private static Animation standing;
 	private static Animation running;
 	private static Animation attacking;
+	private static Animation attacking2;
+	private static Animation attacking3;
 	private static Animation defending;
+	private static Animation dashing;
 	public Luffy(PlayerData playerData){
 		super(playerData);
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();
 		attacking = drawAttacking();
+		attacking2 = drawAttacking2();
+		attacking3 = drawAttacking3();
 		defending = drawDefending();
+		dashing = drawDashing();
 	}
 
 	@Override
@@ -29,6 +35,15 @@ public class Luffy extends Character {
 	}
 
 	@Override
+	protected Animation drawDashing() {
+		return new Animation(1f/8f, CharacterFactory.Luffy.getDashFrames());
+	}
+	
+	public Animation getDashing(){
+		return Luffy.dashing;
+	}
+	
+	@Override
 	protected Animation drawRunning() {
 		return new Animation(1f/8f, CharacterFactory.Luffy.getRunFrames());
 	}
@@ -39,13 +54,37 @@ public class Luffy extends Character {
 
 	@Override
 	protected Animation drawAttacking() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames());
+	}
+	
+	public Animation getAttacking(){
+		return Luffy.attacking;
+	}
+	
+	@Override
+	protected Animation drawAttacking2() {
+		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames2());
+	}
+	
+	public Animation getAttacking2(){
+		return Luffy.attacking2;
+	}
+	
+	@Override
+	protected Animation drawAttacking3() {
+		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames3());
+	}
+	
+	public Animation getAttacking3(){
+		return Luffy.attacking3;
 	}
 
 	@Override
 	protected Animation drawDefending() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Animation(1f/8f, CharacterFactory.Luffy.getDefenseFrames());
+	}
+	
+	public Animation getDefending(){
+		return Luffy.defending;
 	}
 }
