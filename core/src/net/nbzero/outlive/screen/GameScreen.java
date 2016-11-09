@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
@@ -15,28 +17,52 @@ public class GameScreen implements Screen {
 	private static SpriteBatch batch;
 	private static float elapsedTime;
 	private static PlayerData p1;
+	private static float x=0;
+	private static TextureRegion keyFrame;
+	private static Texture bg;
 	private Luffy luffy;
 	
 	@Override
-	public void show() { }
+	public void show() {
+		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
+		luffy = new Luffy(p1);
+		luffy.getPlayer().setLeft(true);
+		bg = new Texture("MainMenu/bg.png");
+		batch = new SpriteBatch();
+	}
 
 	@Override
 	public void render(float delta) {
-		batch = new SpriteBatch();
 		elapsedTime += Gdx.graphics.getDeltaTime();
-		System.out.println(elapsedTime);
-		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
-		luffy = new Luffy(p1);
+//		System.out.println(elapsedTime);
 		
 		Gdx.gl.glClearColor(1, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
 		
+		batch.draw(bg, 0, 0);
+		
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			
-		}else{
-			batch.draw(luffy.drawStanding().getKeyFrame(elapsedTime, true), 0, 0, 300, 300);
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().setRight(false);
+			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-5);
+			batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), 0, 300, 300);
+		} 
+		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().setRight(true);
+			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+5);
+			batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, 0, -300, 300);
+		}
+		else {
+			keyFrame = luffy.getStanding().getKeyFrame(elapsedTime, true);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), 0, 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, 0, -300, 300);
+			}
 		}
 		
 		batch.end();

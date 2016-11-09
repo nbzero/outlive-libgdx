@@ -23,4 +23,6 @@ abstract public class Character {
 	
 	protected abstract Animation drawStanding();
 	protected abstract Animation drawRunning();
+	protected abstract Animation drawAttacking();
+	protected abstract Animation drawDefending();
 }

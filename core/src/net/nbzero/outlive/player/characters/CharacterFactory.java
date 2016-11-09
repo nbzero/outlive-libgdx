@@ -17,6 +17,7 @@ public enum CharacterFactory {
 		public void loadSprite() {
 			setStandFrames(getSprite(0, 0, 4, 1));
 			setRunFrames(getSprite(0, 2, 6, 3));
+//			setAttackFrames(getSprite(0, 5, 5, 6));
 		}
 	};
 	
@@ -41,6 +42,10 @@ public enum CharacterFactory {
 		this.runFrames = runFrames;
 	}
 
+	public TextureRegion[] getRunFrames(){
+		return runFrames;
+	}
+	
 	public void setStandFrames(TextureRegion[] standFrames) {
 		this.standFrames = standFrames;
 	}

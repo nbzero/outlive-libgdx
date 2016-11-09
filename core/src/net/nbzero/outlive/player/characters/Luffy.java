@@ -6,21 +6,22 @@ import net.nbzero.outlive.player.PlayerData;
 //import net.nbzero.outlive.utils.TextureHandler;
 
 public class Luffy extends Character {
-	private static Animation animation;
 	private static Animation standing;
+	private static Animation running;
+	private static Animation attacking;
+	private static Animation defending;
 	public Luffy(PlayerData playerData){
 		super(playerData);
 		CharacterFactory.Luffy.load();
+		standing = drawStanding();
+		running = drawRunning();
+		attacking = drawAttacking();
+		defending = drawDefending();
 	}
 
 	@Override
 	public Animation drawStanding() {
-		animation = new Animation(1f/8f, CharacterFactory.Luffy.getStandFrames());
-		return animation;
-	}
-	
-	public void setStanding(Animation standing) {
-		Luffy.standing = standing;
+		return new Animation(1f/8f, CharacterFactory.Luffy.getStandFrames());
 	}
 	
 	public Animation getStanding(){
@@ -29,6 +30,21 @@ public class Luffy extends Character {
 
 	@Override
 	protected Animation drawRunning() {
+		return new Animation(1f/8f, CharacterFactory.Luffy.getRunFrames());
+	}
+	
+	public Animation getRunning(){
+		return Luffy.running;
+	}
+
+	@Override
+	protected Animation drawAttacking() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Animation drawDefending() {
 		// TODO Auto-generated method stub
 		return null;
 	}
