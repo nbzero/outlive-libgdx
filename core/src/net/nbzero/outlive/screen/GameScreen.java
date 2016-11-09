@@ -9,15 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.nbzero.outlive.player.PlayerData;
-import net.nbzero.outlive.player.characters.Character;
-import net.nbzero.outlive.player.characters.Zoro;
+import net.nbzero.outlive.player.characters.Luffy;
 import net.nbzero.outlive.positon.PositionHandler;
 
 public class GameScreen implements Screen {
 	private static SpriteBatch batch;
 	private static float elapsedTime;
 	private static PlayerData p1;
-	private static float x=0;
 	private static TextureRegion keyFrame;
 	private static Texture bg;
 	private Zoro zoro;

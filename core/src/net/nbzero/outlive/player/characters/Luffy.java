@@ -1,6 +1,8 @@
 package net.nbzero.outlive.player.characters;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Rectangle;
 
 import net.nbzero.outlive.player.PlayerData;
 //import net.nbzero.outlive.utils.TextureHandler;
@@ -20,7 +22,7 @@ public class Luffy extends Character {
 	
 	
 	public Luffy(PlayerData playerData){
-		super(playerData);
+		super(playerData, new PositionHandler(35, 30));
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();
@@ -123,4 +125,10 @@ public class Luffy extends Character {
 	public Animation getDefending(){
 		return Luffy.defending;
 	}
+	
+	public Rectangle getRect(){
+		return hitbox;
+	}
+
+
 }
