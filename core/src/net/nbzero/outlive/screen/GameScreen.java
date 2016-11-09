@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
-import net.nbzero.outlive.player.characters.Law;
+import net.nbzero.outlive.player.characters.Zoro;
 import net.nbzero.outlive.positon.PositionHandler;
 
 public class GameScreen implements Screen {
@@ -20,7 +20,7 @@ public class GameScreen implements Screen {
 	private static float x=0;
 	private static TextureRegion keyFrame;
 	private static Texture bg;
-	private Law law;
+	private Zoro zoro;
 	private static int count;
 	private static float delayTime;
 	private static float attackTime;
@@ -28,8 +28,8 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
-		law = new Law(p1);
-		law.getPlayer().setLeft(true);
+		zoro = new Zoro(p1);
+		zoro.getPlayer().setLeft(true);
 		bg = new Texture("MainMenu/bg.png");
 		batch = new SpriteBatch();
 		count=0;
@@ -49,162 +49,162 @@ public class GameScreen implements Screen {
 		batch.draw(bg, 0, 0);
 		
 		//Start check input
-		if(Gdx.input.isKeyPressed(Keys.LEFT) && law.getPlayer().hasControl()) {
-			keyFrame = law.getRunning().getKeyFrame(elapsedTime, true);
-			law.getPlayer().setRight(false);
-			law.getPlayer().getPos().setX(law.getPlayer().getPos().getX()-5);
+		if(Gdx.input.isKeyPressed(Keys.LEFT) && zoro.getPlayer().hasControl()) {
+			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
+			zoro.getPlayer().setRight(false);
+			zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()-5);
 			if(Gdx.input.isKeyPressed(Keys.UP)){
-				law.getPlayer().getPos().setY(law.getPlayer().getPos().getY()+5);
+				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()+5);
 			}
 			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-				law.getPlayer().getPos().setY(law.getPlayer().getPos().getY()-5);
+				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()-5);
 			}
-			batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+			batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 		} 
-		else if(Gdx.input.isKeyPressed(Keys.RIGHT) && law.getPlayer().hasControl()) {
-			keyFrame = law.getRunning().getKeyFrame(elapsedTime, true);
-			law.getPlayer().setRight(true);
-			law.getPlayer().getPos().setX(law.getPlayer().getPos().getX()+5);
+		else if(Gdx.input.isKeyPressed(Keys.RIGHT) && zoro.getPlayer().hasControl()) {
+			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
+			zoro.getPlayer().setRight(true);
+			zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()+5);
 			if(Gdx.input.isKeyPressed(Keys.UP)){
-				law.getPlayer().getPos().setY(law.getPlayer().getPos().getY()+5);
+				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()+5);
 			}
 			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-				law.getPlayer().getPos().setY(law.getPlayer().getPos().getY()-5);
+				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()-5);
 			}
-			batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.UP) && law.getPlayer().hasControl()) {
-			keyFrame = law.getRunning().getKeyFrame(elapsedTime, true);
-			law.getPlayer().getPos().setY(law.getPlayer().getPos().getY()+5);
-			if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+		else if(Gdx.input.isKeyPressed(Keys.UP) && zoro.getPlayer().hasControl()) {
+			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
+			zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()+5);
+			if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}else{
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}	
 		}
-		else if(Gdx.input.isKeyPressed(Keys.DOWN) && law.getPlayer().hasControl()) {
-			keyFrame = law.getRunning().getKeyFrame(elapsedTime, true);
-			law.getPlayer().getPos().setY(law.getPlayer().getPos().getY()-5);
-			if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+		else if(Gdx.input.isKeyPressed(Keys.DOWN) && zoro.getPlayer().hasControl()) {
+			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
+			zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()-5);
+			if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}else{
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Keys.X) && !law.getPlayer().isAttacking()){
-			law.getPlayer().setHasControl(false);
-			keyFrame = law.getDefending().getKeyFrame(elapsedTime);
-			if(!law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+		else if(Gdx.input.isKeyPressed(Keys.X) && !zoro.getPlayer().isAttacking()){
+			zoro.getPlayer().setHasControl(false);
+			keyFrame = zoro.getDefending().getKeyFrame(elapsedTime);
+			if(!zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.Z) && !law.getPlayer().isAttacking() && law.getPlayer().hasControl()){
-			law.getPlayer().setAttacking(true);
-			law.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyJustPressed(Keys.Z) && !zoro.getPlayer().isAttacking() && zoro.getPlayer().hasControl()){
+			zoro.getPlayer().setAttacking(true);
+			zoro.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.SPACE) && !law.getPlayer().isDashing() && law.getPlayer().hasControl()){
-			law.getPlayer().setDashing(true);
-			law.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyJustPressed(Keys.SPACE) && !zoro.getPlayer().isDashing() && zoro.getPlayer().hasControl()){
+			zoro.getPlayer().setDashing(true);
+			zoro.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.A) && !law.getPlayer().isSkilling1()&& law.getPlayer().hasControl()){// Need to check cooldown skill1
-			law.getPlayer().setSkilling1(true);
-			law.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyPressed(Keys.A) && !zoro.getPlayer().isSkilling1()&& zoro.getPlayer().hasControl()){// Need to check cooldown skill1
+			zoro.getPlayer().setSkilling1(true);
+			zoro.getPlayer().setHasControl(false);
 			
 		}
-		else if(Gdx.input.isKeyPressed(Keys.S)&& !law.getPlayer().isSkilling2()&& law.getPlayer().hasControl()){// Need to check cooldown skill2
-			law.getPlayer().setSkilling2(true);
-			law.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyPressed(Keys.S)&& !zoro.getPlayer().isSkilling2()&& zoro.getPlayer().hasControl()){// Need to check cooldown skill2
+			zoro.getPlayer().setSkilling2(true);
+			zoro.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(Keys.D)){
-			keyFrame = law.getDead().getKeyFrame(elapsedTime, true);
-			if(!law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = zoro.getDead().getKeyFrame(elapsedTime, true);
+			if(!zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
 		// End check input
 		
 		// Start check states
-		else if(law.getPlayer().isAttacking()){
+		else if(zoro.getPlayer().isAttacking()){
 			attackTime += Gdx.graphics.getDeltaTime();
 			if (count%3==0){
-				keyFrame = law.getAttacking().getKeyFrame(attackTime);
+				keyFrame = zoro.getAttacking().getKeyFrame(attackTime);
 			}
 			else if (count%3==1){
-				keyFrame = law.getAttacking2().getKeyFrame(attackTime);
+				keyFrame = zoro.getAttacking2().getKeyFrame(attackTime);
 			}
 			else if (count%3==2){
-				keyFrame = law.getAttacking3().getKeyFrame(attackTime);
+				keyFrame = zoro.getAttacking3().getKeyFrame(attackTime);
 			}
-			if(!law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+			if(!zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
-			if(law.getAttacking().isAnimationFinished(attackTime)){
-				law.getPlayer().setAttacking(false);
+			if(zoro.getAttacking().isAnimationFinished(attackTime)){
+				zoro.getPlayer().setAttacking(false);
 				attackTime = 0;
 				count++;
 			}
 		}
-		else if(law.getPlayer().isDashing()){
+		else if(zoro.getPlayer().isDashing()){
 			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = law.getDashing().getKeyFrame(delayTime);
-			if(!law.getPlayer().isRight()){
-				law.getPlayer().getPos().setX(law.getPlayer().getPos().getX()-18);
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = zoro.getDashing().getKeyFrame(delayTime);
+			if(!zoro.getPlayer().isRight()){
+				zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()-18);
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				law.getPlayer().getPos().setX(law.getPlayer().getPos().getX()+18);
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()+18);
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
 			if(delayTime>=0.1f){
-				law.getPlayer().setDashing(false);
+				zoro.getPlayer().setDashing(false);
 				delayTime = 0;
 			}
 		}
-		else if(law.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+		else if(zoro.getPlayer().isSkilling1()){ // Need to check cooldown skill1
 			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = law.getSkilling1().getKeyFrame(delayTime);
-			if(!law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()-100, law.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = zoro.getSkilling1().getKeyFrame(delayTime);
+			if(!zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300+100, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
-			if(law.getSkilling1().isAnimationFinished(delayTime)){
-				law.getPlayer().setSkilling1(false);
+			if(zoro.getSkilling1().isAnimationFinished(delayTime)){
+				zoro.getPlayer().setSkilling1(false);
 				delayTime = 0;
 			}
 		}
-		else if(law.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+		else if(zoro.getPlayer().isSkilling2()){ // Need to check cooldown skill2
 			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = law.getSkilling2().getKeyFrame(delayTime);
-			if(!law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = zoro.getSkilling2().getKeyFrame(delayTime);
+			if(!zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
-			if(law.getSkilling2().isAnimationFinished(delayTime)){
-				law.getPlayer().setSkilling2(false);
+			if(zoro.getSkilling2().isAnimationFinished(delayTime)){
+				zoro.getPlayer().setSkilling2(false);
 				delayTime = 0;
 			}
 		}
 		else {
-			law.getPlayer().setHasControl(true);
-			keyFrame = law.getStanding().getKeyFrame(elapsedTime, true);
-			if(!law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX(), law.getPlayer().getPos().getY(), 300, 300);
+			zoro.getPlayer().setHasControl(true);
+			keyFrame = zoro.getStanding().getKeyFrame(elapsedTime, true);
+			if(!zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(law.getPlayer().isRight()){
-				batch.draw(keyFrame, law.getPlayer().getPos().getX()+300, law.getPlayer().getPos().getY(), -300, 300);
+			else if(zoro.getPlayer().isRight()){
+				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
 		if(count == 3){
