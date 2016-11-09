@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Keys.X)){
+		else if(Gdx.input.isKeyPressed(Keys.X) && !luffy.getPlayer().isAttacking()){
 			luffy.getPlayer().setHasControl(false);
 			keyFrame = luffy.getDefending().getKeyFrame(elapsedTime);
 			if(!luffy.getPlayer().isRight()){
@@ -107,6 +107,15 @@ public class GameScreen implements Screen {
 		}
 		else if(Gdx.input.isKeyJustPressed(Keys.SPACE) && !luffy.getPlayer().isDashing() && luffy.getPlayer().hasControl()){
 			luffy.getPlayer().setDashing(true);
+			luffy.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyPressed(Keys.A) && !luffy.getPlayer().isSkilling1()&& luffy.getPlayer().hasControl()){// Need to check cooldown skill1
+			luffy.getPlayer().setSkilling1(true);
+			luffy.getPlayer().setHasControl(false);
+			
+		}
+		else if(Gdx.input.isKeyPressed(Keys.S)&& !luffy.getPlayer().isSkilling2()&& luffy.getPlayer().hasControl()){// Need to check cooldown skill2
+			luffy.getPlayer().setSkilling2(true);
 			luffy.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -151,22 +160,32 @@ public class GameScreen implements Screen {
 				delayTime = 0;
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Keys.A)){
-			keyFrame = luffy.getSkilling1().getKeyFrame(elapsedTime, true);
+		else if(luffy.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+			delayTime += Gdx.graphics.getDeltaTime();
+			keyFrame = luffy.getSkilling1().getKeyFrame(delayTime);
 			if(!luffy.getPlayer().isRight()){
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()-100, luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(luffy.getPlayer().isRight()){
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300+100, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+			if(luffy.getSkilling1().isAnimationFinished(delayTime)){
+				luffy.getPlayer().setSkilling1(false);
+				delayTime = 0;
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Keys.S)){
-			keyFrame = luffy.getSkilling2().getKeyFrame(elapsedTime, true);
+		else if(luffy.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+			delayTime += Gdx.graphics.getDeltaTime();
+			keyFrame = luffy.getSkilling2().getKeyFrame(delayTime);
 			if(!luffy.getPlayer().isRight()){
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()-100, luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(luffy.getPlayer().isRight()){
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300+100, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+			if(luffy.getSkilling2().isAnimationFinished(delayTime)){
+				luffy.getPlayer().setSkilling2(false);
+				delayTime = 0;
 			}
 		}
 		else {

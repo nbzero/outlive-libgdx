@@ -29,6 +29,8 @@ public class PlayerData {
 	private boolean isDashing;
 	private boolean isHitable;
 	private boolean hasControl;
+	private boolean isSkilling1;
+	private boolean isSkilling2;
 	
 	// Skills states
 	private boolean isSkill1Ready;
@@ -181,7 +183,23 @@ public class PlayerData {
 	public void setHasControl(boolean hasControl) {
 		this.hasControl = hasControl;
 	}
+	
+	public boolean isSkilling1(){
+		return isSkilling1;
+	}
+	
+	public void setSkilling1(boolean isSkilling1){
+		this.isSkilling1 = isSkilling1;
+	}
 
+	public boolean isSkilling2(){
+		return isSkilling2;
+	}
+	
+	public void setSkilling2(boolean isSkilling2){
+		this.isSkilling2 = isSkilling2;
+	}
+	
 	public boolean isSkill1Ready() {
 		return isSkill1Ready;
 	}
