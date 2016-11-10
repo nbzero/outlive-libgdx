@@ -18,11 +18,11 @@ public class Luffy extends Character {
 	private static Animation skilling2;
 	private static Animation dead;
 	
-	private static PositionHandler whiteSize;
+	private static PositionHandler whiteSize = new PositionHandler(125, 20);
 	
 	public Luffy(PlayerData playerData){
-		super(playerData, new PositionHandler(50, 90));
-		setWhiteSize(new PositionHandler(125, 20));
+		super(playerData, new PositionHandler(50, 90), whiteSize);
+		setAttackBox(new Rectangle(-60, -70, 70, 70));
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();

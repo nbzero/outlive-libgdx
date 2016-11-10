@@ -10,15 +10,15 @@ abstract public class Character {
 	// Player data
 	protected PlayerData player;
 	protected Rectangle hitbox;
-	
-	protected PositionHandler size;
+	protected Rectangle attackBox;
+	protected Rectangle attackBox1;
+	protected Rectangle attackBox2;
 	
 	// Constructors	
-	public Character(PlayerData playerData, PositionHandler size){
+	public Character(PlayerData playerData, PositionHandler size, PositionHandler whiteSize){
+		playerData.setSize(size);
 		setPlayer(playerData);
-		setHitbox(new Rectangle(0, 0, size.getX(), size.getY()));
-		
-		setSize(size);
+		setHitbox(new Rectangle(playerData.getPos().getX()+whiteSize.getX(), playerData.getPos().getY()+whiteSize.getY(), size.getX(), size.getY()));
 	}
 
 	public PlayerData getPlayer() {
@@ -37,6 +37,29 @@ abstract public class Character {
 		this.hitbox = new Rectangle(hitbox);
 	}
 
+	public void setAttackBox(Rectangle attackBox) {
+		this.attackBox = attackBox;
+	}
+	
+	public void setAttackBox1(Rectangle attackBox) {
+		this.attackBox1 = attackBox;
+	}
+	
+	public void setAttackBox2(Rectangle attackBox) {
+		this.attackBox = attackBox;
+	}
+
+	public Rectangle getAttackBox() {
+		return attackBox;
+	}
+	
+	public Rectangle getAttackBox1() {
+		return attackBox1;
+	}
+	
+	public Rectangle getAttackBox2() {
+		return attackBox2;
+	}
 	protected abstract Animation drawStanding();
 	protected abstract Animation drawRunning();
 	protected abstract Animation drawAttacking();
@@ -46,11 +69,5 @@ abstract public class Character {
 	protected abstract Animation drawSkilling2();
 	protected abstract Animation drawDefending();
 	protected abstract Animation drawDashing();
-	
-	protected void setSize(PositionHandler size){
-		this.size = new PositionHandler(size);
-	}
-	protected PositionHandler getSize(){
-		return size;
-	}
+	protected abstract Animation drawDead();
 }

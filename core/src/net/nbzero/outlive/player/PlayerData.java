@@ -53,7 +53,7 @@ public class PlayerData {
 		
 		// Position
 		setPos(pos);
-		setSize(new PositionHandler());
+		setSize(size);
 		
 		// Team ID
 		setTeam(team);

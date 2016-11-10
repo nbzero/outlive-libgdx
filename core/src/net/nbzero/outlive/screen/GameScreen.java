@@ -1,5 +1,7 @@
 package net.nbzero.outlive.screen;
 
+import java.awt.Rectangle;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -20,19 +22,20 @@ public class GameScreen implements Screen {
 	private static PlayerData p1;
 	private static TextureRegion keyFrame;
 	private static Texture bg;
-	private Zoro zoro;
+	private Luffy luffy;
 	private static int count;
 	private static float delayTime;
 	private static float attackTime;
+	private static float deadTime;
 	private static ShapeRenderer shapeRenderer;
 	private static boolean debugMode;
 	
 	@Override
 	public void show() {
 		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
-		zoro = new Zoro(p1);
-		zoro.getPlayer().setLeft(true);
-		bg = new Texture("MainMenu/bg.png");
+		luffy = new Luffy(p1);
+		luffy.getPlayer().setLeft(true);
+		bg = new Texture("Stage/forest.png");
 		batch = new SpriteBatch();
 		count=0;
 		delayTime=0;
@@ -53,6 +56,8 @@ public class GameScreen implements Screen {
 		batch.draw(bg, 0, 0);
 		
 		//Start check input
+		
+		// Movement
 		if(Gdx.input.isKeyPressed(Keys.LEFT) && luffy.getPlayer().hasControl()) {
 			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
 			luffy.getPlayer().setRight(false);
@@ -66,7 +71,7 @@ public class GameScreen implements Screen {
 				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
 				luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
 			}
-			batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 		} 
 		else if(Gdx.input.isKeyPressed(Keys.RIGHT) && luffy.getPlayer().hasControl()) {
 			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
@@ -81,7 +86,7 @@ public class GameScreen implements Screen {
 				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
 				luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
 			}
-			batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 		}
 		else if(Gdx.input.isKeyPressed(Keys.UP) && luffy.getPlayer().hasControl()) {
 			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
@@ -90,7 +95,7 @@ public class GameScreen implements Screen {
 			if(luffy.getPlayer().isRight()){
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}else{
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}	
 		}
 		else if(Gdx.input.isKeyPressed(Keys.DOWN) && luffy.getPlayer().hasControl()) {
@@ -100,129 +105,159 @@ public class GameScreen implements Screen {
 			if(luffy.getPlayer().isRight()){
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}else{
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 		}
-		else if(Gdx.input.isKeyPressed(Keys.X) && !zoro.getPlayer().isAttacking()){
-			zoro.getPlayer().setHasControl(false);
-			keyFrame = zoro.getDefending().getKeyFrame(elapsedTime);
-			if(!zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+		
+		// Attacking & Skilling
+		else if(Gdx.input.isKeyPressed(Keys.X) && !luffy.getPlayer().isAttacking() && !luffy.getPlayer().isDead()){
+			luffy.getPlayer().setHasControl(false);
+			keyFrame = luffy.getDefending().getKeyFrame(elapsedTime);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.Z) && !zoro.getPlayer().isAttacking() && zoro.getPlayer().hasControl()){
-			zoro.getPlayer().setAttacking(true);
-			zoro.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyJustPressed(Keys.Z) && !luffy.getPlayer().isAttacking() && luffy.getPlayer().hasControl()){
+			luffy.getPlayer().setAttacking(true);
+			luffy.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.SPACE) && !zoro.getPlayer().isDashing() && zoro.getPlayer().hasControl()){
-			zoro.getPlayer().setDashing(true);
-			zoro.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyJustPressed(Keys.SPACE) && !luffy.getPlayer().isDashing() && luffy.getPlayer().hasControl()){
+			luffy.getPlayer().setDashing(true);
+			luffy.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.A) && !zoro.getPlayer().isSkilling1()&& zoro.getPlayer().hasControl()){// Need to check cooldown skill1
-			zoro.getPlayer().setSkilling1(true);
-			zoro.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyPressed(Keys.A) && !luffy.getPlayer().isSkilling1()&& luffy.getPlayer().hasControl()){// Need to check cooldown skill1
+			luffy.getPlayer().setSkilling1(true);
+			luffy.getPlayer().setHasControl(false);
 			
 		}
-		else if(Gdx.input.isKeyPressed(Keys.S)&& !zoro.getPlayer().isSkilling2()&& zoro.getPlayer().hasControl()){// Need to check cooldown skill2
-			zoro.getPlayer().setSkilling2(true);
-			zoro.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyPressed(Keys.S)&& !luffy.getPlayer().isSkilling2()&& luffy.getPlayer().hasControl()){// Need to check cooldown skill2
+			luffy.getPlayer().setSkilling2(true);
+			luffy.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(Keys.D)){
-			keyFrame = zoro.getDead().getKeyFrame(elapsedTime, true);
-			if(!zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = luffy.getDead().getKeyFrame(elapsedTime, true);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
 		// End check input
 		
 		// Start check states
-		else if(zoro.getPlayer().isAttacking()){
+		else if(luffy.getPlayer().isAttacking()){
 			attackTime += Gdx.graphics.getDeltaTime();
-			if (count%3==0){
-				keyFrame = zoro.getAttacking().getKeyFrame(attackTime);
+			if(!luffy.getPlayer().isRight() && count%3==0){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				keyFrame = luffy.getAttacking().getKeyFrame(attackTime);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if (count%3==1){
-				keyFrame = zoro.getAttacking2().getKeyFrame(attackTime);
+			else if(!luffy.getPlayer().isRight() && count%3==1){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				keyFrame = luffy.getAttacking2().getKeyFrame(attackTime);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if (count%3==2){
-				keyFrame = zoro.getAttacking3().getKeyFrame(attackTime);
+			else if(!luffy.getPlayer().isRight() && count%3==2){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				keyFrame = luffy.getAttacking3().getKeyFrame(attackTime);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			if(!zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			else if(luffy.getPlayer().isRight() && count%3==0){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				keyFrame = luffy.getAttacking().getKeyFrame(attackTime);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight() && count%3==1){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				keyFrame = luffy.getAttacking2().getKeyFrame(attackTime);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
-			if(zoro.getAttacking().isAnimationFinished(attackTime)){
-				zoro.getPlayer().setAttacking(false);
+			else if(luffy.getPlayer().isRight() && count%3==2){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				keyFrame = luffy.getAttacking3().getKeyFrame(attackTime);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			}
+			if(luffy.getAttacking().isAnimationFinished(attackTime)){
+				luffy.getAttackBox().setCenter(-luffy.getAttackBox().getWidth(), -luffy.getAttackBox().getHeight());
+				luffy.getPlayer().setAttacking(false);
 				attackTime = 0;
 				count++;
 			}
 		}
-		else if(zoro.getPlayer().isDashing()){
+		else if(luffy.getPlayer().isDashing()){
 			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = zoro.getDashing().getKeyFrame(delayTime);
-			if(!zoro.getPlayer().isRight()){
-				zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()-18);
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = luffy.getDashing().getKeyFrame(delayTime);
+			if(!luffy.getPlayer().isRight()){
+				luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-18);
+				luffy.getHitbox().setX(luffy.getHitbox().getX()-18);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()+18);
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight()){
+				luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+18);
+				luffy.getHitbox().setX(luffy.getHitbox().getX()+18);
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 			if(delayTime>=0.1f){
-				zoro.getPlayer().setDashing(false);
+				luffy.getPlayer().setDashing(false);
 				delayTime = 0;
 			}
 		}
-		else if(zoro.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+		else if(luffy.getPlayer().isSkilling1()){ // Need to check cooldown skill1
 			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = zoro.getSkilling1().getKeyFrame(delayTime);
-			if(!zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = luffy.getSkilling1().getKeyFrame(delayTime);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
-			if(zoro.getSkilling1().isAnimationFinished(delayTime)){
-				zoro.getPlayer().setSkilling1(false);
+			if(luffy.getSkilling1().isAnimationFinished(delayTime)){
+				luffy.getPlayer().setSkilling1(false);
 				delayTime = 0;
 			}
 		}
-		else if(zoro.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+		else if(luffy.getPlayer().isSkilling2()){ // Need to check cooldown skill2
 			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = zoro.getSkilling2().getKeyFrame(delayTime);
-			if(!zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			keyFrame = luffy.getSkilling2().getKeyFrame(delayTime);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
-			if(zoro.getSkilling2().isAnimationFinished(delayTime)){
-				zoro.getPlayer().setSkilling2(false);
+			if(luffy.getSkilling2().isAnimationFinished(delayTime)){
+				luffy.getPlayer().setSkilling2(false);
 				delayTime = 0;
+			}
+		}
+		else if(luffy.getPlayer().isDead()){
+			deadTime += Gdx.graphics.getDeltaTime();
+			keyFrame = luffy.getDead().getKeyFrame(deadTime);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			}
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
 		else {
-			zoro.getPlayer().setHasControl(true);
-			keyFrame = zoro.getStanding().getKeyFrame(elapsedTime, true);
-			if(!zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
+			luffy.getPlayer().setHasControl(true);
+			keyFrame = luffy.getStanding().getKeyFrame(elapsedTime, true);
+			if(!luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
-			else if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+			else if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 		}
 		if(count == 3){
 			count = 0;
 		}
-		if(luffy.getHitbox().getX() >= 1000){
+		if(luffy.getHitbox().getX()+luffy.getWhiteSize().getX()+luffy.getPlayer().getSize().getX() >= 1000){
 			luffy.getPlayer().setHasControl(false);
 			luffy.getPlayer().setDead(true);
 		}
@@ -231,7 +266,9 @@ public class GameScreen implements Screen {
 		if(debugMode){
 		    shapeRenderer.begin(ShapeType.Line);
 		    shapeRenderer.setColor(1, 1, 0, 1);
-		    shapeRenderer.rect(luffy.getHitbox().getX()+luffy.getWhiteSize().getX(), luffy.getHitbox().getY()+luffy.getWhiteSize().getY(), luffy.getHitbox().width, luffy.getHitbox().height);
+		    shapeRenderer.rect(luffy.getHitbox().getX(), luffy.getHitbox().getY(), luffy.getHitbox().width, luffy.getHitbox().height);
+		    shapeRenderer.setColor(1, 0, 0, 0);
+		    shapeRenderer.rect(luffy.getAttackBox().getX(), luffy.getAttackBox().getY(), luffy.getAttackBox().getWidth(), luffy.getAttackBox().getHeight());
 		    shapeRenderer.end();
 		}
 	}
