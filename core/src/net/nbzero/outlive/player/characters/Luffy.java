@@ -19,10 +19,11 @@ public class Luffy extends Character {
 	private static Animation dead;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
+	private Rectangle defaultAttackBox = new Rectangle(-60, -70, 60, 70);
 	
 	public Luffy(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90), whiteSize);
-		setAttackBox(new Rectangle(-60, -70, 70, 70));
+		setAttackBox(new Rectangle(defaultAttackBox.x, defaultAttackBox.y, defaultAttackBox.width, defaultAttackBox.height));
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();
@@ -132,6 +133,11 @@ public class Luffy extends Character {
 	
 	public PositionHandler getWhiteSize(){
 		return Luffy.whiteSize;
+	}
+
+	@Override
+	public Rectangle getDefaultAttackBox() {
+		return defaultAttackBox;
 	}
 
 }

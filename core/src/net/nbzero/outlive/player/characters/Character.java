@@ -11,8 +11,6 @@ abstract public class Character {
 	protected PlayerData player;
 	protected Rectangle hitbox;
 	protected Rectangle attackBox;
-	protected Rectangle attackBox1;
-	protected Rectangle attackBox2;
 	
 	// Constructors	
 	public Character(PlayerData playerData, PositionHandler size, PositionHandler whiteSize){
@@ -40,26 +38,11 @@ abstract public class Character {
 	public void setAttackBox(Rectangle attackBox) {
 		this.attackBox = attackBox;
 	}
-	
-	public void setAttackBox1(Rectangle attackBox) {
-		this.attackBox1 = attackBox;
-	}
-	
-	public void setAttackBox2(Rectangle attackBox) {
-		this.attackBox = attackBox;
-	}
 
 	public Rectangle getAttackBox() {
 		return attackBox;
 	}
 	
-	public Rectangle getAttackBox1() {
-		return attackBox1;
-	}
-	
-	public Rectangle getAttackBox2() {
-		return attackBox2;
-	}
 	protected abstract Animation drawStanding();
 	protected abstract Animation drawRunning();
 	protected abstract Animation drawAttacking();
@@ -70,4 +53,6 @@ abstract public class Character {
 	protected abstract Animation drawDefending();
 	protected abstract Animation drawDashing();
 	protected abstract Animation drawDead();
+	
+	public abstract Rectangle getDefaultAttackBox();
 }

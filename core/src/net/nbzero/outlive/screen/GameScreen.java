@@ -1,7 +1,5 @@
 package net.nbzero.outlive.screen;
 
-import java.awt.Rectangle;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -11,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Luffy;
@@ -29,6 +28,7 @@ public class GameScreen implements Screen {
 	private static float deadTime;
 	private static ShapeRenderer shapeRenderer;
 	private static boolean debugMode;
+	private static float speed, hitboxPosXLeft, hitboxPosXRight, hitboxPosYLeft, hitboxPosYRight;
 	
 	@Override
 	public void show() {
@@ -151,38 +151,41 @@ public class GameScreen implements Screen {
 		// Start check states
 		else if(luffy.getPlayer().isAttacking()){
 			attackTime += Gdx.graphics.getDeltaTime();
+			speed = attackTime*20;
+			hitboxPosXLeft = luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2;
+			hitboxPosXRight = luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f;
 			if(!luffy.getPlayer().isRight() && count%3==0){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				luffy.getAttackBox().setCenter(hitboxPosXLeft-speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				keyFrame = luffy.getAttacking().getKeyFrame(attackTime);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(!luffy.getPlayer().isRight() && count%3==1){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				luffy.getAttackBox().setCenter(hitboxPosXLeft-speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				keyFrame = luffy.getAttacking2().getKeyFrame(attackTime);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(!luffy.getPlayer().isRight() && count%3==2){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				luffy.getAttackBox().setCenter(hitboxPosXLeft-speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				keyFrame = luffy.getAttacking3().getKeyFrame(attackTime);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(luffy.getPlayer().isRight() && count%3==0){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				luffy.getAttackBox().setCenter(hitboxPosXRight+speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				keyFrame = luffy.getAttacking().getKeyFrame(attackTime);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 			else if(luffy.getPlayer().isRight() && count%3==1){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				luffy.getAttackBox().setCenter(hitboxPosXRight+speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				keyFrame = luffy.getAttacking2().getKeyFrame(attackTime);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 			else if(luffy.getPlayer().isRight() && count%3==2){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
+				luffy.getAttackBox().setCenter(hitboxPosXRight+speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				keyFrame = luffy.getAttacking3().getKeyFrame(attackTime);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 			if(luffy.getAttacking().isAnimationFinished(attackTime)){
-				luffy.getAttackBox().setCenter(-luffy.getAttackBox().getWidth(), -luffy.getAttackBox().getHeight());
+				luffy.getAttackBox().set(luffy.getDefaultAttackBox());
 				luffy.getPlayer().setAttacking(false);
 				attackTime = 0;
 				count++;
@@ -210,12 +213,15 @@ public class GameScreen implements Screen {
 			delayTime += Gdx.graphics.getDeltaTime();
 			keyFrame = luffy.getSkilling1().getKeyFrame(delayTime);
 			if(!luffy.getPlayer().isRight()){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
 			}
 			else if(luffy.getPlayer().isRight()){
+				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
 				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}
 			if(luffy.getSkilling1().isAnimationFinished(delayTime)){
+				luffy.getAttackBox().set(luffy.getDefaultAttackBox());
 				luffy.getPlayer().setSkilling1(false);
 				delayTime = 0;
 			}
