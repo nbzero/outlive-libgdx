@@ -25,6 +25,7 @@ public enum CharacterFactory {
 			setSkill2Frames(getSprite(0, 11, 7, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
 		}
 	},
 	Law() {
@@ -45,6 +46,7 @@ public enum CharacterFactory {
 			setSkill2Frames(getSprite(0, 11, 5, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
 		}
 	},
 	Sanji() {
@@ -90,7 +92,7 @@ public enum CharacterFactory {
 	
 	// Sprite
 	protected TextureRegion[][] sprite;
-	protected TextureRegion[] standFrames, runFrames, dashFrames, attackFrames, defenseFrames, attackFrames2, attackFrames3, skill1Frames, skill2Frames, deadFrames;
+	protected TextureRegion[] standFrames, runFrames, dashFrames, attackFrames, defenseFrames, attackFrames2, attackFrames3, skill1Frames, skill2Frames, deadFrames, getHitFrames;
 	
 	protected void load() {
 		initial();
@@ -185,6 +187,14 @@ public enum CharacterFactory {
 		return standFrames;
 	}
 	
+	public TextureRegion[] getGetHitFrames() {
+		return getHitFrames;
+	}
+
+	public void setGetHitFrames(TextureRegion[] getHitFrames) {
+		this.getHitFrames = getHitFrames;
+	}
+
 	public final TextureRegion[] getSprite(int sc, int sr, int fc, int fr){
 		return TextureHandler.ApplyFrames(sc, sr, fc, fr, getSprite());
 	}

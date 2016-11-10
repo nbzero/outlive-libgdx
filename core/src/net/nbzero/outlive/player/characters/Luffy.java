@@ -17,13 +17,33 @@ public class Luffy extends Character {
 	private static Animation skilling1;
 	private static Animation skilling2;
 	private static Animation dead;
+	private static Animation getHit;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-60, -70, 60, 70);
+	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
+	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
+	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
+	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
+	
+	private static float moveSpeed = 5f;
+	private static float atkSpeed = 20f;
+	private static float skill1Speed = 40f;
+	private static float skill2Speed = 100f;
+	private static float skill1HitboxDelay = 0.2f;
+	private static float skill2HitboxDelay = 0.5f;
+	
+	private static float maxHP = 100;
+	private static float maxMP = 100;
+	private static float atkPower = 20;
+	private static float defPower = 12;
+	private static int criticalChance = 12;
 	
 	public Luffy(PlayerData playerData){
-		super(playerData, new PositionHandler(50, 90), whiteSize);
+		super(playerData, new PositionHandler(50, 90));
 		setAttackBox(new Rectangle(defaultAttackBox.x, defaultAttackBox.y, defaultAttackBox.width, defaultAttackBox.height));
+		setSkill1Box(new Rectangle(defaultSkill1Box.x, defaultSkill1Box.y, defaultSkill1Box.width, defaultSkill1Box.height));
+		setSkill2Box(new Rectangle(defaultSkill2Box.x, defaultSkill2Box.y, defaultSkill2Box.width, defaultSkill2Box.height));
+		setHitbox(new Rectangle(playerData.getPos().getX()+whiteSize.getX(), playerData.getPos().getY()+whiteSize.getY(), defaultHitBox.getWidth(), defaultHitBox.getHeight()));
 		CharacterFactory.Luffy.load();
 		standing = drawStanding();
 		running = drawRunning();
@@ -35,6 +55,7 @@ public class Luffy extends Character {
 		defending = drawDefending();
 		dashing = drawDashing();
 		dead = drawDead();
+		getHit = drawGetHit();
 	}
 
 	@Override
@@ -123,6 +144,15 @@ public class Luffy extends Character {
 		return new Animation(1f/8f, CharacterFactory.Luffy.getDefenseFrames());
 	}
 	
+	@Override
+	protected Animation drawGetHit() {
+		return new Animation(1f/8f, CharacterFactory.Luffy.getGetHitFrames());
+	}
+	
+	public Animation getGetHit(){
+		return Luffy.getHit;
+	}
+	
 	public Animation getDefending(){
 		return Luffy.defending;
 	}
@@ -136,8 +166,136 @@ public class Luffy extends Character {
 	}
 
 	@Override
+	public Rectangle getDefaultHitBox() {
+		return defaultHitBox;
+	}
+	
+	@Override
 	public Rectangle getDefaultAttackBox() {
 		return defaultAttackBox;
 	}
 
+	@Override
+	public Rectangle getDefaultSkill1Box() {
+		return defaultSkill1Box;
+	}
+
+	@Override
+	public Rectangle getDefaultSkill2Box() {
+		return defaultSkill2Box;
+	}
+	
+	public float getMoveSpeed() {
+		return moveSpeed;
+	}
+
+	public float getAtkSpeed() {
+		return atkSpeed;
+	}
+	
+	public float getSkill1Speed() {
+		return skill1Speed;
+	}
+	
+	public float getSkill2Speed() {
+		return skill2Speed;
+	}
+	
+	public float getSkill1HitboxDelay() {
+		return skill1HitboxDelay;
+	}
+	
+	public float getSkill2HitboxDelay() {
+		return skill2HitboxDelay;
+	}
+
+	public float getMaxHP() {
+		return maxHP;
+	}
+
+	public void setMaxHP(float maxHP) {
+		Luffy.maxHP = maxHP;
+	}
+
+	public float getMaxMP() {
+		return maxMP;
+	}
+
+	public void setMaxMP(float maxMP) {
+		Luffy.maxMP = maxMP;
+	}
+
+	public float getAtkPower() {
+		return atkPower;
+	}
+
+	public void setAtkPower(float atkPower) {
+		Luffy.atkPower = atkPower;
+	}
+
+	public float getDefPower() {
+		return defPower;
+	}
+
+	public void setDefPower(float defPower) {
+		Luffy.defPower = defPower;
+	}
+
+	public int getCriticalChance() {
+		return criticalChance;
+	}
+
+	public void setCriticalChance(int criticalChance) {
+		Luffy.criticalChance = criticalChance;
+	}
+
+	@Override
+	public float getHitboxPosXLeft() {
+		return hitboxPosXLeft;
+	}
+
+	@Override
+	public void setHitboxPosXLeft(float posXLeft) {
+		this.hitboxPosXLeft = posXLeft;
+	}
+
+	@Override
+	public float getHitboxPosXRight() {
+		return hitboxPosXRight;
+	}
+
+	@Override
+	public void setHitboxPosXRight(float posXRight) {
+		this.hitboxPosXRight = posXRight;
+	}
+
+	@Override
+	public float getHitboxPosY() {
+		return hitboxPosY;
+	}
+
+	@Override
+	public void setHitboxPosY(float posY) {
+		this.hitboxPosY = posY;
+	}
+
+	@Override
+	public float getSkillPosXLeft() {
+		return skillPosXLeft;
+	}
+
+	@Override
+	public void setSkillPosXLeft(float posXLeft) {
+		this.skillPosXLeft = posXLeft;
+	}
+
+	@Override
+	public float getSkillPosXRight() {
+		return skillPosXRight;
+	}
+
+	@Override
+	public void setSkillPosXRight(float posXRight) {
+		this.skillPosXRight = posXRight;
+	}
 }

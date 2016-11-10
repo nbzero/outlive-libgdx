@@ -28,6 +28,7 @@ public class PlayerData {
 	private boolean isDefending;
 	private boolean isDashing;
 	private boolean isHitable;
+	private boolean isHitted;
 	private boolean hasControl;
 	private boolean isSkilling1;
 	private boolean isSkilling2;
@@ -37,7 +38,6 @@ public class PlayerData {
 	private boolean isSkill2Ready;
 	
 	// Input states
-	private boolean isLeft;
 	private boolean isRight;
 	
 	// Collision
@@ -45,6 +45,9 @@ public class PlayerData {
 	private boolean collideDown;
 	private boolean collideLeft;
 	private boolean collideRight;
+	
+	// Times
+	private float delayTime, attackTime, deadTime;
 	
 	public PlayerData(float maxHP, float maxMP, int team, PositionHandler pos, String flip) {
 		// Basic Info
@@ -59,7 +62,12 @@ public class PlayerData {
 		setTeam(team);
 		
 		// Flip
-		setFlip(flip);
+		if(flip.equalsIgnoreCase("right")){
+			setRight(true);
+		}
+		else{
+			setRight(false);
+		}
 		
 		// Character states
 		setDead(false);
@@ -67,15 +75,12 @@ public class PlayerData {
 		setAttacking(false);
 		setDefending(false);
 		setHitable(true);
+		setHitted(false);
 		setHasControl(true);
 		
 		// Skills states
 		setSkill1Ready(false);
 		setSkill2Ready(false);
-		
-		// Input states
-		setLeft(false);
-		setRight(false);
 		
 		// Collision
 		setCollideUp(false);
@@ -216,14 +221,6 @@ public class PlayerData {
 		this.isSkill2Ready = isSkill2Ready;
 	}
 
-	public boolean isLeft() {
-		return isLeft;
-	}
-
-	public void setLeft(boolean isLeft) {
-		this.isLeft = isLeft;
-	}
-
 	public boolean isRight() {
 		return isRight;
 	}
@@ -256,6 +253,18 @@ public class PlayerData {
 		this.isHitable = isHitable;
 	}
 
+	public boolean isHitted() {
+		return isHitted;
+	}
+
+	public void setHitted(boolean isHitted) {
+		this.isHitted = isHitted;
+	}
+
+	public boolean isHasControl() {
+		return hasControl;
+	}
+
 	public boolean isCollideUp() {
 		return collideUp;
 	}
@@ -286,5 +295,29 @@ public class PlayerData {
 
 	public void setCollideRight(boolean collideRight) {
 		this.collideRight = collideRight;
+	}
+
+	public float getDelayTime() {
+		return delayTime;
+	}
+
+	public void setDelayTime(float delayTime) {
+		this.delayTime = delayTime;
+	}
+
+	public float getAttackTime() {
+		return attackTime;
+	}
+
+	public void setAttackTime(float attackTime) {
+		this.attackTime = attackTime;
+	}
+
+	public float getDeadTime() {
+		return deadTime;
+	}
+
+	public void setDeadTime(float deadTime) {
+		this.deadTime = deadTime;
 	}
 }

@@ -2,51 +2,50 @@ package net.nbzero.outlive.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 
+import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.player.PlayerData;
-import net.nbzero.outlive.player.characters.Luffy;
+import net.nbzero.outlive.player.characters.Character;
+import net.nbzero.outlive.player.characters.CharacterFactory;
 import net.nbzero.outlive.positon.PositionHandler;
 
 public class GameScreen implements Screen {
-	private static SpriteBatch batch;
-	private static float elapsedTime;
+	public static SpriteBatch batch;
+	protected static float elapsedTime;
 	private static PlayerData p1;
-	private static TextureRegion keyFrame;
+	private static PlayerData p2;
 	private static Texture bg;
-	private Luffy luffy;
-	private static int count;
-	private static float delayTime;
-	private static float attackTime;
-	private static float deadTime;
+	protected static TextureRegion keyFrame;
+	protected Character player1;
+	protected Character player2;
+	protected static int atkCount;
 	private static ShapeRenderer shapeRenderer;
 	private static boolean debugMode;
-	private static float speed, hitboxPosXLeft, hitboxPosXRight, hitboxPosYLeft, hitboxPosYRight;
+	protected static float speed, hitboxPosXLeft, hitboxPosXRight, hitboxPosY, skillPosXLeft, skillPosXRight;
+	// Set From Character select screen
+	private static String p1Char = "Luffy";
+	private static String p2Char = "Luffy";
+	private static String bgPath = "Stage/forest.png";
 	
 	@Override
 	public void show() {
-		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
-		luffy = new Luffy(p1);
-		luffy.getPlayer().setLeft(true);
-		bg = new Texture("Stage/forest.png");
-		batch = new SpriteBatch();
-		count=0;
-		delayTime=0;
-		shapeRenderer = new ShapeRenderer();
 		debugMode = true;
+		initialize();
 	}
 
 	@Override
 	public void render(float delta) {
+		// To keep track of time and animation
 		elapsedTime += Gdx.graphics.getDeltaTime();
-//		System.out.println(elapsedTime);
+		// To update every character hitbox every render
+		updateHitbox(player1);
+		updateHitbox(player2);
 		
 		Gdx.gl.glClearColor(1, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -55,228 +54,168 @@ public class GameScreen implements Screen {
 		
 		batch.draw(bg, 0, 0);
 		
-		//Start check input
-		
-		// Movement
-		if(Gdx.input.isKeyPressed(Keys.LEFT) && luffy.getPlayer().hasControl()) {
-			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
-			luffy.getPlayer().setRight(false);
-			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-5);
-			luffy.getHitbox().setX(luffy.getHitbox().getX()-5);
-			if(Gdx.input.isKeyPressed(Keys.UP)){
-				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
-				luffy.getHitbox().setY(luffy.getHitbox().getY()+5);
+		//// Player1
+		// Start check input
+		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveLeftAnim(player1);
+			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
+				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
 			}
-			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
-				luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
-			}
-			batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-		} 
-		else if(Gdx.input.isKeyPressed(Keys.RIGHT) && luffy.getPlayer().hasControl()) {
-			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
-			luffy.getPlayer().setRight(true);
-			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+5);
-			luffy.getHitbox().setX(luffy.getHitbox().getX()+5);
-			if(Gdx.input.isKeyPressed(Keys.UP)){
-				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
-				luffy.getHitbox().setY(luffy.getHitbox().getY()+5);
-			}
-			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
-				luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
-			}
-			batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-		}
-		else if(Gdx.input.isKeyPressed(Keys.UP) && luffy.getPlayer().hasControl()) {
-			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
-			luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
-			luffy.getHitbox().setY(luffy.getHitbox().getY()+5);
-			if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}else{
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}	
-		}
-		else if(Gdx.input.isKeyPressed(Keys.DOWN) && luffy.getPlayer().hasControl()) {
-			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
-			luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
-			luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
-			if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}else{
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN)){
+				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
 			}
 		}
-		
-		// Attacking & Skilling
-		else if(Gdx.input.isKeyPressed(Keys.X) && !luffy.getPlayer().isAttacking() && !luffy.getPlayer().isDead()){
-			luffy.getPlayer().setHasControl(false);
-			keyFrame = luffy.getDefending().getKeyFrame(elapsedTime);
-			if(!luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveRightAnim(player1);
+			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
+				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
 			}
-			else if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN)){
+				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.Z) && !luffy.getPlayer().isAttacking() && luffy.getPlayer().hasControl()){
-			luffy.getPlayer().setAttacking(true);
-			luffy.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveUpAnim(player1);
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.SPACE) && !luffy.getPlayer().isDashing() && luffy.getPlayer().hasControl()){
-			luffy.getPlayer().setDashing(true);
-			luffy.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveDownAnim(player1);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.A) && !luffy.getPlayer().isSkilling1()&& luffy.getPlayer().hasControl()){// Need to check cooldown skill1
-			luffy.getPlayer().setSkilling1(true);
-			luffy.getPlayer().setHasControl(false);
-			
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()){
+			player1.getPlayer().setDashing(true);
+			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.S)&& !luffy.getPlayer().isSkilling2()&& luffy.getPlayer().hasControl()){// Need to check cooldown skill2
-			luffy.getPlayer().setSkilling2(true);
-			luffy.getPlayer().setHasControl(false);
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking() && player1.getPlayer().hasControl()){
+			player1.getPlayer().setAttacking(true);
+			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.D)){
-			keyFrame = luffy.getDead().getKeyFrame(elapsedTime, true);
-			if(!luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking() && !player1.getPlayer().isDead() && !player2.getPlayer().isHitted()){
+			GameScreenDrawAnim.defenseAnim(player1);
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()){// Need to check cooldown skill1
+			player1.getPlayer().setSkilling1(true);
+			player1.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()){// Need to check cooldown skill2
+			player1.getPlayer().setSkilling2(true);
+			player1.getPlayer().setHasControl(false);
 		}
 		// End check input
-		
 		// Start check states
-		else if(luffy.getPlayer().isAttacking()){
-			attackTime += Gdx.graphics.getDeltaTime();
-			speed = attackTime*20;
-			hitboxPosXLeft = luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2;
-			hitboxPosXRight = luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f;
-			if(!luffy.getPlayer().isRight() && count%3==0){
-				luffy.getAttackBox().setCenter(hitboxPosXLeft-speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				keyFrame = luffy.getAttacking().getKeyFrame(attackTime);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(!luffy.getPlayer().isRight() && count%3==1){
-				luffy.getAttackBox().setCenter(hitboxPosXLeft-speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				keyFrame = luffy.getAttacking2().getKeyFrame(attackTime);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(!luffy.getPlayer().isRight() && count%3==2){
-				luffy.getAttackBox().setCenter(hitboxPosXLeft-speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				keyFrame = luffy.getAttacking3().getKeyFrame(attackTime);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(luffy.getPlayer().isRight() && count%3==0){
-				luffy.getAttackBox().setCenter(hitboxPosXRight+speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				keyFrame = luffy.getAttacking().getKeyFrame(attackTime);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
-			else if(luffy.getPlayer().isRight() && count%3==1){
-				luffy.getAttackBox().setCenter(hitboxPosXRight+speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				keyFrame = luffy.getAttacking2().getKeyFrame(attackTime);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
-			else if(luffy.getPlayer().isRight() && count%3==2){
-				luffy.getAttackBox().setCenter(hitboxPosXRight+speed, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				keyFrame = luffy.getAttacking3().getKeyFrame(attackTime);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
-			if(luffy.getAttacking().isAnimationFinished(attackTime)){
-				luffy.getAttackBox().set(luffy.getDefaultAttackBox());
-				luffy.getPlayer().setAttacking(false);
-				attackTime = 0;
-				count++;
-			}
+		else if(player1.getPlayer().isDashing()){
+			player1.getPlayer().setDelayTime(player1.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.dashingAnim(player1);
 		}
-		else if(luffy.getPlayer().isDashing()){
-			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = luffy.getDashing().getKeyFrame(delayTime);
-			if(!luffy.getPlayer().isRight()){
-				luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-18);
-				luffy.getHitbox().setX(luffy.getHitbox().getX()-18);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(luffy.getPlayer().isRight()){
-				luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+18);
-				luffy.getHitbox().setX(luffy.getHitbox().getX()+18);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
-			if(delayTime>=0.1f){
-				luffy.getPlayer().setDashing(false);
-				delayTime = 0;
-			}
+		else if(player1.getPlayer().isAttacking()){
+			player1.getPlayer().setAttackTime(player1.getPlayer().getAttackTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.attackingAnim(player1);
+			GameScreenAtkUtils.checkAtkHit(player1, player2);
+			player1.getPlayer().setAttackTime(GameScreenAtkUtils.getAtkTime(player1, player1.getPlayer().getAttackTime()));
 		}
-		else if(luffy.getPlayer().isSkilling1()){ // Need to check cooldown skill1
-			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = luffy.getSkilling1().getKeyFrame(delayTime);
-			if(!luffy.getPlayer().isRight()){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()-luffy.getHitbox().getWidth()/2, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(luffy.getPlayer().isRight()){
-				luffy.getAttackBox().setCenter(luffy.getHitbox().getX()+luffy.getHitbox().getWidth()*1.5f, luffy.getHitbox().getY()+luffy.getPlayer().getSize().getY()*0.75f);
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
-			if(luffy.getSkilling1().isAnimationFinished(delayTime)){
-				luffy.getAttackBox().set(luffy.getDefaultAttackBox());
-				luffy.getPlayer().setSkilling1(false);
-				delayTime = 0;
-			}
+		else if(player1.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+			player1.getPlayer().setDelayTime(player1.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.skill1Anim(player1);
+			GameScreenAtkUtils.checkSkill1Hit(player1, player2);
+			player1.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill1Time(player1, player1.getPlayer().getDelayTime()));
 		}
-		else if(luffy.getPlayer().isSkilling2()){ // Need to check cooldown skill2
-			delayTime += Gdx.graphics.getDeltaTime();
-			keyFrame = luffy.getSkilling2().getKeyFrame(delayTime);
-			if(!luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
-			if(luffy.getSkilling2().isAnimationFinished(delayTime)){
-				luffy.getPlayer().setSkilling2(false);
-				delayTime = 0;
-			}
+		else if(player1.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+			player1.getPlayer().setDelayTime(player1.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.skill2Anim(player1);
+			GameScreenAtkUtils.checkSkill2Hit(player1, player2);
+			player1.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player1, player1.getPlayer().getDelayTime()));
 		}
-		else if(luffy.getPlayer().isDead()){
-			deadTime += Gdx.graphics.getDeltaTime();
-			keyFrame = luffy.getDead().getKeyFrame(deadTime);
-			if(!luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
-			}
-			else if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
-			}
+		else if(player1.getPlayer().isDead()){
+			player1.getPlayer().setDeadTime(player1.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.deadAnim(player1);
+		}
+		else if(player1.getPlayer().isHitted()){
+			GameScreenDrawAnim.getHitAnim(player1);
 		}
 		else {
-			luffy.getPlayer().setHasControl(true);
-			keyFrame = luffy.getStanding().getKeyFrame(elapsedTime, true);
-			if(!luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX(), luffy.getPlayer().getPos().getY(), 300, 300);
+			GameScreenDrawAnim.idleAnim(player1);
+		}
+		
+		//// Player2
+		// Start check input
+		if(Gdx.input.isKeyPressed(InputsControl.P2_LEFT) && player2.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveLeftAnim(player2);
+			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
+				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
 			}
-			else if(luffy.getPlayer().isRight()){
-				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
+			else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN)){
+				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
+			}
+		} 
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_RIGHT) && player2.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveRightAnim(player2);
+			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
+				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
+			}
+			else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN)){
+				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
 			}
 		}
-		if(count == 3){
-			count = 0;
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveUpAnim(player2);
 		}
-		if(luffy.getHitbox().getX()+luffy.getWhiteSize().getX()+luffy.getPlayer().getSize().getX() >= 1000){
-			luffy.getPlayer().setHasControl(false);
-			luffy.getPlayer().setDead(true);
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl()) {
+			GameScreenDrawAnim.moveDownAnim(player2);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() && player2.getPlayer().hasControl()){
+			player2.getPlayer().setDashing(true);
+			player2.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking() && player2.getPlayer().hasControl() && !player2.getPlayer().isHitted()){
+			player2.getPlayer().setAttacking(true);
+			player2.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking() && !player2.getPlayer().isDead() && !player2.getPlayer().isHitted()){
+			GameScreenDrawAnim.defenseAnim(player2);
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()){// Need to check cooldown skill1
+			player2.getPlayer().setSkilling1(true);
+			player2.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()){// Need to check cooldown skill2
+			player2.getPlayer().setSkilling2(true);
+			player2.getPlayer().setHasControl(false);
+		}
+		// End check input
+		// Start check states
+		else if(player2.getPlayer().isDashing()){
+			player2.getPlayer().setDelayTime(player2.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.dashingAnim(player2);
+		}
+		else if(player2.getPlayer().isAttacking()){
+			player2.getPlayer().setAttackTime(player2.getPlayer().getAttackTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.attackingAnim(player2);
+			GameScreenAtkUtils.checkAtkHit(player2, player1);
+			player2.getPlayer().setAttackTime(GameScreenAtkUtils.getAtkTime(player2, player2.getPlayer().getAttackTime()));
+		}
+		else if(player2.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+			player2.getPlayer().setDelayTime(player2.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.skill1Anim(player2);
+			GameScreenAtkUtils.checkSkill1Hit(player2, player1);
+			player2.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill1Time(player2, player2.getPlayer().getDelayTime()));
+		}
+		else if(player2.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+			player2.getPlayer().setDelayTime(player2.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.skill2Anim(player2);
+			GameScreenAtkUtils.checkSkill2Hit(player2, player1);
+			player2.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player2, player2.getPlayer().getDelayTime()));
+		}
+		else if(player2.getPlayer().isDead()){
+			player2.getPlayer().setDeadTime(player2.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.deadAnim(player2);
+		}
+		else if(player2.getPlayer().isHitted()){
+			GameScreenDrawAnim.getHitAnim(player2);
+		}
+		else {
+			GameScreenDrawAnim.idleAnim(player2);
 		}
 		batch.end();
-	    
-		if(debugMode){
-		    shapeRenderer.begin(ShapeType.Line);
-		    shapeRenderer.setColor(1, 1, 0, 1);
-		    shapeRenderer.rect(luffy.getHitbox().getX(), luffy.getHitbox().getY(), luffy.getHitbox().width, luffy.getHitbox().height);
-		    shapeRenderer.setColor(1, 0, 0, 0);
-		    shapeRenderer.rect(luffy.getAttackBox().getX(), luffy.getAttackBox().getY(), luffy.getAttackBox().getWidth(), luffy.getAttackBox().getHeight());
-		    shapeRenderer.end();
-		}
+		
+		renderDebugMode();
 	}
 
 	@Override
@@ -302,5 +241,41 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		
+	}
+	
+	private void initialize(){
+		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
+		p2 = new PlayerData(100, 100, 0, new PositionHandler(500, 50), "Left");
+		player1 = CharacterFactory.valueOf(p1Char).getNew(p1);
+		player2 = CharacterFactory.valueOf(p2Char).getNew(p2);
+		bg = new Texture(bgPath);
+		batch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+		elapsedTime = 0;
+	}
+	
+	private void renderDebugMode(){
+		if(debugMode){
+			shapeRenderer.begin(ShapeType.Line);
+		    shapeRenderer.setColor(1, 1, 0, 1);
+		    shapeRenderer.rect(player1.getHitbox().getX(), player1.getHitbox().getY(), player1.getHitbox().width, player1.getHitbox().height);
+		    shapeRenderer.rect(player2.getHitbox().getX(), player2.getHitbox().getY(), player2.getHitbox().width, player2.getHitbox().height);
+		    shapeRenderer.setColor(1, 0, 0, 0);
+		    shapeRenderer.rect(player1.getAttackBox().getX(), player1.getAttackBox().getY(), player1.getAttackBox().getWidth(), player1.getAttackBox().getHeight());
+		    shapeRenderer.rect(player1.getSkill1Box().getX(), player1.getSkill1Box().getY(), player1.getSkill1Box().getWidth(), player1.getSkill1Box().getHeight());
+		    shapeRenderer.rect(player1.getSkill2Box().getX(), player1.getSkill2Box().getY(), player1.getSkill2Box().getWidth(), player1.getSkill2Box().getHeight());
+		    shapeRenderer.rect(player2.getAttackBox().getX(), player2.getAttackBox().getY(), player2.getAttackBox().getWidth(), player2.getAttackBox().getHeight());
+		    shapeRenderer.rect(player2.getSkill1Box().getX(), player2.getSkill1Box().getY(), player2.getSkill1Box().getWidth(), player2.getSkill1Box().getHeight());
+		    shapeRenderer.rect(player2.getSkill2Box().getX(), player2.getSkill2Box().getY(), player2.getSkill2Box().getWidth(), player2.getSkill2Box().getHeight());
+		    shapeRenderer.end();
+		}
+	}
+	
+	private void updateHitbox(Character player){
+		player.setHitboxPosXLeft(player.getHitbox().getX()-player.getHitbox().getWidth()*0.8f);
+		player.setHitboxPosXRight(player.getHitbox().getX()+player.getHitbox().getWidth()*0.8f);
+		player.setSkillPosXLeft(player.getHitbox().getX()-player.getSkill1Box().getWidth()+player.getHitbox().getWidth()*1.2f);
+		player.setSkillPosXRight(player.getHitbox().getX()-player.getHitbox().getWidth()*0.2f);
+		player.setHitboxPosY(player.getHitbox().getY()+player.getPlayer().getSize().getY()*0.5f);
 	}
 }

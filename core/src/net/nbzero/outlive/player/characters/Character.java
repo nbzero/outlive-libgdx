@@ -11,12 +11,21 @@ abstract public class Character {
 	protected PlayerData player;
 	protected Rectangle hitbox;
 	protected Rectangle attackBox;
+	protected Rectangle skill1Box;
+	protected Rectangle skill2Box;
+	protected float atkCount;
+	
+	protected float hitboxPosXLeft;
+	protected float hitboxPosXRight;
+	protected float hitboxPosY;
+	protected float skillPosXLeft;
+	protected float skillPosXRight;
 	
 	// Constructors	
-	public Character(PlayerData playerData, PositionHandler size, PositionHandler whiteSize){
+	public Character(PlayerData playerData, PositionHandler size){
 		playerData.setSize(size);
 		setPlayer(playerData);
-		setHitbox(new Rectangle(playerData.getPos().getX()+whiteSize.getX(), playerData.getPos().getY()+whiteSize.getY(), size.getX(), size.getY()));
+		setAtkCount(0);
 	}
 
 	public PlayerData getPlayer() {
@@ -43,6 +52,40 @@ abstract public class Character {
 		return attackBox;
 	}
 	
+	public Rectangle getSkill1Box() {
+		return skill1Box;
+	}
+
+	public void setSkill1Box(Rectangle skill1Box) {
+		this.skill1Box = skill1Box;
+	}
+
+	public Rectangle getSkill2Box() {
+		return skill2Box;
+	}
+
+	public void setSkill2Box(Rectangle skill2Box) {
+		this.skill2Box = skill2Box;
+	}
+	
+	public void moveX(float playerPos, float hitboxPos, float toMove){
+		this.getPlayer().getPos().setX(playerPos+toMove);
+		this.getHitbox().setX(hitboxPos+toMove);
+	}
+	
+	public void moveY(float playerPos, float hitboxPos, float toMove){
+		this.getPlayer().getPos().setY(playerPos+toMove);
+		this.getHitbox().setY(hitboxPos+toMove);
+	}
+	
+	public void setAtkCount(float num){
+		this.atkCount = num;
+	}
+	
+	public float getAtkCount(){
+		return atkCount;
+	}
+
 	protected abstract Animation drawStanding();
 	protected abstract Animation drawRunning();
 	protected abstract Animation drawAttacking();
@@ -53,6 +96,51 @@ abstract public class Character {
 	protected abstract Animation drawDefending();
 	protected abstract Animation drawDashing();
 	protected abstract Animation drawDead();
+	protected abstract Animation drawGetHit();
 	
+	public abstract Animation getStanding();
+	public abstract Animation getRunning();
+	public abstract Animation getAttacking();
+	public abstract Animation getAttacking2();
+	public abstract Animation getAttacking3();
+	public abstract Animation getSkilling1();
+	public abstract Animation getSkilling2();
+	public abstract Animation getDefending();
+	public abstract Animation getDashing();
+	public abstract Animation getDead();
+	public abstract Animation getGetHit();
+	
+	public abstract Rectangle getDefaultHitBox();
 	public abstract Rectangle getDefaultAttackBox();
+	public abstract Rectangle getDefaultSkill1Box();
+	public abstract Rectangle getDefaultSkill2Box();
+	
+	public abstract float getMoveSpeed();
+	public abstract float getAtkSpeed();
+	public abstract float getSkill1Speed();
+	public abstract float getSkill2Speed();
+	public abstract float getSkill1HitboxDelay();
+	public abstract float getSkill2HitboxDelay();
+	
+	public abstract float getMaxHP();
+	public abstract void setMaxHP(float maxHP);
+	public abstract float getMaxMP();
+	public abstract void setMaxMP(float maxMP);
+	public abstract float getAtkPower();
+	public abstract void setAtkPower(float atkPower);
+	public abstract float getDefPower();
+	public abstract void setDefPower(float defPower);
+	public abstract int getCriticalChance();
+	public abstract void setCriticalChance(int CriticalChance);
+	
+	public abstract float getHitboxPosXLeft();
+	public abstract void setHitboxPosXLeft(float posXLeft);
+	public abstract float getHitboxPosXRight();
+	public abstract void setHitboxPosXRight(float posXRight);
+	public abstract float getHitboxPosY();
+	public abstract void setHitboxPosY(float posY);
+	public abstract float getSkillPosXLeft();
+	public abstract void setSkillPosXLeft(float posXLeft);
+	public abstract float getSkillPosXRight();
+	public abstract void setSkillPosXRight(float posXRight);
 }
