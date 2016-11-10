@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Luffy;
@@ -22,6 +24,8 @@ public class GameScreen implements Screen {
 	private static int count;
 	private static float delayTime;
 	private static float attackTime;
+	private static ShapeRenderer shapeRenderer;
+	private static boolean debugMode;
 	
 	@Override
 	public void show() {
@@ -32,6 +36,8 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 		count=0;
 		delayTime=0;
+		shapeRenderer = new ShapeRenderer();
+		debugMode = true;
 	}
 
 	@Override
@@ -47,44 +53,52 @@ public class GameScreen implements Screen {
 		batch.draw(bg, 0, 0);
 		
 		//Start check input
-		if(Gdx.input.isKeyPressed(Keys.LEFT) && zoro.getPlayer().hasControl()) {
-			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
-			zoro.getPlayer().setRight(false);
-			zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()-5);
+		if(Gdx.input.isKeyPressed(Keys.LEFT) && luffy.getPlayer().hasControl()) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().setRight(false);
+			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()-5);
+			luffy.getHitbox().setX(luffy.getHitbox().getX()-5);
 			if(Gdx.input.isKeyPressed(Keys.UP)){
-				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()+5);
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
+				luffy.getHitbox().setY(luffy.getHitbox().getY()+5);
 			}
 			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()-5);
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
+				luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
 			}
 			batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 		} 
-		else if(Gdx.input.isKeyPressed(Keys.RIGHT) && zoro.getPlayer().hasControl()) {
-			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
-			zoro.getPlayer().setRight(true);
-			zoro.getPlayer().getPos().setX(zoro.getPlayer().getPos().getX()+5);
+		else if(Gdx.input.isKeyPressed(Keys.RIGHT) && luffy.getPlayer().hasControl()) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().setRight(true);
+			luffy.getPlayer().getPos().setX(luffy.getPlayer().getPos().getX()+5);
+			luffy.getHitbox().setX(luffy.getHitbox().getX()+5);
 			if(Gdx.input.isKeyPressed(Keys.UP)){
-				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()+5);
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
+				luffy.getHitbox().setY(luffy.getHitbox().getY()+5);
 			}
 			else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-				zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()-5);
+				luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
+				luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
 			}
 			batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
 		}
-		else if(Gdx.input.isKeyPressed(Keys.UP) && zoro.getPlayer().hasControl()) {
-			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
-			zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()+5);
-			if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+		else if(Gdx.input.isKeyPressed(Keys.UP) && luffy.getPlayer().hasControl()) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()+5);
+			luffy.getHitbox().setY(luffy.getHitbox().getY()+5);
+			if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}else{
 				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}	
 		}
-		else if(Gdx.input.isKeyPressed(Keys.DOWN) && zoro.getPlayer().hasControl()) {
-			keyFrame = zoro.getRunning().getKeyFrame(elapsedTime, true);
-			zoro.getPlayer().getPos().setY(zoro.getPlayer().getPos().getY()-5);
-			if(zoro.getPlayer().isRight()){
-				batch.draw(keyFrame, zoro.getPlayer().getPos().getX()+300, zoro.getPlayer().getPos().getY(), -300, 300);
+		else if(Gdx.input.isKeyPressed(Keys.DOWN) && luffy.getPlayer().hasControl()) {
+			keyFrame = luffy.getRunning().getKeyFrame(elapsedTime, true);
+			luffy.getPlayer().getPos().setY(luffy.getPlayer().getPos().getY()-5);
+			luffy.getHitbox().setY(luffy.getHitbox().getY()-5);
+			if(luffy.getPlayer().isRight()){
+				batch.draw(keyFrame, luffy.getPlayer().getPos().getX()+300, luffy.getPlayer().getPos().getY(), -300, 300);
 			}else{
 				batch.draw(keyFrame, zoro.getPlayer().getPos().getX(), zoro.getPlayer().getPos().getY(), 300, 300);
 			}
@@ -208,7 +222,18 @@ public class GameScreen implements Screen {
 		if(count == 3){
 			count = 0;
 		}
+		if(luffy.getHitbox().getX() >= 1000){
+			luffy.getPlayer().setHasControl(false);
+			luffy.getPlayer().setDead(true);
+		}
 		batch.end();
+	    
+		if(debugMode){
+		    shapeRenderer.begin(ShapeType.Line);
+		    shapeRenderer.setColor(1, 1, 0, 1);
+		    shapeRenderer.rect(luffy.getHitbox().getX()+luffy.getWhiteSize().getX(), luffy.getHitbox().getY()+luffy.getWhiteSize().getY(), luffy.getHitbox().width, luffy.getHitbox().height);
+		    shapeRenderer.end();
+		}
 	}
 
 	@Override

@@ -11,10 +11,14 @@ abstract public class Character {
 	protected PlayerData player;
 	protected Rectangle hitbox;
 	
+	protected PositionHandler size;
+	
 	// Constructors	
 	public Character(PlayerData playerData, PositionHandler size){
 		setPlayer(playerData);
-		setHitbox(new PositionHandler(),size);
+		setHitbox(new Rectangle(0, 0, size.getX(), size.getY()));
+		
+		setSize(size);
 	}
 
 	public PlayerData getPlayer() {
@@ -29,8 +33,8 @@ abstract public class Character {
 		return hitbox;
 	}
 
-	public void setHitbox(PositionHandler xy, PositionHandler size) {
-		this.hitbox = new Rectangle(xy.getX(), xy.getY(), size.getX(), size.getY());
+	public void setHitbox(Rectangle hitbox) {
+		this.hitbox = new Rectangle(hitbox);
 	}
 
 	protected abstract Animation drawStanding();
@@ -42,5 +46,11 @@ abstract public class Character {
 	protected abstract Animation drawSkilling2();
 	protected abstract Animation drawDefending();
 	protected abstract Animation drawDashing();
-	protected abstract Animation drawDead();
+	
+	protected void setSize(PositionHandler size){
+		this.size = new PositionHandler(size);
+	}
+	protected PositionHandler getSize(){
+		return size;
+	}
 }
