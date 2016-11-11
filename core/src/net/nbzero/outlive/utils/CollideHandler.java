@@ -1,5 +1,6 @@
 package net.nbzero.outlive.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
 public class CollideHandler {
@@ -12,8 +13,24 @@ public class CollideHandler {
 			&& attackBox.getY() <= hitBox.getY()+hitBox.getHeight() && attackBox.getY()+attackBox.getHeight() >= hitBox.getY()){
 			return true;
 		}
-	else{
+		else{
 			return false;
 		}
+	}
+	
+	public static boolean checkMapCollide(String direction, Rectangle hitbox){
+		if(direction.equalsIgnoreCase("up") && hitbox.getY()+hitbox.getHeight() >= 280){
+			return true;
+		}
+		else if(direction.equalsIgnoreCase("down") && hitbox.getY() <= 20){
+			return true;
+		}
+		else if(direction.equalsIgnoreCase("left") && hitbox.getX() <= 20){
+			return true;
+		}
+		else if(direction.equalsIgnoreCase("right") && hitbox.getX()+hitbox.getWidth() >= Gdx.graphics.getWidth()-20){
+			return true;
+		}
+		return false;
 	}
 }

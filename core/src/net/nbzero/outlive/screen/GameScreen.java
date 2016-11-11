@@ -14,6 +14,7 @@ import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
 import net.nbzero.outlive.positon.PositionHandler;
+import net.nbzero.outlive.utils.CollideHandler;
 
 public class GameScreen implements Screen {
 	public static SpriteBatch batch;
@@ -59,19 +60,27 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl()) {
 			GameScreenDrawAnim.moveLeftAnim(player1);
 			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
-				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
+					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
+				}
 			}
 			else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN)){
-				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("down", player1.getHitbox())){
+					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
+				}
 			}
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl()) {
 			GameScreenDrawAnim.moveRightAnim(player1);
 			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
-				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
+					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
+				}
 			}
 			else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN)){
-				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("down", player1.getHitbox())){
+					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
+				}
 			}
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl()) {
@@ -88,7 +97,9 @@ public class GameScreen implements Screen {
 			player1.getPlayer().setAttacking(true);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking() && !player1.getPlayer().isDead() && !player2.getPlayer().isHitted()){
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking()
+				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()){
 			GameScreenDrawAnim.defenseAnim(player1);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()){// Need to check cooldown skill1
@@ -139,19 +150,27 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(InputsControl.P2_LEFT) && player2.getPlayer().hasControl()) {
 			GameScreenDrawAnim.moveLeftAnim(player2);
 			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
-				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
+					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
+				}
 			}
 			else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN)){
-				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("down", player2.getHitbox())){
+					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
+				}
 			}
 		} 
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_RIGHT) && player2.getPlayer().hasControl()) {
 			GameScreenDrawAnim.moveRightAnim(player2);
 			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
-				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
+					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
+				}
 			}
 			else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN)){
-				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
+				if(!CollideHandler.checkMapCollide("down", player2.getHitbox())){
+					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
+				}
 			}
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()) {

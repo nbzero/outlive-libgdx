@@ -1,6 +1,7 @@
 package net.nbzero.outlive.screen;
 
 import net.nbzero.outlive.player.characters.Character;
+import net.nbzero.outlive.utils.CollideHandler;
 
 public class GameScreenDrawAnim {
 	protected static void idleAnim(Character player){
@@ -21,30 +22,38 @@ public class GameScreenDrawAnim {
 	protected static void moveLeftAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
 		player.getPlayer().setRight(false);
-		player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), -5);
+		if(!CollideHandler.checkMapCollide("left", player.getHitbox())){
+			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), -5);
+		}
 		GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 	}
 	
 	protected static void moveRightAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
 		player.getPlayer().setRight(true);
-		player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), 5);
+		if(!CollideHandler.checkMapCollide("right", player.getHitbox())){
+			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), 5);
+		}
 		GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 	}
 	
 	protected static void moveUpAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
-		player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), 5);
+		if(!CollideHandler.checkMapCollide("up", player.getHitbox())){
+			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), 5);
+		}
 		if(player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 		}else{
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
-		}	
+		}
 	}
 	
 	protected static void moveDownAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
-		player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), -5);
+		if(!CollideHandler.checkMapCollide("down", player.getHitbox())){
+			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), -5);
+		}
 		if(player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 		}else{
@@ -56,12 +65,12 @@ public class GameScreenDrawAnim {
 		player.getPlayer().setHitable(false);
 		GameScreen.keyFrame = player.getDashing().getKeyFrame(player.getPlayer().getDelayTime());
 		if(!player.getPlayer().isRight()){
-			player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()-18);
+			player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()-16);
 			player.getHitbox().setX(player.getHitbox().getX()-18);
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 		}
 		else if(player.getPlayer().isRight()){
-			player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()+18);
+			player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()+16);
 			player.getHitbox().setX(player.getHitbox().getX()+18);
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 		}
