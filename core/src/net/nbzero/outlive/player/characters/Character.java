@@ -109,6 +109,7 @@ abstract public class Character {
 	public abstract Animation getDashing();
 	public abstract Animation getDead();
 	public abstract Animation getGetHit();
+	public abstract String getNameCharacter();
 	
 	public abstract Rectangle getDefaultHitBox();
 	public abstract Rectangle getDefaultAttackBox();

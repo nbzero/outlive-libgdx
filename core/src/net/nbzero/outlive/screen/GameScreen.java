@@ -1,7 +1,10 @@
 package net.nbzero.outlive.screen;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +16,7 @@ import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
+import net.nbzero.outlive.player.characters.Fireball;
 import net.nbzero.outlive.positon.PositionHandler;
 import net.nbzero.outlive.utils.CollideHandler;
 
@@ -30,9 +34,11 @@ public class GameScreen implements Screen {
 	private static boolean debugMode;
 	protected static float speed, hitboxPosXLeft, hitboxPosXRight, hitboxPosY, skillPosXLeft, skillPosXRight;
 	// Set From Character select screen
-	private static String p1Char = "Luffy";
-	private static String p2Char = "Luffy";
+	protected static String p1Char = "Luffy";
+	protected static String p2Char = "Sabo";
 	private static String bgPath = "Stage/forest.png";
+	protected static ArrayList<Fireball> fireballs; 
+	protected static int checkFireball=1;
 	
 	@Override
 	public void show() {
@@ -187,7 +193,9 @@ public class GameScreen implements Screen {
 			player2.getPlayer().setAttacking(true);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking() && !player2.getPlayer().isDead() && !player2.getPlayer().isHitted()){
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking()
+				&& !player2.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()){
 			GameScreenDrawAnim.defenseAnim(player2);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()){// Need to check cooldown skill1
@@ -232,6 +240,28 @@ public class GameScreen implements Screen {
 		else {
 			GameScreenDrawAnim.idleAnim(player2);
 		}
+		if (!player2.getPlayer().isSkilling1()&&!player2.getPlayer().isAttacking()){
+			checkFireball = 0;
+		}
+		if (Gdx.input.isKeyJustPressed(Keys.B)){
+			fireballs.add(new Fireball(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
+			
+		}
+		//update fireball
+		ArrayList<Fireball> fireballsToRemove = new ArrayList<Fireball>();
+		for(Fireball fireball : fireballs){
+			fireball.update(delta);
+			if (fireball.remove){
+				fireballsToRemove.add(fireball);
+			}
+		}
+		fireballs.removeAll(fireballsToRemove);
+		
+		for (Fireball fireball : fireballs){
+			fireball.render(batch);
+		}
+		
+		
 		batch.end();
 		
 		renderDebugMode();
@@ -271,6 +301,7 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		elapsedTime = 0;
+		fireballs = new ArrayList<Fireball>();
 	}
 	
 	private void renderDebugMode(){
