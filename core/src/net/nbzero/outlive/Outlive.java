@@ -12,6 +12,6 @@ public class Outlive extends Game {
 		// Load all resources!
 		Assets.LoadGlobalResources();
 		
-		setScreen(new GameScreen());
+		setScreen(new LogoScreen());
 	}
 }

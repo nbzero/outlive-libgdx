@@ -16,8 +16,10 @@ public class Utils {
 	
 	public static String gameLogoPath;
 	public static String mainMenuBGPath;
+	public static String creditsImagePath;
 	public static Image gameLogo;
 	public static Image mainMenuBG;
+	public static Image creditsImage;
 	
 	public static Skin skin;
 	
@@ -41,15 +43,18 @@ public class Utils {
 		
 		gameLogoPath = "Logo/GameLogo.png";
 		mainMenuBGPath = "MainMenu/bg.png";
+		creditsImagePath = "MainMenu/credit.png";
 		gameLogo = new Image(new Texture(Gdx.files.internal(Utils.gameLogoPath)));
 		mainMenuBG = new Image(new Texture(Gdx.files.internal(Utils.mainMenuBGPath)));
 		mainMenuBG.setWidth(Gdx.graphics.getWidth());
 		mainMenuBG.setHeight(Gdx.graphics.getHeight());
+		creditsImage = new Image(new Texture(Gdx.files.internal(Utils.creditsImagePath)));
 		
 		skin = new Skin();
 		mainMenuButtonAtlas = new TextureAtlas(Gdx.files.internal("MainMenu/MainMenuButton.atlas"));
 		skin.addRegions(mainMenuButtonAtlas);
 		startButton = new ImageButton(skin.getDrawable("startButton"), skin.getDrawable("startButtonSelected"), skin.getDrawable("startButtonSelected"));
+		startButton.setWidth(Gdx.graphics.getWidth()*0.2f);
 		configButton = new ImageButton(skin.getDrawable("configButton"), skin.getDrawable("configButton"), skin.getDrawable("configButtonSelected"));
 		creditsButton = new ImageButton(skin.getDrawable("creditsButton"), skin.getDrawable("creditsButton"), skin.getDrawable("creditsButtonSelected"));
 		tutorialButton = new ImageButton(skin.getDrawable("tutorialButton"), skin.getDrawable("tutorialButton"), skin.getDrawable("tutorialButtonSelected"));
