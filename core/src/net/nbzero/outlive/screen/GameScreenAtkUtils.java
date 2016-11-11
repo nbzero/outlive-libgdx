@@ -1,5 +1,7 @@
 package net.nbzero.outlive.screen;
 
+import com.badlogic.gdx.Gdx;
+
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.utils.CollideHandler;
 
@@ -14,6 +16,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
+			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getAtkPower());
 		}
 		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getAttackBox(), defender.getHitbox()) && defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
@@ -24,6 +27,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
+			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getAtkPower());
 		}
 		if(attacker.getAttacking().isAnimationFinished(attacker.getPlayer().getAttackTime())){
 			defender.getPlayer().setHitted(false);
@@ -49,6 +53,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
+			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill1Power());
 		}
 		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getSkill1Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
@@ -59,6 +64,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
+			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill1Power());
 		}
 		if(attacker.getSkilling1().isAnimationFinished(attacker.getPlayer().getDelayTime())){
 			defender.getPlayer().setHitted(false);
@@ -84,6 +90,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
+			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill2Power());
 		}
 		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getSkill2Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
@@ -94,6 +101,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
+			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill2Power());
 		}
 		if(attacker.getSkilling2().isAnimationFinished(attacker.getPlayer().getDelayTime())){
 			defender.getPlayer().setHitted(false);
@@ -107,5 +115,22 @@ public class GameScreenAtkUtils {
 			return 0;
 		}
 		return skillTime;
+	}
+	
+	protected static void checkSkillCD(Character player){
+		if(!player.getPlayer().isSkill1Ready()){
+			player.getPlayer().setSkill1CDTime(player.getPlayer().getSkill1CDTime()+Gdx.graphics.getDeltaTime());
+			if(player.getPlayer().getSkill1CDTime() >= player.getPlayer().getSkillCD(0)){
+				player.getPlayer().setSkill1CDTime(0);
+				player.getPlayer().setSkill1Ready(true);
+			}
+		}
+		if(!player.getPlayer().isSkill2Ready()){
+			player.getPlayer().setSkill2CDTime(player.getPlayer().getSkill2CDTime()+Gdx.graphics.getDeltaTime());
+			if(player.getPlayer().getSkill2CDTime() >= player.getPlayer().getSkillCD(1)){
+				player.getPlayer().setSkill2CDTime(0);
+				player.getPlayer().setSkill2Ready(true);
+			}
+		}
 	}
 }

@@ -16,7 +16,7 @@ public class PlayerData {
 	private int team;
 	
 	// Skills
-	private int[] skillCD;
+	private float[] skillCD;
 	
 	// Flip state
 	private String flip;
@@ -47,7 +47,7 @@ public class PlayerData {
 	private boolean collideRight;
 	
 	// Times
-	private float delayTime, attackTime, deadTime;
+	private float delayTime, attackTime, deadTime, skill1CDTime, skill2CDTime;
 	
 	public PlayerData(float maxHP, float maxMP, int team, PositionHandler pos, String flip) {
 		// Basic Info
@@ -141,11 +141,11 @@ public class PlayerData {
 		this.team = team;
 	}
 
-	public int[] getSkillCD() {
-		return skillCD;
+	public float getSkillCD(int num) {
+		return skillCD[num];
 	}
 
-	public void setSkillCD(int[] skillCD) {
+	public void setSkillCD(float[] skillCD) {
 		this.skillCD = skillCD;
 	}
 
@@ -319,5 +319,21 @@ public class PlayerData {
 
 	public void setDeadTime(float deadTime) {
 		this.deadTime = deadTime;
+	}
+
+	public float getSkill1CDTime() {
+		return skill1CDTime;
+	}
+
+	public void setSkill1CDTime(float skill1CDTime) {
+		this.skill1CDTime = skill1CDTime;
+	}
+	
+	public float getSkill2CDTime() {
+		return skill2CDTime;
+	}
+
+	public void setSkill2CDTime(float skill2CDTime) {
+		this.skill2CDTime = skill2CDTime;
 	}
 }

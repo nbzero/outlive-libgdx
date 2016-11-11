@@ -24,6 +24,11 @@ abstract public class Character {
 	// Constructors	
 	public Character(PlayerData playerData, PositionHandler size){
 		playerData.setSize(size);
+		playerData.setHp(this.getMaxHP());
+		playerData.setMp(this.getMaxMP());
+		playerData.setSkillCD(this.getSkillCooldown());
+		playerData.setSkill1Ready(true);
+		playerData.setSkill2Ready(true);
 		setPlayer(playerData);
 		setAtkCount(0);
 	}
@@ -128,6 +133,9 @@ abstract public class Character {
 	public abstract void setMaxMP(float maxMP);
 	public abstract float getAtkPower();
 	public abstract void setAtkPower(float atkPower);
+	public abstract float getSkill1Power();
+	public abstract float getSkill2Power();
+	public abstract float[] getSkillCooldown();
 	public abstract float getDefPower();
 	public abstract void setDefPower(float defPower);
 	public abstract int getCriticalChance();
