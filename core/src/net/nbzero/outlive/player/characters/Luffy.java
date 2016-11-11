@@ -32,10 +32,13 @@ public class Luffy extends Character {
 	private static float skill1HitboxDelay = 0.2f;
 	private static float skill2HitboxDelay = 0.5f;
 	private static String nameCharacter = "Luffy";
+	private static float[] skillCooldown = {4f, 6f};
 	
-	private static float maxHP = 100;
+	private static float maxHP = 150;
 	private static float maxMP = 100;
-	private static float atkPower = 20;
+	private static float atkPower = 12;
+	private static float skill1Power = 20;
+	private static float skill2Power = 30;
 	private static float defPower = 12;
 	private static int criticalChance = 12;
 	
@@ -236,6 +239,18 @@ public class Luffy extends Character {
 
 	public void setAtkPower(float atkPower) {
 		Luffy.atkPower = atkPower;
+	}
+	
+	public float getSkill1Power() {
+		return skill1Power;
+	}
+	
+	public float getSkill2Power() {
+		return skill2Power;
+	}
+	
+	public float[] getSkillCooldown() {
+		return skillCooldown;
 	}
 
 	public float getDefPower() {

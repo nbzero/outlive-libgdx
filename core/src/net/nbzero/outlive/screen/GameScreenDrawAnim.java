@@ -66,13 +66,17 @@ public class GameScreenDrawAnim {
 		player.getPlayer().setHitable(false);
 		GameScreen.keyFrame = player.getDashing().getKeyFrame(player.getPlayer().getDelayTime());
 		if(!player.getPlayer().isRight()){
-			player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()-16);
-			player.getHitbox().setX(player.getHitbox().getX()-18);
+			if(!CollideHandler.checkMapCollide("left", player.getHitbox())){
+				player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()-16);
+				player.getHitbox().setX(player.getHitbox().getX()-16);
+			}
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 		}
 		else if(player.getPlayer().isRight()){
-			player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()+16);
-			player.getHitbox().setX(player.getHitbox().getX()+18);
+			if(!CollideHandler.checkMapCollide("right", player.getHitbox())){
+				player.getPlayer().getPos().setX(player.getPlayer().getPos().getX()+16);
+				player.getHitbox().setX(player.getHitbox().getX()+16);
+			}
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 		}
 		if(player.getPlayer().getDelayTime()>=0.1f){
@@ -270,6 +274,5 @@ public class GameScreenDrawAnim {
 		else if(player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 		}
-		player.getPlayer().setHasControl(false);
 	}
 }
