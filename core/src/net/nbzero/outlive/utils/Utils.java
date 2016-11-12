@@ -89,6 +89,21 @@ public class Utils {
 	public static BitmapFont vsFont;
 	public static BitmapFont countDownFont;
 	
+	// Game Screen
+	public static Skin gameScreenSkin;
+	public static BitmapFont hpMpFont;
+	public static BitmapFont timerFont;
+	
+	// Victory
+	public static Skin victorySkin;
+	public static TextureAtlas victoryButtonAtlas;
+	public static Image ButtonBG;
+	public static ImageButton exit;
+	public static ImageButton rematch;
+	public static ImageButton repick;
+	public static BitmapFont winner20;
+	public static BitmapFont winner10;
+	
 	public static void load() {
 		FADE_TIME = 0.05f;
 		GLIDE_TIME = 0.3f;
@@ -242,6 +257,50 @@ public class Utils {
 		charSelectSkin.add("KitchenPoliceP1CharFont", p1CharFont);
 		charSelectSkin.add("KitchenPoliceP2CharFont", p2CharFont);
 		charSelectSkin.add("KitchenPoliceCountDown", countDownFont);
+	}
+	
+	public static void loadGameHUD(){
+		gameScreenSkin = new Skin();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/imagine_font.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.characters = FONT_CHARACTERS;
+		parameter.size = 22;
+		parameter.color = Color.BLACK;
+		p1CharFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontPlayer", p1CharFont);
+		parameter.size = 20;
+		parameter.borderWidth = 2;
+		parameter.borderColor = Color.WHITE;
+		hpMpFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontHpMp", hpMpFont);
+		parameter.size = 45;
+		parameter.borderWidth = 4;
+		parameter.borderColor = Color.WHITE;
+		timerFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontTimer", timerFont);
+	}
+	
+	public static void loadVictory(){
+		victorySkin = new Skin();
+		victoryButtonAtlas = new TextureAtlas(Gdx.files.internal("Victory/VictoryButton.atlas"));
+		victorySkin.addRegions(victoryButtonAtlas);
+		ButtonBG = new Image(victorySkin.getDrawable("ButtonBG"));
+		exit = new ImageButton(victorySkin.getDrawable("exit"), victorySkin.getDrawable("exit"), victorySkin.getDrawable("exitSelected"));
+		rematch = new ImageButton(victorySkin.getDrawable("rematch"), victorySkin.getDrawable("rematch"), victorySkin.getDrawable("rematchSelected"));
+		repick = new ImageButton(victorySkin.getDrawable("repick"), victorySkin.getDrawable("repick"), victorySkin.getDrawable("repickSelected"));
+		
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/imagine_font.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.characters = FONT_CHARACTERS;
+		parameter.size = 50;
+		parameter.color = Color.WHITE;
+		parameter.borderWidth = 3;
+		parameter.borderColor = Color.BLACK;
+		winner20 = generator.generateFont(parameter);
+		parameter.size = 35;
+		winner10 = generator.generateFont(parameter);
+		victorySkin.add("winner20", winner20);
+		victorySkin.add("winner10", winner10);
 	}
 	
 	public static void exitGame() {
