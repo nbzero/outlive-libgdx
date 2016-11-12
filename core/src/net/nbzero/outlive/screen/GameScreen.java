@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -108,16 +107,12 @@ public class GameScreen implements Screen {
 				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()){
 			GameScreenDrawAnim.defenseAnim(player1);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()
-				&& player1.getPlayer().isSkill1Ready()){// Need to check cooldown skill1
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()){// Need to check cooldown skill1
 			player1.getPlayer().setSkilling1(true);
-			player1.getPlayer().setSkill1Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
-				&& player1.getPlayer().isSkill2Ready()){// Need to check cooldown skill2
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()){// Need to check cooldown skill2
 			player1.getPlayer().setSkilling2(true);
-			player1.getPlayer().setSkill2Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -144,9 +139,7 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkSkill2Hit(player1, player2);
 			player1.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player1, player1.getPlayer().getDelayTime()));
 		}
-		else if(player1.getPlayer().isDead() || player1.getPlayer().getHp() <= 0){
-			player1.getPlayer().setDead(true);
-			player1.getPlayer().setHasControl(false);
+		else if(player1.getPlayer().isDead()){
 			player1.getPlayer().setDeadTime(player1.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.deadAnim(player1);
 		}
@@ -156,7 +149,6 @@ public class GameScreen implements Screen {
 		else {
 			GameScreenDrawAnim.idleAnim(player1);
 		}
-		GameScreenAtkUtils.checkSkillCD(player1);
 		
 		//// Player2
 		// Start check input
@@ -205,16 +197,12 @@ public class GameScreen implements Screen {
 				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()){
 			GameScreenDrawAnim.defenseAnim(player2);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
-				&& player2.getPlayer().isSkill1Ready()){
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()){// Need to check cooldown skill1
 			player2.getPlayer().setSkilling1(true);
-			player2.getPlayer().setSkill1Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
-				&& player2.getPlayer().isSkill2Ready()){
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()){// Need to check cooldown skill2
 			player2.getPlayer().setSkilling2(true);
-			player2.getPlayer().setSkill2Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -241,9 +229,7 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkSkill2Hit(player2, player1);
 			player2.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player2, player2.getPlayer().getDelayTime()));
 		}
-		else if(player2.getPlayer().isDead() || player2.getPlayer().getHp() <= 0){
-			player2.getPlayer().setDead(true);
-			player2.getPlayer().setHasControl(false);
+		else if(player2.getPlayer().isDead()){
 			player2.getPlayer().setDeadTime(player2.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.deadAnim(player2);
 		}
@@ -256,10 +242,10 @@ public class GameScreen implements Screen {
 		if (!player2.getPlayer().isSkilling1()&&!player2.getPlayer().isAttacking()){
 			checkFireball = 0;
 		}
-		if (Gdx.input.isKeyJustPressed(Keys.B)){
-			fireballs.add(new Fireball(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
-			
-		}
+//		if (Gdx.input.isKeyJustPressed(Keys.B)){
+//			fireballs.add(new Fireball(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
+//			
+//		}
 		//update fireball
 		ArrayList<Fireball> fireballsToRemove = new ArrayList<Fireball>();
 		for(Fireball fireball : fireballs){
@@ -275,7 +261,6 @@ public class GameScreen implements Screen {
 		}
 		
 		
-		GameScreenAtkUtils.checkSkillCD(player2);
 		batch.end();
 		
 		renderDebugMode();
@@ -331,6 +316,8 @@ public class GameScreen implements Screen {
 		    shapeRenderer.rect(player2.getAttackBox().getX(), player2.getAttackBox().getY(), player2.getAttackBox().getWidth(), player2.getAttackBox().getHeight());
 		    shapeRenderer.rect(player2.getSkill1Box().getX(), player2.getSkill1Box().getY(), player2.getSkill1Box().getWidth(), player2.getSkill1Box().getHeight());
 		    shapeRenderer.rect(player2.getSkill2Box().getX(), player2.getSkill2Box().getY(), player2.getSkill2Box().getWidth(), player2.getSkill2Box().getHeight());
+// TODO
+//		    shapeRenderer.rect(Sabo.getFireballBox().getX(), Sabo.getFireballBox().getY(), Sabo.getFireballBox().getWidth(), Sabo.getFireballBox().getHeight());
 		    shapeRenderer.end();
 		}
 	}
@@ -341,5 +328,6 @@ public class GameScreen implements Screen {
 		player.setSkillPosXLeft(player.getHitbox().getX()-player.getSkill1Box().getWidth()+player.getHitbox().getWidth()*1.2f);
 		player.setSkillPosXRight(player.getHitbox().getX()-player.getHitbox().getWidth()*0.2f);
 		player.setHitboxPosY(player.getHitbox().getY()+player.getPlayer().getSize().getY()*0.5f);
+		
 	}
 }

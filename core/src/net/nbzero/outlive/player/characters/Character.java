@@ -10,6 +10,7 @@ abstract public class Character {
 	// Player data
 	protected PlayerData player;
 	protected Rectangle hitbox;
+	protected Rectangle fireballBox;
 	protected Rectangle attackBox;
 	protected Rectangle skill1Box;
 	protected Rectangle skill2Box;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.positon.PositionHandler;
 
-public class Sabo extends Character {
+public class Zoro extends Character {
 	private static Animation standing;
 	private static Animation running;
 	private static Animation attacking;
@@ -19,22 +19,19 @@ public class Sabo extends Character {
 	private static Animation dead;
 	private static Animation getHit;
 	
-	protected Rectangle fireballBox;
-	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-70, -150, 70, 150);
-	private Rectangle defaultFireballBox = new Rectangle(-50, -50, 50, 50);
+	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
 	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
 	private static float atkSpeed = 20f;
-	private static float skill1Speed = 495f;
+	private static float skill1Speed = 40f;
 	private static float skill2Speed = 100f;
 	private static float skill1HitboxDelay = 0.2f;
-	private static float skill2HitboxDelay = 0.2f;
-	private static String nameCharacter = "Sabo";
+	private static float skill2HitboxDelay = 0.5f;
+	private static String nameCharacter = "Zoro";
 	private static float[] skillCooldown = {4f, 6f};
 	
 	private static float maxHP = 150;
@@ -45,14 +42,13 @@ public class Sabo extends Character {
 	private static float defPower = 12;
 	private static int criticalChance = 12;
 	
-	public Sabo(PlayerData playerData){
+	public Zoro(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
 		setAttackBox(new Rectangle(defaultAttackBox.x, defaultAttackBox.y, defaultAttackBox.width, defaultAttackBox.height));
-		setFireballBox(new Rectangle(defaultFireballBox.x, defaultFireballBox.y, defaultFireballBox.width, defaultFireballBox.height));
 		setSkill1Box(new Rectangle(defaultSkill1Box.x, defaultSkill1Box.y, defaultSkill1Box.width, defaultSkill1Box.height));
 		setSkill2Box(new Rectangle(defaultSkill2Box.x, defaultSkill2Box.y, defaultSkill2Box.width, defaultSkill2Box.height));
 		setHitbox(new Rectangle(playerData.getPos().getX()+whiteSize.getX(), playerData.getPos().getY()+whiteSize.getY(), defaultHitBox.getWidth(), defaultHitBox.getHeight()));
-		CharacterFactory.Sabo.load();
+		CharacterFactory.Zoro.load();
 		standing = drawStanding();
 		running = drawRunning();
 		attacking = drawAttacking();
@@ -66,123 +62,115 @@ public class Sabo extends Character {
 		getHit = drawGetHit();
 	}
 
-	public void setFireballBox(Rectangle fireballBox) {
-		this.fireballBox = fireballBox;
-	}
-	
-	public Rectangle getFireballBox() {
-		return defaultFireballBox;
-	}
-
 	public String getNameCharacter(){
 		return nameCharacter;
 	}
 	
 	@Override
 	public Animation drawDead() {
-		return new Animation(1f/8f, CharacterFactory.Sabo.getDeadFrames());
+		return new Animation(1f/8f, CharacterFactory.Zoro.getDeadFrames());
 	}
 	
 	public Animation getDead(){
-		return Sabo.dead;
+		return Zoro.dead;
 	}
 	
 	@Override
 	public Animation drawSkilling1() {
-		return new Animation(1f/8f, CharacterFactory.Sabo.getSkill1Frames());
+		return new Animation(1f/8f, CharacterFactory.Zoro.getSkill1Frames());
 	}
 	
 	public Animation getSkilling1(){
-		return Sabo.skilling1;
+		return Zoro.skilling1;
 	}
 	
 	@Override
 	public Animation drawSkilling2() {
-		return new Animation(1f/8f, CharacterFactory.Sabo.getSkill2Frames());
+		return new Animation(1f/8f, CharacterFactory.Zoro.getSkill2Frames());
 	}
 	
 	public Animation getSkilling2(){
-		return Sabo.skilling2;
+		return Zoro.skilling2;
 	}
 	
 	@Override
 	public Animation drawStanding() {
-		return new Animation(1f/5f, CharacterFactory.Sabo.getStandFrames());
+		return new Animation(1f/5f, CharacterFactory.Zoro.getStandFrames());
 	}
 	
 	public Animation getStanding(){
-		return Sabo.standing;
+		return Zoro.standing;
 	}
 
 	@Override
 	protected Animation drawDashing() {
-		return new Animation(1f/8f, CharacterFactory.Sabo.getDashFrames());
+		return new Animation(1f/8f, CharacterFactory.Zoro.getDashFrames());
 	}
 	
 	public Animation getDashing(){
-		return Sabo.dashing;
+		return Zoro.dashing;
 	}
 	
 	@Override
 	protected Animation drawRunning() {
-		return new Animation(1f/6f, CharacterFactory.Sabo.getRunFrames());
+		return new Animation(1f/6f, CharacterFactory.Zoro.getRunFrames());
 	}
 	
 	public Animation getRunning(){
-		return Sabo.running;
+		return Zoro.running;
 	}
 
 	@Override
 	protected Animation drawAttacking() {
-		return new Animation(1f/16f, CharacterFactory.Sabo.getAttackFrames());
+		return new Animation(1f/16f, CharacterFactory.Zoro.getAttackFrames());
 	}
 	
 	public Animation getAttacking(){
-		return Sabo.attacking;
+		return Zoro.attacking;
 	}
 	
 	@Override
 	protected Animation drawAttacking2() {
-		return new Animation(1f/14f, CharacterFactory.Sabo.getAttackFrames2());
+		return new Animation(1f/14f, CharacterFactory.Zoro.getAttackFrames2());
 	}
 	
 	public Animation getAttacking2(){
-		return Sabo.attacking2;
+		return Zoro.attacking2;
 	}
 	
 	@Override
 	protected Animation drawAttacking3() {
-		return new Animation(1f/12f, CharacterFactory.Sabo.getAttackFrames3());
+		return new Animation(1f/12f, CharacterFactory.Zoro.getAttackFrames3());
 	}
 	
 	public Animation getAttacking3(){
-		return Sabo.attacking3;
+		return Zoro.attacking3;
 	}
 
 	@Override
 	protected Animation drawDefending() {
-		return new Animation(1f/8f, CharacterFactory.Sabo.getDefenseFrames());
+		return new Animation(1f/8f, CharacterFactory.Zoro.getDefenseFrames());
 	}
 	
 	@Override
 	protected Animation drawGetHit() {
-		return new Animation(1f/8f, CharacterFactory.Sabo.getGetHitFrames());
+		return new Animation(1f/8f, CharacterFactory.Zoro.getGetHitFrames());
 	}
 	
 	public Animation getGetHit(){
-		return Sabo.getHit;
+		return Zoro.getHit;
 	}
 	
 	public Animation getDefending(){
-		return Sabo.defending;
+		return Zoro.defending;
 	}
 	
 	public void setWhiteSize(PositionHandler whiteSize){
-		Sabo.whiteSize = new PositionHandler(whiteSize);
+		Zoro.whiteSize = new PositionHandler(whiteSize);
 	}
 	
 	public PositionHandler getWhiteSize(){
-		return Sabo.whiteSize;
+		return Zoro.whiteSize;
 	}
 
 	@Override
@@ -234,7 +222,7 @@ public class Sabo extends Character {
 	}
 
 	public void setMaxHP(float maxHP) {
-		Sabo.maxHP = maxHP;
+		Zoro.maxHP = maxHP;
 	}
 
 	public float getMaxMP() {
@@ -242,7 +230,7 @@ public class Sabo extends Character {
 	}
 
 	public void setMaxMP(float maxMP) {
-		Sabo.maxMP = maxMP;
+		Zoro.maxMP = maxMP;
 	}
 
 	public float getAtkPower() {
@@ -250,7 +238,7 @@ public class Sabo extends Character {
 	}
 
 	public void setAtkPower(float atkPower) {
-		Sabo.atkPower = atkPower;
+		Zoro.atkPower = atkPower;
 	}
 	
 	public float getSkill1Power() {
@@ -270,7 +258,7 @@ public class Sabo extends Character {
 	}
 
 	public void setDefPower(float defPower) {
-		Sabo.defPower = defPower;
+		Zoro.defPower = defPower;
 	}
 
 	public int getCriticalChance() {
@@ -278,7 +266,7 @@ public class Sabo extends Character {
 	}
 
 	public void setCriticalChance(int criticalChance) {
-		Sabo.criticalChance = criticalChance;
+		Zoro.criticalChance = criticalChance;
 	}
 
 	@Override
