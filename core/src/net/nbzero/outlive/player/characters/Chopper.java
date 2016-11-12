@@ -20,11 +20,11 @@ public class Chopper extends Character {
 	private static Animation getHit;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 100, 90);
-	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 130, 60);
-	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
-	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
+	private Rectangle defaultAttackBox = new Rectangle(-100, -90, 100, 90);
+	private Rectangle defaultAttackBox2 = new Rectangle(-130, -60, 130, 60);
+	private Rectangle defaultAttackBox3 = new Rectangle(-110, -100, 110, 100);
+	private Rectangle defaultSkill1Box = new Rectangle(-140, -90, 140, 90);
+	private Rectangle defaultSkill2Box = new Rectangle(-150, -100, 150, 100);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
@@ -46,15 +46,15 @@ public class Chopper extends Character {
 	
 	private static float offsetX = -50f;
 	private static float offsetX2 = -80f;
-	private static float offsetX3 = 0f;
+	private static float offsetX3 = -60f;
 	private static float offsetX4 = 0f;
-	private static float offsetX5 = 0f;
+	private static float offsetX5 = 40f;
 	private static float offsetX6 = 0f;
 	private static float offsetY = -50f;
 	private static float offsetY2 = 0f;
 	private static float offsetY3 = -50f;
-	private static float offsetY4 = 0f;
-	private static float offsetY5 = 0f;
+	private static float offsetY4 = 20f;
+	private static float offsetY5 = -60f;
 	private static float offsetY6 = 0f;
 	
 	public Chopper(PlayerData playerData){
