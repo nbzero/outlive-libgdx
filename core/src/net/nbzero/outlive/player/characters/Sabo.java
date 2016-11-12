@@ -23,11 +23,11 @@ public class Sabo extends Character {
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
 	private Rectangle defaultAttackBox = new Rectangle(-70, -150, 70, 150);
-	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
+	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 50, 50);
+	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 50, 50);
 	private Rectangle defaultFireballBox = new Rectangle(-50, -50, 50, 50);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
-	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
+	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 110, 80);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
@@ -332,7 +332,7 @@ public class Sabo extends Character {
 
 	@Override
 	public void setSkillPosXLeft(float posXLeft) {
-		this.skillPosXLeft = posXLeft;
+		this.skillPosXLeft = posXLeft-100;
 	}
 
 	@Override

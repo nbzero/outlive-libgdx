@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
 	protected static float speed, hitboxPosXLeft, hitboxPosXRight, hitboxPosY, skillPosXLeft, skillPosXRight;
 	// Set From Character select screen
 	protected static String p1Char = "Luffy";
-	protected static String p2Char = "Sanji";
+	protected static String p2Char = "Law";
 	private static String bgPath = "Stage/forest.png";
 	protected static ArrayList<Fireball> fireballs; 
 	protected static int checkFireball=1;

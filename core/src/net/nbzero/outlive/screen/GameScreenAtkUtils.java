@@ -7,7 +7,10 @@ import net.nbzero.outlive.utils.CollideHandler;
 
 public class GameScreenAtkUtils {
 	protected static void checkAtkHit(Character attacker, Character defender){
-		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getAttackBox(), defender.getHitbox()) && defender.getPlayer().isHitable()){
+		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getAttackBox(), defender.getHitbox())
+				|| CollideHandler.checkCollide("Right", attacker.getAttackBox2(), defender.getHitbox())
+				|| CollideHandler.checkCollide("Right", attacker.getAttackBox3(), defender.getHitbox())
+				&& defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
 			defender.getPlayer().setHitable(false);
@@ -18,7 +21,10 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setDelayTime(0);
 			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getAtkPower());
 		}
-		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getAttackBox(), defender.getHitbox()) && defender.getPlayer().isHitable()){
+		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getAttackBox(), defender.getHitbox()) 
+				|| CollideHandler.checkCollide("Right", attacker.getAttackBox2(), defender.getHitbox())
+				|| CollideHandler.checkCollide("Right", attacker.getAttackBox3(), defender.getHitbox())
+				&& defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
 			defender.getPlayer().setHitable(false);
@@ -35,6 +41,7 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setHasControl(true);
 		}
 	}
+	
 	
 	protected static float getAtkTime(Character player, float attackTime){
 		if(player.getAttacking().isAnimationFinished(attackTime)){
