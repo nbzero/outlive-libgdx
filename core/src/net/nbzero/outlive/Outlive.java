@@ -3,8 +3,6 @@ package net.nbzero.outlive;
 import com.badlogic.gdx.Game;
 
 import net.nbzero.outlive.resources.Assets;
-import net.nbzero.outlive.screen.CharacterSelectScreen;
-import net.nbzero.outlive.screen.GameScreen;
 import net.nbzero.outlive.screen.LogoScreen;
 
 public class Outlive extends Game {
@@ -13,6 +11,6 @@ public class Outlive extends Game {
 		// Load needed resources!
 		Assets.LoadGlobalResources();
 		
-		setScreen(new GameScreen());
+		setScreen(new LogoScreen());
 	}
 }

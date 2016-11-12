@@ -3,7 +3,6 @@ package net.nbzero.outlive.screen;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,9 +38,7 @@ public class GameScreen implements Screen {
 	protected static String p2Char = "Usopp";
 	private static String bgPath = "Stage/forest.png";
 	protected static ArrayList<Fireball> fireballs; 
-	protected static int checkFireball=1;
 	protected static ArrayList<Stone> stones; 
-	protected static int checkStone=1;
 	
 	@Override
 	public void show() {
@@ -243,13 +240,6 @@ public class GameScreen implements Screen {
 		else {
 			GameScreenDrawAnim.idleAnim(player2);
 		}
-		if (!player2.getPlayer().isSkilling1()&&!player2.getPlayer().isAttacking()){
-			checkFireball = 0;
-			checkStone = 0;
-		}
-//		if (Gdx.input.isKeyJustPressed(Keys.B)){
-//			stones.add(new Stone(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
-//		}
 		//update fireball
 		ArrayList<Fireball> fireballsToRemove = new ArrayList<Fireball>();
 		for(Fireball fireball : fireballs){
@@ -312,10 +302,10 @@ public class GameScreen implements Screen {
 	private void initialize(){
 		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
 		p2 = new PlayerData(100, 100, 0, new PositionHandler(500, 50), "Left");
-		player1 = CharacterFactory.valueOf(p1Char).getNew(p1);
-		player2 = CharacterFactory.valueOf(p2Char).getNew(p2);
-//		player1 = CharacterFactory.valueOf(CharacterSelectScreen.p1Char).getNew(p1);
-//		player2 = CharacterFactory.valueOf(CharacterSelectScreen.p2Char).getNew(p2);
+//		player1 = CharacterFactory.valueOf(p1Char).getNew(p1);
+//		player2 = CharacterFactory.valueOf(p2Char).getNew(p2);
+		player1 = CharacterFactory.valueOf(CharacterSelectScreen.p1Char).getNew(p1);
+		player2 = CharacterFactory.valueOf(CharacterSelectScreen.p2Char).getNew(p2);
 		bg = new Texture(bgPath);
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
@@ -341,8 +331,6 @@ public class GameScreen implements Screen {
 		    shapeRenderer.rect(player2.getAttackBox3().getX(), player2.getAttackBox3().getY(), player2.getAttackBox3().getWidth(), player2.getAttackBox3().getHeight());
 		    shapeRenderer.rect(player2.getSkill1Box().getX(), player2.getSkill1Box().getY(), player2.getSkill1Box().getWidth(), player2.getSkill1Box().getHeight());
 		    shapeRenderer.rect(player2.getSkill2Box().getX(), player2.getSkill2Box().getY(), player2.getSkill2Box().getWidth(), player2.getSkill2Box().getHeight());
-// TODO
-//		    shapeRenderer.rect(Sabo.getFireballBox().getX(), Sabo.getFireballBox().getY(), Sabo.getFireballBox().getWidth(), Sabo.getFireballBox().getHeight());
 		    shapeRenderer.end();
 		}
 	}
