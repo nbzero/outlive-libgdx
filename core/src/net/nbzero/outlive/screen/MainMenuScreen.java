@@ -86,16 +86,17 @@ public class MainMenuScreen implements Screen {
 						
 						@Override
 						public void onEvent(int type, BaseTween<?> source) {
-							((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+							((Game) Gdx.app.getApplicationListener()).setScreen(new CharacterSelectScreen());
 						}
 					}).start(tweenManager);
 					break;
 				case 1:
 					fadeOutButton();
+					menu = 1;
 					break;
 				case 2:
 					fadeOutButton();
-					menu = 1;
+					menu = 2;
 					break;
 				case 3:
 					stage.addActor(Utils.creditsImage);
@@ -103,7 +104,7 @@ public class MainMenuScreen implements Screen {
 					.push(Tween.set(Utils.creditsImage, ActorAccessor.ALPHA).target(0))
 					.push(Tween.to(Utils.creditsImage, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(1))
 					.end().start(tweenManager);
-					menu = 2;
+					menu = 3;
 					break;
 				case 4:
 					Utils.exitGame();
@@ -114,12 +115,19 @@ public class MainMenuScreen implements Screen {
 		}
 		else if(menu == 1){
 			if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-				selected = 2;
+				selected = 1;
 				menu = 0;
 				fadeInButton();
 			}
 		}
 		else if(menu == 2){
+			if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+				selected = 2;
+				menu = 0;
+				fadeInButton();
+			}
+		}
+		else if(menu == 3){
 			if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 				Timeline.createSequence().beginSequence()
 				.push(Tween.set(Utils.creditsImage, ActorAccessor.ALPHA).target(1))
@@ -148,6 +156,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
+		Utils.skin.dispose();
 	}
 
 	// Select Button Checker

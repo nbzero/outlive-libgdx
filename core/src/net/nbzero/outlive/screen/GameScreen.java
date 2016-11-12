@@ -281,6 +281,8 @@ public class GameScreen implements Screen {
 		p2 = new PlayerData(100, 100, 0, new PositionHandler(500, 50), "Left");
 		player1 = CharacterFactory.valueOf(p1Char).getNew(p1);
 		player2 = CharacterFactory.valueOf(p2Char).getNew(p2);
+//		player1 = CharacterFactory.valueOf(CharacterSelectScreen.p1Char).getNew(p1);
+//		player2 = CharacterFactory.valueOf(CharacterSelectScreen.p2Char).getNew(p2);
 		bg = new Texture(bgPath);
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();

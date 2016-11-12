@@ -1,0 +1,117 @@
+
+characterButton.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Chopper
+  rotate: false
+  xy: 1, 285
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+ChopperSelected
+  rotate: false
+  xy: 1, 143
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Law
+  rotate: false
+  xy: 163, 285
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+LawSelected
+  rotate: false
+  xy: 1, 1
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Luffy
+  rotate: false
+  xy: 163, 143
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+LuffySelected
+  rotate: false
+  xy: 325, 285
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Nami
+  rotate: false
+  xy: 163, 1
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+NamiSelected
+  rotate: false
+  xy: 325, 143
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Sabo
+  rotate: false
+  xy: 487, 285
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+SaboSelected
+  rotate: false
+  xy: 325, 1
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Sanji
+  rotate: false
+  xy: 487, 143
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+SanjiSelected
+  rotate: false
+  xy: 649, 285
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Usopp
+  rotate: false
+  xy: 487, 1
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+UsoppSelected
+  rotate: false
+  xy: 649, 143
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+Zoro
+  rotate: false
+  xy: 811, 285
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1
+ZoroSelected
+  rotate: false
+  xy: 649, 1
+  size: 160, 140
+  orig: 160, 140
+  offset: 0, 0
+  index: -1

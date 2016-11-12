@@ -1,0 +1,76 @@
+
+bgCharacter.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ChopperBG
+  rotate: false
+  xy: 1, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+LawBG
+  rotate: false
+  xy: 463, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+
+bgCharacter2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+LuffyBG
+  rotate: false
+  xy: 1, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+NamiBG
+  rotate: false
+  xy: 463, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+
+bgCharacter3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+SaboBG
+  rotate: false
+  xy: 1, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+SanjiBG
+  rotate: false
+  xy: 463, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+
+bgCharacter4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+UsoppBG
+  rotate: false
+  xy: 1, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
+ZoroBG
+  rotate: false
+  xy: 463, 1
+  size: 460, 700
+  orig: 460, 700
+  offset: 0, 0
+  index: -1
