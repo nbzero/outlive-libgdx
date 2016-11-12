@@ -21,17 +21,17 @@ public class Usopp extends Character {
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
 	private Rectangle defaultAttackBox = new Rectangle(-80, -120, 80, 120);
-	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultSkill1Box = new Rectangle(-140, -90, 140, 90);
+	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 20, 40);
+	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 20, 40);
+	private Rectangle defaultSkill1Box = new Rectangle(-140, -90, 50, 50);
 	private Rectangle defaultSkill2Box = new Rectangle(-90, -160, 80, 160);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
 	private static float atkSpeed = 20f;
-	private static float skill1Speed = 40f;
+	private static float skill1Speed = 520f;
 	private static float skill2Speed = 100f;
-	private static float skill1HitboxDelay = 0.2f;
+	private static float skill1HitboxDelay = 0.5f;
 	private static float skill2HitboxDelay = 0.5f;
 	private static String nameCharacter = "Usopp";
 	private static float[] skillCooldown = {4f, 6f};
@@ -48,7 +48,7 @@ public class Usopp extends Character {
 	private static float offsetX2 = 0f;
 	private static float offsetX3 = 0f;
 	private static float offsetX4 = 0f;
-	private static float offsetX5 = -20f;
+	private static float offsetX5 = 80f;
 	private static float offsetX6 = 0f;
 	private static float offsetY = -30f;
 	private static float offsetY2 = 0f;

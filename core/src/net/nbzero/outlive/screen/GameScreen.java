@@ -3,6 +3,7 @@ package net.nbzero.outlive.screen;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
 import net.nbzero.outlive.player.characters.Fireball;
+import net.nbzero.outlive.player.characters.Stone;
 import net.nbzero.outlive.positon.PositionHandler;
 import net.nbzero.outlive.utils.CollideHandler;
 
@@ -38,6 +40,8 @@ public class GameScreen implements Screen {
 	private static String bgPath = "Stage/forest.png";
 	protected static ArrayList<Fireball> fireballs; 
 	protected static int checkFireball=1;
+	protected static ArrayList<Stone> stones; 
+	protected static int checkStone=1;
 	
 	@Override
 	public void show() {
@@ -241,10 +245,10 @@ public class GameScreen implements Screen {
 		}
 		if (!player2.getPlayer().isSkilling1()&&!player2.getPlayer().isAttacking()){
 			checkFireball = 0;
+			checkStone = 0;
 		}
 //		if (Gdx.input.isKeyJustPressed(Keys.B)){
-//			fireballs.add(new Fireball(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
-//			
+//			stones.add(new Stone(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
 //		}
 		//update fireball
 		ArrayList<Fireball> fireballsToRemove = new ArrayList<Fireball>();
@@ -260,6 +264,20 @@ public class GameScreen implements Screen {
 			fireball.render(batch);
 		}
 		
+
+		//update stone
+		ArrayList<Stone> stonesToRemove = new ArrayList<Stone>();
+		for(Stone stone : stones){
+			stone.update(delta);
+			if (stone.remove){
+				stonesToRemove.add(stone);
+			}
+		}
+		stones.removeAll(stonesToRemove);
+		
+		for (Stone stone : stones){
+			stone.render(batch);
+		}
 		
 		batch.end();
 		
@@ -303,6 +321,7 @@ public class GameScreen implements Screen {
 		shapeRenderer = new ShapeRenderer();
 		elapsedTime = 0;
 		fireballs = new ArrayList<Fireball>();
+		stones = new ArrayList<Stone>();
 	}
 	
 	private void renderDebugMode(){
