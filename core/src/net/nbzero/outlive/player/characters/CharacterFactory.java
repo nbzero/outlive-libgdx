@@ -42,7 +42,7 @@ public enum CharacterFactory {
 			setAttackFrames(getSprite(0, 7, 6, 8));
 			setAttackFrames2(getSprite(0, 8, 6, 9));
 			setAttackFrames3(getSprite(0, 9, 6, 10));
-			setSkill1Frames(getSprite(0, 10, 14, 11));
+			setSkill1Frames(getSprite(0, 10, 13, 11));
 			setSkill2Frames(getSprite(0, 11, 5, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));

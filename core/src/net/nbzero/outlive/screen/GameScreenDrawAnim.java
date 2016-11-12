@@ -125,7 +125,7 @@ public class GameScreenDrawAnim {
 				//TODO
 //				Sabo.getFireballBox().setPosition(player.getHitboxPosXLeft(), player.getHitboxPosY());
 				
-				player.getAttackBox2().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*player.getAtkSpeed()-10, player.getHitboxPosY()-50);
+				player.getAttackBox2().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking2().getKeyFrame(player.getPlayer().getAttackTime());
 				GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 			}
@@ -135,7 +135,7 @@ public class GameScreenDrawAnim {
 					GameScreen.checkFireball++;
 					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
-				player.getAttackBox3().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*player.getAtkSpeed()-10, player.getHitboxPosY()-50);
+				player.getAttackBox3().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking3().getKeyFrame(player.getPlayer().getAttackTime());
 				GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 			}
@@ -150,7 +150,7 @@ public class GameScreenDrawAnim {
 					GameScreen.checkFireball++;
 					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
-				player.getAttackBox2().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*player.getAtkSpeed(), player.getHitboxPosY());
+				player.getAttackBox2().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking2().getKeyFrame(player.getPlayer().getAttackTime());
 				GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 			}
@@ -160,7 +160,7 @@ public class GameScreenDrawAnim {
 					GameScreen.checkFireball++;
 					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
-				player.getAttackBox3().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*player.getAtkSpeed(), player.getHitboxPosY());
+				player.getAttackBox3().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking3().getKeyFrame(player.getPlayer().getAttackTime());
 				GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 			}

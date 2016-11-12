@@ -20,9 +20,9 @@ public class Law extends Character {
 	private static Animation getHit;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
+	private Rectangle defaultAttackBox = new Rectangle(-100, -100, 120, 50);
+	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 120);
+	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 90);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
 	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
