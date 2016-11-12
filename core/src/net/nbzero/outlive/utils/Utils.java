@@ -89,6 +89,11 @@ public class Utils {
 	public static BitmapFont vsFont;
 	public static BitmapFont countDownFont;
 	
+	// Game Screen
+	public static Skin gameScreenSkin;
+	public static BitmapFont hpMpFont;
+	public static BitmapFont timerFont;
+	
 	public static void load() {
 		FADE_TIME = 0.05f;
 		GLIDE_TIME = 0.3f;
@@ -242,6 +247,27 @@ public class Utils {
 		charSelectSkin.add("KitchenPoliceP1CharFont", p1CharFont);
 		charSelectSkin.add("KitchenPoliceP2CharFont", p2CharFont);
 		charSelectSkin.add("KitchenPoliceCountDown", countDownFont);
+	}
+	
+	public static void loadGameHUD(){
+		gameScreenSkin = new Skin();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/imagine_font.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.characters = FONT_CHARACTERS;
+		parameter.size = 22;
+		parameter.color = Color.BLACK;
+		p1CharFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontPlayer", p1CharFont);
+		parameter.size = 20;
+		parameter.borderWidth = 2;
+		parameter.borderColor = Color.WHITE;
+		hpMpFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontHpMp", hpMpFont);
+		parameter.size = 45;
+		parameter.borderWidth = 4;
+		parameter.borderColor = Color.WHITE;
+		timerFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontTimer", timerFont);
 	}
 	
 	public static void exitGame() {
