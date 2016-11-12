@@ -20,11 +20,11 @@ public class Nami extends Character {
 	private static Animation getHit;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
+	private Rectangle defaultAttackBox = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
-	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
+	private Rectangle defaultSkill2Box = new Rectangle(-150, -140, 150, 140);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
@@ -32,7 +32,7 @@ public class Nami extends Character {
 	private static float skill1Speed = 40f;
 	private static float skill2Speed = 100f;
 	private static float skill1HitboxDelay = 0.2f;
-	private static float skill2HitboxDelay = 0.5f;
+	private static float skill2HitboxDelay = 0.2f;
 	private static String nameCharacter = "Nami";
 	private static float[] skillCooldown = {4f, 6f};
 	
@@ -43,6 +43,9 @@ public class Nami extends Character {
 	private static float skill2Power = 30;
 	private static float defPower = 12;
 	private static int criticalChance = 12;
+	
+	private static float offsetX = 30f;
+	private static float offsetY = 0f;
 	
 	public Nami(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
@@ -65,7 +68,7 @@ public class Nami extends Character {
 		dead = drawDead();
 		getHit = drawGetHit();
 	}
-
+	
 	@Override
 	public Rectangle getDefaultAttackBox2() {
 		return defaultAttackBox2;
@@ -147,7 +150,7 @@ public class Nami extends Character {
 	protected Animation drawAttacking2() {
 		return new Animation(1f/14f, CharacterFactory.Nami.getAttackFrames2());
 	}
-	
+
 	public Animation getAttacking2(){
 		return Nami.attacking2;
 	}
@@ -331,5 +334,13 @@ public class Nami extends Character {
 	@Override
 	public void setSkillPosXRight(float posXRight) {
 		this.skillPosXRight = posXRight;
+	}
+	
+	public float getOffsetX() {
+		return offsetX;
+	}
+
+	public float getOffsetY(){
+		return offsetY;
 	}
 }

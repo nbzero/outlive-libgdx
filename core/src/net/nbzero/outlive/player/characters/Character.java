@@ -24,6 +24,7 @@ abstract public class Character {
 	protected float skillPosXLeft;
 	protected float skillPosXRight;
 	
+	
 	// Constructors	
 	public Character(PlayerData playerData, PositionHandler size){
 		playerData.setSize(size);
@@ -169,5 +170,16 @@ abstract public class Character {
 	public abstract float getSkillPosXRight();
 	public abstract void setSkillPosXRight(float posXRight);
 
-
+	public abstract float getOffsetX();
+	public abstract float getOffsetX2();
+	public abstract float getOffsetX3();
+	public abstract float getOffsetX4();
+	public abstract float getOffsetX5();
+	public abstract float getOffsetX6();
+	public abstract float getOffsetY();
+	public abstract float getOffsetY2();
+	public abstract float getOffsetY3();
+	public abstract float getOffsetY4();
+	public abstract float getOffsetY5();
+	public abstract float getOffsetY6();
 }
