@@ -43,6 +43,9 @@ public class CharacterSelectScreen implements Screen {
 	private Label p2Locked;
 	private Label readyText;
 	private Label countDownText;
+	private boolean start = false;
+	private float elapsedTime = 0;
+	private float fadeOutTime = 0;
 	
 	@Override
 	public void show() {
@@ -93,7 +96,6 @@ public class CharacterSelectScreen implements Screen {
 		readyText.setColor(1, 1, 1, 0);
 		countDownText.setPosition(Gdx.graphics.getWidth()*0.45f, Gdx.graphics.getHeight()*0.35f);
 		countDownText.setColor(1, 1, 1, 0);
-		
 		
 		stage.addActor(Utils.characterSelectBG);
 		stage.addActor(Utils.characterSelectCharBG);
@@ -151,14 +153,15 @@ public class CharacterSelectScreen implements Screen {
 		
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Actor.class, new ActorAccessor());
-		
-		fadeIn();
+
+//		fadeIn();
 		
 		tweenManager.update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override
 	public void render(float delta) {
+		elapsedTime += Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -237,17 +240,23 @@ public class CharacterSelectScreen implements Screen {
 			readyText.setColor(1, 1, 1, 1);
 			countDownText.setColor(1, 1, 1, 1);
 			countDownText.setText(String.valueOf(5-(int) delayTime));
-			if(delayTime >= 2f){
+			if(delayTime >= 5f){
+				fadeOutTime += Gdx.graphics.getDeltaTime();
 				fadeOutToGameScreen();
+				if(delayTime >= 6.2f){
+					dispose();
+					((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+				}
 			}
 		}
 		else{
 			readyText.setColor(1, 1, 1, 0);
 			countDownText.setColor(1, 1, 1, 0);
 			delayTime = 0;
+			fadeOutTime = 0;
 		}
 		
-		tweenManager.update(delta);
+		tweenManager.update(elapsedTime);
 	}
 
 	@Override
@@ -265,75 +274,78 @@ public class CharacterSelectScreen implements Screen {
 	@Override
 	public void dispose() {	
 		stage.dispose();
+		Utils.charSelectSkin.dispose();
 	}
 	
 	private void fadeOutToGameScreen(){
-		Timeline.createParallel().beginParallel()
-		.push(Tween.set(Utils.characterSelectBG, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.characterSelectCharBG, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(table, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(table2, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.lawBGP1, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.lawBGP2, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(titleText1, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(titleText2, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(vsText1, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(vsText2, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(p1CharText, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(p2CharText, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(p1Locked, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(p2Locked, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(readyText, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(countDownText, ActorAccessor.ALPHA).target(1))
-		.push(Tween.to(Utils.characterSelectBG, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(Utils.characterSelectCharBG, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(table, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(table2, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(Utils.lawBGP1, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(Utils.lawBGP2, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(titleText1, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(titleText2, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(vsText1, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(vsText2, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(p1CharText, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(p2CharText, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(p1Locked, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(p2Locked, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(readyText, ActorAccessor.ALPHA, 1.0f).target(0))
-		.push(Tween.to(countDownText, ActorAccessor.ALPHA, 1.0f).target(0))
-		.end().start(tweenManager);
+		Utils.characterSelectBG.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.characterSelectCharBG.setColor(1, 1, 1, 1-fadeOutTime);
+		table.setColor(1, 1, 1, 1-fadeOutTime);
+		table2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.lawBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.lawBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		titleText1.setColor(1, 1, 1, 1-fadeOutTime);
+		titleText2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.chopperBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.lawBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.luffyBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.namiBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.saboBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.sanjiBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.zoroBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.usoppBGP1.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.chopperBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.lawBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.luffyBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.namiBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.saboBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.sanjiBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.zoroBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.usoppBGP2.setColor(1, 1, 1, 1-fadeOutTime);
+		
+		// Texts
+		titleText1.setColor(1, 1, 1, 1-fadeOutTime);
+		titleText2.setColor(1, 1, 1, 1-fadeOutTime);
+		vsText1.setColor(1, 1, 1, 1-fadeOutTime);
+		vsText2.setColor(1, 1, 1, 1-fadeOutTime);
+		p1CharText.setColor(1, 1, 1, 1-fadeOutTime);
+		p1Locked.setColor(1, 1, 1, 1-fadeOutTime);
+		p2CharText.setColor(1, 1, 1, 1-fadeOutTime);
+		p2Locked.setColor(1, 1, 1, 1-fadeOutTime);
+		readyText.setColor(1, 1, 1, 1-fadeOutTime);
+		countDownText.setColor(1, 1, 1, 1-fadeOutTime);
 	}
 	
 	private void fadeIn(){
-		Timeline.createParallel().beginParallel()
-		.push(Tween.set(Utils.characterSelectBG, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.characterSelectCharBG, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(table, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(table2, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.lawBGP1, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.lawBGP2, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(titleText1, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(titleText2, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(vsText1, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(vsText2, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(p1CharText, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(p2CharText, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(p1Locked, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(p2Locked, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(readyText, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(countDownText, ActorAccessor.ALPHA).target(0))
-		.push(Tween.to(Utils.characterSelectBG, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(Utils.characterSelectCharBG, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(table, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(table2, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(Utils.lawBGP1, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(Utils.lawBGP2, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(titleText1, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(titleText2, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(vsText1, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(vsText2, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(p1CharText, ActorAccessor.ALPHA, 1.0f).target(1))
-		.push(Tween.to(p2CharText, ActorAccessor.ALPHA, 1.0f).target(1))
-		.end().start(tweenManager);
+//		Timeline.createParallel().beginParallel()
+//		.push(Tween.set(Utils.characterSelectBG, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(Utils.characterSelectCharBG, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(table, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(table2, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(Utils.lawBGP1, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(Utils.lawBGP2, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(titleText1, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(titleText2, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(vsText1, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(vsText2, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(p1CharText, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(p2CharText, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(p1Locked, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(p2Locked, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(readyText, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.set(countDownText, ActorAccessor.ALPHA).target(0))
+//		.push(Tween.to(Utils.characterSelectBG, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(Utils.characterSelectCharBG, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(table, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(table2, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(Utils.lawBGP1, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(Utils.lawBGP2, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(titleText1, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(titleText2, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(vsText1, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(vsText2, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(p1CharText, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.push(Tween.to(p2CharText, ActorAccessor.ALPHA, 1.0f).target(1))
+//		.end().start(tweenManager);
 	}
 }

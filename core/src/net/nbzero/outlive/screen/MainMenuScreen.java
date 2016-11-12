@@ -86,6 +86,7 @@ public class MainMenuScreen implements Screen {
 						
 						@Override
 						public void onEvent(int type, BaseTween<?> source) {
+							dispose();
 							((Game) Gdx.app.getApplicationListener()).setScreen(new CharacterSelectScreen());
 						}
 					}).start(tweenManager);
