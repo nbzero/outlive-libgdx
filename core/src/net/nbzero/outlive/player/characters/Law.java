@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.positon.PositionHandler;
 
-public class Luffy extends Character {
+public class Law extends Character {
 	private static Animation standing;
 	private static Animation running;
 	private static Animation attacking;
@@ -20,7 +20,7 @@ public class Luffy extends Character {
 	private static Animation getHit;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
+	private Rectangle defaultAttackBox = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
@@ -29,11 +29,11 @@ public class Luffy extends Character {
 	
 	private static float moveSpeed = 5f;
 	private static float atkSpeed = 20f;
-	private static float skill1Speed = 40f;
+	private static float skill1Speed = 5f;
 	private static float skill2Speed = 100f;
 	private static float skill1HitboxDelay = 0.2f;
-	private static float skill2HitboxDelay = 0.5f;
-	private static String nameCharacter = "Luffy";
+	private static float skill2HitboxDelay = 0.2f;
+	private static String nameCharacter = "Law";
 	private static float[] skillCooldown = {4f, 6f};
 	
 	private static float maxHP = 150;
@@ -44,7 +44,7 @@ public class Luffy extends Character {
 	private static float defPower = 12;
 	private static int criticalChance = 12;
 	
-	public Luffy(PlayerData playerData){
+	public Law(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
 		setAttackBox(new Rectangle(defaultAttackBox.x, defaultAttackBox.y, defaultAttackBox.width, defaultAttackBox.height));
 		setAttackBox2(new Rectangle(defaultAttackBox2.x, defaultAttackBox2.y, defaultAttackBox2.width, defaultAttackBox2.height));
@@ -52,7 +52,7 @@ public class Luffy extends Character {
 		setSkill1Box(new Rectangle(defaultSkill1Box.x, defaultSkill1Box.y, defaultSkill1Box.width, defaultSkill1Box.height));
 		setSkill2Box(new Rectangle(defaultSkill2Box.x, defaultSkill2Box.y, defaultSkill2Box.width, defaultSkill2Box.height));
 		setHitbox(new Rectangle(playerData.getPos().getX()+whiteSize.getX(), playerData.getPos().getY()+whiteSize.getY(), defaultHitBox.getWidth(), defaultHitBox.getHeight()));
-		CharacterFactory.Luffy.load();
+		CharacterFactory.Law.load();
 		standing = drawStanding();
 		running = drawRunning();
 		attacking = drawAttacking();
@@ -82,109 +82,109 @@ public class Luffy extends Character {
 	
 	@Override
 	public Animation drawDead() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getDeadFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getDeadFrames());
 	}
 	
 	public Animation getDead(){
-		return Luffy.dead;
+		return Law.dead;
 	}
 	
 	@Override
 	public Animation drawSkilling1() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getSkill1Frames());
+		return new Animation(1f/8f, CharacterFactory.Law.getSkill1Frames());
 	}
 	
 	public Animation getSkilling1(){
-		return Luffy.skilling1;
+		return Law.skilling1;
 	}
 	
 	@Override
 	public Animation drawSkilling2() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getSkill2Frames());
+		return new Animation(1f/8f, CharacterFactory.Law.getSkill2Frames());
 	}
 	
 	public Animation getSkilling2(){
-		return Luffy.skilling2;
+		return Law.skilling2;
 	}
 	
 	@Override
 	public Animation drawStanding() {
-		return new Animation(1f/5f, CharacterFactory.Luffy.getStandFrames());
+		return new Animation(1f/5f, CharacterFactory.Law.getStandFrames());
 	}
 	
 	public Animation getStanding(){
-		return Luffy.standing;
+		return Law.standing;
 	}
 
 	@Override
 	protected Animation drawDashing() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getDashFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getDashFrames());
 	}
 	
 	public Animation getDashing(){
-		return Luffy.dashing;
+		return Law.dashing;
 	}
 	
 	@Override
 	protected Animation drawRunning() {
-		return new Animation(1f/6f, CharacterFactory.Luffy.getRunFrames());
+		return new Animation(1f/6f, CharacterFactory.Law.getRunFrames());
 	}
 	
 	public Animation getRunning(){
-		return Luffy.running;
+		return Law.running;
 	}
 
 	@Override
 	protected Animation drawAttacking() {
-		return new Animation(1f/16f, CharacterFactory.Luffy.getAttackFrames());
+		return new Animation(1f/16f, CharacterFactory.Law.getAttackFrames());
 	}
 	
 	public Animation getAttacking(){
-		return Luffy.attacking;
+		return Law.attacking;
 	}
 	
 	@Override
 	protected Animation drawAttacking2() {
-		return new Animation(1f/14f, CharacterFactory.Luffy.getAttackFrames2());
+		return new Animation(1f/14f, CharacterFactory.Law.getAttackFrames2());
 	}
 	
 	public Animation getAttacking2(){
-		return Luffy.attacking2;
+		return Law.attacking2;
 	}
 	
 	@Override
 	protected Animation drawAttacking3() {
-		return new Animation(1f/12f, CharacterFactory.Luffy.getAttackFrames3());
+		return new Animation(1f/12f, CharacterFactory.Law.getAttackFrames3());
 	}
 	
 	public Animation getAttacking3(){
-		return Luffy.attacking3;
+		return Law.attacking3;
 	}
 
 	@Override
 	protected Animation drawDefending() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getDefenseFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getDefenseFrames());
 	}
 	
 	@Override
 	protected Animation drawGetHit() {
-		return new Animation(1f/8f, CharacterFactory.Luffy.getGetHitFrames());
+		return new Animation(1f/8f, CharacterFactory.Law.getGetHitFrames());
 	}
 	
 	public Animation getGetHit(){
-		return Luffy.getHit;
+		return Law.getHit;
 	}
 	
 	public Animation getDefending(){
-		return Luffy.defending;
+		return Law.defending;
 	}
 	
 	public void setWhiteSize(PositionHandler whiteSize){
-		Luffy.whiteSize = new PositionHandler(whiteSize);
+		Law.whiteSize = new PositionHandler(whiteSize);
 	}
 	
 	public PositionHandler getWhiteSize(){
-		return Luffy.whiteSize;
+		return Law.whiteSize;
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class Luffy extends Character {
 	}
 
 	public void setMaxHP(float maxHP) {
-		Luffy.maxHP = maxHP;
+		Law.maxHP = maxHP;
 	}
 
 	public float getMaxMP() {
@@ -244,7 +244,7 @@ public class Luffy extends Character {
 	}
 
 	public void setMaxMP(float maxMP) {
-		Luffy.maxMP = maxMP;
+		Law.maxMP = maxMP;
 	}
 
 	public float getAtkPower() {
@@ -252,7 +252,7 @@ public class Luffy extends Character {
 	}
 
 	public void setAtkPower(float atkPower) {
-		Luffy.atkPower = atkPower;
+		Law.atkPower = atkPower;
 	}
 	
 	public float getSkill1Power() {
@@ -272,7 +272,7 @@ public class Luffy extends Character {
 	}
 
 	public void setDefPower(float defPower) {
-		Luffy.defPower = defPower;
+		Law.defPower = defPower;
 	}
 
 	public int getCriticalChance() {
@@ -280,7 +280,7 @@ public class Luffy extends Character {
 	}
 
 	public void setCriticalChance(int criticalChance) {
-		Luffy.criticalChance = criticalChance;
+		Law.criticalChance = criticalChance;
 	}
 
 	@Override

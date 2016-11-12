@@ -21,7 +21,7 @@ public enum CharacterFactory {
 			setAttackFrames(getSprite(0, 7, 6, 8));
 			setAttackFrames2(getSprite(0, 8, 6, 9));
 			setAttackFrames3(getSprite(0, 9, 6, 10));
-			setSkill1Frames(getSprite(0, 10, 11, 11));
+			setSkill1Frames(getSprite(0, 10, 13, 11));
 			setSkill2Frames(getSprite(0, 11, 7, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));
@@ -31,7 +31,7 @@ public enum CharacterFactory {
 	Law() {
 		@Override
 		public Character getNew(PlayerData playerData){
-			return new Luffy(playerData);
+			return new Law(playerData);
 		}
 		
 		@Override
@@ -42,7 +42,7 @@ public enum CharacterFactory {
 			setAttackFrames(getSprite(0, 7, 6, 8));
 			setAttackFrames2(getSprite(0, 8, 6, 9));
 			setAttackFrames3(getSprite(0, 9, 6, 10));
-			setSkill1Frames(getSprite(0, 10, 11, 11));
+			setSkill1Frames(getSprite(0, 10, 14, 11));
 			setSkill2Frames(getSprite(0, 11, 5, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));
@@ -52,7 +52,7 @@ public enum CharacterFactory {
 	Sanji() {
 		@Override
 		public Character getNew(PlayerData playerData){
-			return new Luffy(playerData);
+			return new Sanji(playerData);
 		}
 		
 		@Override
@@ -63,16 +63,38 @@ public enum CharacterFactory {
 			setAttackFrames(getSprite(0, 7, 6, 8));
 			setAttackFrames2(getSprite(0, 8, 6, 9));
 			setAttackFrames3(getSprite(0, 9, 6, 10));
-			setSkill1Frames(getSprite(0, 10, 11, 11));
-			setSkill2Frames(getSprite(0, 11, 9, 12));
+			setSkill1Frames(getSprite(0, 10, 12, 11));
+			setSkill2Frames(getSprite(0, 11, 7, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
 		}
 	},
 	Zoro() {
 		@Override
 		public Character getNew(PlayerData playerData){
-			return new Luffy(playerData);
+			return new Zoro(playerData);
+		}
+		
+		@Override
+		public void loadSprite() {
+			setStandFrames(getSprite(0, 0, 4, 1));
+			setRunFrames(getSprite(0, 2, 6, 3));
+			setDefenseFrames(getSprite(1, 1, 2, 2));
+			setAttackFrames(getSprite(0, 7, 6, 8));
+			setAttackFrames2(getSprite(0, 8, 5, 9));
+			setAttackFrames3(getSprite(0, 9, 6, 10));
+			setSkill1Frames(getSprite(0, 10, 13, 11));
+			setSkill2Frames(getSprite(0, 11, 7, 12));
+			setDashFrames(getSprite(1, 4, 2, 5));
+			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
+		}
+	},
+	Sabo() {
+		@Override
+		public Character getNew(PlayerData playerData){
+			return new Sabo(playerData);
 		}
 		
 		@Override
@@ -83,10 +105,74 @@ public enum CharacterFactory {
 			setAttackFrames(getSprite(0, 7, 6, 8));
 			setAttackFrames2(getSprite(0, 8, 6, 9));
 			setAttackFrames3(getSprite(0, 9, 6, 10));
-			setSkill1Frames(getSprite(0, 10, 11, 11));
-			setSkill2Frames(getSprite(0, 11, 9, 12));
+			setSkill1Frames(getSprite(0, 10, 12, 11));
+			setSkill2Frames(getSprite(0, 11, 7, 12));
 			setDashFrames(getSprite(1, 4, 2, 5));
 			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
+		}
+	},
+	Nami() {
+		@Override
+		public Character getNew(PlayerData playerData){
+			return new Nami(playerData);
+		}
+		
+		@Override
+		public void loadSprite() {
+			setStandFrames(getSprite(0, 0, 4, 1));
+			setRunFrames(getSprite(0, 2, 6, 3));
+			setDefenseFrames(getSprite(1, 1, 2, 2));
+			setAttackFrames(getSprite(0, 7, 6, 8));
+			setAttackFrames2(getSprite(0, 8, 6, 9));
+			setAttackFrames3(getSprite(0, 9, 6, 10));
+			setSkill1Frames(getSprite(0, 10, 13, 11));
+			setSkill2Frames(getSprite(0, 11, 6, 12));
+			setDashFrames(getSprite(1, 4, 2, 5));
+			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
+		}
+	},
+	Chopper() {
+		@Override
+		public Character getNew(PlayerData playerData){
+			return new Chopper(playerData);
+		}
+		
+		@Override
+		public void loadSprite() {
+			setStandFrames(getSprite(0, 0, 4, 1));
+			setRunFrames(getSprite(0, 2, 6, 3));
+			setDefenseFrames(getSprite(1, 1, 2, 2));
+			setAttackFrames(getSprite(0, 7, 6, 8));
+			setAttackFrames2(getSprite(0, 8, 5, 9));
+			setAttackFrames3(getSprite(0, 9, 6, 10));
+			setSkill1Frames(getSprite(0, 10, 12, 11));
+			setSkill2Frames(getSprite(0, 11, 7, 12));
+			setDashFrames(getSprite(1, 4, 2, 5));
+			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
+		}
+	},
+	Usopp() {
+		@Override
+		public Character getNew(PlayerData playerData){
+			return new Usopp(playerData);
+		}
+		
+		@Override
+		public void loadSprite() {
+			setStandFrames(getSprite(0, 0, 4, 1));
+			setRunFrames(getSprite(0, 2, 6, 3));
+			setDefenseFrames(getSprite(1, 1, 2, 2));
+			setAttackFrames(getSprite(0, 7, 6, 8));
+			setAttackFrames2(getSprite(0, 8, 6, 9));
+			setAttackFrames3(getSprite(0, 9, 6, 10));
+			setSkill1Frames(getSprite(0, 10, 13, 11));
+			setSkill2Frames(getSprite(0, 11, 7, 12));
+			setDashFrames(getSprite(1, 4, 2, 5));
+			setDeadFrames(getSprite(0, 5, 4, 6));
+			setGetHitFrames(getSprite(0, 6, 4, 7));
 		}
 	};
 	
