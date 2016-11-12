@@ -45,6 +45,8 @@ public class Utils {
 	public static String characterSelectCharBGPath;
 	public static Image characterSelectBG;
 	public static Image characterSelectCharBG;
+	public static String characterSelectReadyBGPath;
+	public static Image characterSelectReadyBG;
 	
 	public static TextureAtlas characterButtonAtlas;
 	public static ImageButton chopperButton;
@@ -124,10 +126,12 @@ public class Utils {
 	public static void loadCharSelect() {
 		characterSelectBGPath = "CharacterSelect/bg.png";
 		characterSelectCharBGPath = "CharacterSelect/charBG.png";
+		characterSelectReadyBGPath = "CharacterSelect/readyBG.png";
 		characterSelectBG = new Image(new Texture(Gdx.files.internal(Utils.characterSelectBGPath)));
 		characterSelectBG.setWidth(Gdx.graphics.getWidth());
 		characterSelectBG.setHeight(Gdx.graphics.getHeight());
 		characterSelectCharBG = new Image(new Texture(Gdx.files.internal(Utils.characterSelectCharBGPath)));
+		characterSelectReadyBG = new Image(new Texture(Gdx.files.internal(Utils.characterSelectReadyBGPath)));
 		
 		charSelectSkin = new Skin();
 		characterButtonAtlas = new TextureAtlas(Gdx.files.internal("CharacterSelect/characterButton.atlas"));

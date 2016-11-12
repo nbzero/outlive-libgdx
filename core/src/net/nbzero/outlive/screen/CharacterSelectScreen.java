@@ -43,9 +43,9 @@ public class CharacterSelectScreen implements Screen {
 	private Label p2Locked;
 	private Label readyText;
 	private Label countDownText;
-	private boolean start = false;
 	private float elapsedTime = 0;
 	private float fadeOutTime = 0;
+	private float fadeInTime = 0;
 	
 	@Override
 	public void show() {
@@ -133,6 +133,15 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(p2Locked);
 		stage.addActor(readyText);
 		stage.addActor(countDownText);
+		stage.addActor(Utils.characterSelectReadyBG);
+		
+		readyText.setZIndex(4);
+		countDownText.setZIndex(4);
+		Utils.characterSelectReadyBG.setZIndex(3);
+		Utils.characterSelectReadyBG.setPosition(Gdx.graphics.getWidth()*0.115f, Gdx.graphics.getHeight()*0.26f);
+		Utils.characterSelectReadyBG.setColor(1, 1, 1, 0);
+		vsText1.setZIndex(2);
+		vsText2.setZIndex(2);
 		
 		Utils.lawBGP1.setZIndex(1);
 		Utils.zoroBGP1.setZIndex(1);
@@ -153,8 +162,6 @@ public class CharacterSelectScreen implements Screen {
 		
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Actor.class, new ActorAccessor());
-
-//		fadeIn();
 		
 		tweenManager.update(Gdx.graphics.getDeltaTime());
 	}
@@ -162,6 +169,10 @@ public class CharacterSelectScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		elapsedTime += Gdx.graphics.getDeltaTime();
+		if(fadeInTime < 1f)
+			fadeInTime += Gdx.graphics.getDeltaTime();
+		if(fadeInTime< 1f)
+			fadeIn();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -196,7 +207,7 @@ public class CharacterSelectScreen implements Screen {
 				p1Char = CharacterScreenUtils.getCharName(p1Selected);
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE)){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE) && delayTime < 5f){
 			p1Locked.setColor(1, 1, 1, 0);
 			p1Lock = false;
 			p1Char = null;
@@ -229,7 +240,7 @@ public class CharacterSelectScreen implements Screen {
 				p2Char = CharacterScreenUtils.getCharName(p2Selected);
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE)){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE) && delayTime < 5f){
 			p2Locked.setColor(1, 1, 1, 0);
 			p2Lock = false;
 			p2Char = null;
@@ -237,6 +248,7 @@ public class CharacterSelectScreen implements Screen {
 		
 		if(p1Lock && p2Lock){
 			delayTime += Gdx.graphics.getDeltaTime();
+			Utils.characterSelectReadyBG.setColor(1, 1, 1, 1);
 			readyText.setColor(1, 1, 1, 1);
 			countDownText.setColor(1, 1, 1, 1);
 			countDownText.setText(String.valueOf(5-(int) delayTime));
@@ -250,6 +262,7 @@ public class CharacterSelectScreen implements Screen {
 			}
 		}
 		else{
+			Utils.characterSelectReadyBG.setColor(1, 1, 1, 0);
 			readyText.setColor(1, 1, 1, 0);
 			countDownText.setColor(1, 1, 1, 0);
 			delayTime = 0;
@@ -282,10 +295,6 @@ public class CharacterSelectScreen implements Screen {
 		Utils.characterSelectCharBG.setColor(1, 1, 1, 1-fadeOutTime);
 		table.setColor(1, 1, 1, 1-fadeOutTime);
 		table2.setColor(1, 1, 1, 1-fadeOutTime);
-		Utils.lawBGP1.setColor(1, 1, 1, 1-fadeOutTime);
-		Utils.lawBGP2.setColor(1, 1, 1, 1-fadeOutTime);
-		titleText1.setColor(1, 1, 1, 1-fadeOutTime);
-		titleText2.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.chopperBGP1.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.lawBGP1.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.luffyBGP1.setColor(1, 1, 1, 1-fadeOutTime);
@@ -314,38 +323,23 @@ public class CharacterSelectScreen implements Screen {
 		p2Locked.setColor(1, 1, 1, 1-fadeOutTime);
 		readyText.setColor(1, 1, 1, 1-fadeOutTime);
 		countDownText.setColor(1, 1, 1, 1-fadeOutTime);
+		Utils.characterSelectReadyBG.setColor(1, 1, 1, 1-fadeOutTime);
 	}
 	
 	private void fadeIn(){
-//		Timeline.createParallel().beginParallel()
-//		.push(Tween.set(Utils.characterSelectBG, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(Utils.characterSelectCharBG, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(table, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(table2, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(Utils.lawBGP1, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(Utils.lawBGP2, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(titleText1, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(titleText2, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(vsText1, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(vsText2, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(p1CharText, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(p2CharText, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(p1Locked, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(p2Locked, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(readyText, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.set(countDownText, ActorAccessor.ALPHA).target(0))
-//		.push(Tween.to(Utils.characterSelectBG, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(Utils.characterSelectCharBG, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(table, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(table2, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(Utils.lawBGP1, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(Utils.lawBGP2, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(titleText1, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(titleText2, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(vsText1, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(vsText2, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(p1CharText, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.push(Tween.to(p2CharText, ActorAccessor.ALPHA, 1.0f).target(1))
-//		.end().start(tweenManager);
+		Utils.characterSelectBG.setColor(1, 1, 1, fadeInTime);
+		Utils.characterSelectCharBG.setColor(1, 1, 1, fadeInTime);
+		table.setColor(1, 1, 1, fadeInTime);
+		table2.setColor(1, 1, 1, fadeInTime);
+		Utils.lawBGP1.setColor(1, 1, 1, fadeInTime);
+		Utils.lawBGP2.setColor(1, 1, 1, fadeInTime);
+		
+		// Texts
+		titleText1.setColor(1, 1, 1, fadeInTime);
+		titleText2.setColor(1, 1, 1, fadeInTime);
+		vsText1.setColor(1, 1, 1, fadeInTime);
+		vsText2.setColor(1, 1, 1, fadeInTime);
+		p1CharText.setColor(1, 1, 1, fadeInTime);
+		p2CharText.setColor(1, 1, 1, fadeInTime);
 	}
 }
