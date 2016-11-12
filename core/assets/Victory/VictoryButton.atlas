@@ -1,0 +1,54 @@
+
+VictoryButton.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ButtonBG
+  rotate: false
+  xy: 1, 467
+  size: 400, 500
+  orig: 400, 500
+  offset: 0, 0
+  index: -1
+exit
+  rotate: false
+  xy: 1, 285
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+exitSelected
+  rotate: false
+  xy: 403, 787
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+rematch
+  rotate: false
+  xy: 1, 143
+  size: 320, 140
+  orig: 320, 140
+  offset: 0, 0
+  index: -1
+rematchSelected
+  rotate: false
+  xy: 403, 645
+  size: 320, 140
+  orig: 320, 140
+  offset: 0, 0
+  index: -1
+repick
+  rotate: false
+  xy: 1, 1
+  size: 320, 140
+  orig: 320, 140
+  offset: 0, 0
+  index: -1
+repickSelected
+  rotate: false
+  xy: 403, 503
+  size: 320, 140
+  orig: 320, 140
+  offset: 0, 0
+  index: -1
