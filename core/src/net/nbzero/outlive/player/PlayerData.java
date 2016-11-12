@@ -6,7 +6,9 @@ public class PlayerData {
 	
 	// Basic info
 	private float hp;
+	private float maxHP;
 	private float mp;
+	private float maxMP;
 	
 	// Position
 	private PositionHandler pos;
@@ -90,6 +92,8 @@ public class PlayerData {
 	}
 
 	public float getHp() {
+		if(hp<=0)
+			return 0;
 		return hp;
 	}
 	public boolean hasNoHP() {
@@ -104,6 +108,8 @@ public class PlayerData {
 	}
 
 	public float getMp() {
+		if(mp<=0)
+			return 0;
 		return mp;
 	}
 	public boolean hasNoMP() {
@@ -115,6 +121,22 @@ public class PlayerData {
 
 	public void setMp(float mp) {
 		this.mp = mp;
+	}
+
+	public float getMaxHP() {
+		return maxHP;
+	}
+
+	public void setMaxHP(float maxHP) {
+		this.maxHP = maxHP;
+	}
+
+	public float getMaxMP() {
+		return maxMP;
+	}
+
+	public void setMaxMP(float maxMP) {
+		this.maxMP = maxMP;
 	}
 
 	public PositionHandler getPos() {
@@ -335,5 +357,17 @@ public class PlayerData {
 
 	public void setSkill2CDTime(float skill2CDTime) {
 		this.skill2CDTime = skill2CDTime;
+	}
+
+	public float getHPPercentage() {
+		if(this.hp<=0)
+			return 0;
+		return (this.hp/this.maxHP);
+	}
+	
+	public float getMPPercentage() {
+		if(this.mp<=0)
+			return 0;
+		return (this.mp/this.maxMP);
 	}
 }

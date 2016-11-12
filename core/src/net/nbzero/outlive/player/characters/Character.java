@@ -28,7 +28,9 @@ abstract public class Character {
 	public Character(PlayerData playerData, PositionHandler size){
 		playerData.setSize(size);
 		playerData.setHp(this.getMaxHP());
+		playerData.setMaxHP(this.getMaxHP());
 		playerData.setMp(this.getMaxMP());
+		playerData.setMaxMP(this.getMaxMP());
 		playerData.setSkillCD(this.getSkillCooldown());
 		playerData.setSkill1Ready(true);
 		playerData.setSkill2Ready(true);
