@@ -97,7 +97,11 @@ public class MainMenuScreen implements Screen {
 					}).start(tweenManager);
 					break;
 				case 1:
-					fadeOutButton();
+					stage.addActor(Utils.tutorialBG);
+					Timeline.createSequence().beginSequence()
+					.push(Tween.set(Utils.tutorialBG, ActorAccessor.ALPHA).target(0))
+					.push(Tween.to(Utils.tutorialBG, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(1))
+					.end().start(tweenManager);
 					menu = 1;
 					break;
 				case 2:
@@ -121,9 +125,12 @@ public class MainMenuScreen implements Screen {
 		}
 		else if(menu == 1){
 			if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+				Timeline.createSequence().beginSequence()
+				.push(Tween.set(Utils.tutorialBG, ActorAccessor.ALPHA).target(1))
+				.push(Tween.to(Utils.tutorialBG, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
+				.end().start(tweenManager);
 				selected = 1;
 				menu = 0;
-				fadeInButton();
 			}
 		}
 		else if(menu == 2){

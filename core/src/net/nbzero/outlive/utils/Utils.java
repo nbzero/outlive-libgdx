@@ -28,6 +28,7 @@ public class Utils {
 	public static Image gameLogo;
 	public static Image mainMenuBG;
 	public static Image creditsImage;
+	public static Image tutorialBG;
 	
 	public static TextureAtlas mainMenuButtonAtlas;
 	public static ImageButton oneOneButton;
@@ -120,6 +121,7 @@ public class Utils {
 		mainMenuBG.setWidth(Gdx.graphics.getWidth());
 		mainMenuBG.setHeight(Gdx.graphics.getHeight());
 		creditsImage = new Image(new Texture(Gdx.files.internal(Utils.creditsImagePath)));
+		tutorialBG = new Image(new Texture(Gdx.files.internal("MainMenu/Tutorial.png")));
 		
 		buttonWidth = 280f;
 		buttonHeight = 123f;
@@ -306,6 +308,5 @@ public class Utils {
 	public static void exitGame() {
 		// Dispose everything
 		skin.dispose();
-		charSelectSkin.dispose();
 	}
 }

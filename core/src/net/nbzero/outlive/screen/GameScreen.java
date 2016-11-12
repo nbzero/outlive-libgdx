@@ -150,13 +150,15 @@ public class GameScreen implements Screen {
 			GameScreenDrawAnim.defenseAnim(player1);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
-				&& !paused && !matchFinished){
+				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready()){
 			player1.getPlayer().setSkilling1(true);
+			player1.getPlayer().setSkill1Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
-				&& !paused && !matchFinished){// Need to check cooldown skill2
+				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready()){
 			player1.getPlayer().setSkilling2(true);
+			player1.getPlayer().setSkill2Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -183,8 +185,10 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkSkill2Hit(player1, player2);
 			player1.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player1, player1.getPlayer().getDelayTime()));
 		}
-		else if(player1.getPlayer().isDead()){
+		else if(player1.getPlayer().isDead() || player1.getPlayer().getHp() <= 0){
 			player1.getPlayer().setHp(0);
+			player1.getPlayer().setDead(true);
+			player1.getPlayer().setHasControl(false);
 			// For fade
 			deadTime += Gdx.graphics.getDeltaTime();
 			// For animation
@@ -199,12 +203,8 @@ public class GameScreen implements Screen {
 		}
 		else {
 			GameScreenDrawAnim.idleAnim(player1);
-			if(player1.getPlayer().getHp()<=0){
-				player1.getPlayer().setHp(0);
-				player1.getPlayer().setDead(true);
-				player1.getPlayer().setHasControl(false);
-			}
 		}
+		GameScreenAtkUtils.checkSkillCD(player1);
 		
 		//// Player2
 		// Start check input
@@ -261,13 +261,15 @@ public class GameScreen implements Screen {
 			GameScreenDrawAnim.defenseAnim(player2);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready()){
 			player2.getPlayer().setSkilling1(true);
+			player2.getPlayer().setSkill1Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready()){
 			player2.getPlayer().setSkilling2(true);
+			player2.getPlayer().setSkill2Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -297,8 +299,10 @@ public class GameScreen implements Screen {
 		else if(player2.getPlayer().isHitted()){
 			GameScreenDrawAnim.getHitAnim(player2);
 		}
-		else if(player2.getPlayer().isDead()){
+		else if(player2.getPlayer().isDead() || player2.getPlayer().getHp()<=0){
 			player2.getPlayer().setHp(0);
+			player2.getPlayer().setDead(true);
+			player2.getPlayer().setHasControl(false);
 			// For Fade
 			deadTime += Gdx.graphics.getDeltaTime();
 			// For Animation
@@ -310,12 +314,8 @@ public class GameScreen implements Screen {
 		}
 		else {
 			GameScreenDrawAnim.idleAnim(player2);
-			if(player2.getPlayer().getHp()<=0){
-				player2.getPlayer().setHp(0);
-				player2.getPlayer().setDead(true);
-				player2.getPlayer().setHasControl(false);
-			}
 		}
+		GameScreenAtkUtils.checkSkillCD(player2);
 		//update fireball
 		ArrayList<Fireball> fireballsToRemove = new ArrayList<Fireball>();
 		for(Fireball fireball : fireballs){
@@ -414,6 +414,7 @@ public class GameScreen implements Screen {
 		GameScreenHUD.load();
 		stones = new ArrayList<Stone>();
 		Utils.loadVictory();
+		deadTime = 0;
 	}
 	
 	private void renderHUD(){
