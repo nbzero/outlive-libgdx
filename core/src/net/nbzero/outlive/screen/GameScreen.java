@@ -2,7 +2,9 @@ package net.nbzero.outlive.screen;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,6 +30,7 @@ public class GameScreen implements Screen {
 	public static SpriteBatch batch;
 	private static Stage stage;
 	public static float elapsedTime;
+	public static float trackTime;
 	private static PlayerData p1;
 	private static PlayerData p2;
 	private static Texture bg;
@@ -51,6 +54,13 @@ public class GameScreen implements Screen {
 	private static Label player1MPLabel;
 	private static Label player2MPLabel;
 	private static Label timerLabel;
+	private static boolean paused = false;
+	private static Label pausedLabel;
+	private static boolean matchFinished = false;
+	private static float deadTime = 0;
+	private static int menuSelected;
+	private static Label winner20Label;
+	private static Label winner10Label;
 	
 	@Override
 	public void show() {
@@ -63,6 +73,9 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		// To keep track of time and animation
 		elapsedTime += Gdx.graphics.getDeltaTime();
+		if(!paused && !matchFinished){
+			trackTime += Gdx.graphics.getDeltaTime();
+		}
 		// To update every character hitbox every render
 		updateHitbox(player1);
 		updateHitbox(player2);
@@ -73,10 +86,10 @@ public class GameScreen implements Screen {
 		batch.begin();
 		
 		batch.draw(bg, 0, 0);
-		
 		//// Player1
 		// Start check input
-		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl()) {
+		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl() 
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveLeftAnim(player1);
 			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
 				if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
@@ -89,7 +102,8 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl()) {
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl() 
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveRightAnim(player1);
 			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
 				if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
@@ -102,30 +116,37 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl()) {
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl() 
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveUpAnim(player1);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl()) {
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl() 
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveDownAnim(player1);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()
+				&& !paused && !matchFinished){
 			player1.getPlayer().setDashing(true);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking() && player1.getPlayer().hasControl()){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking() && player1.getPlayer().hasControl()
+				&& !paused && !matchFinished){
 			player1.getPlayer().setAttacking(true);
 			player1.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking()
 				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted() 
-				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()){
+				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()
+				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player1);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()){// Need to check cooldown skill1
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
+				&& !paused && !matchFinished){
 			player1.getPlayer().setSkilling1(true);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()){// Need to check cooldown skill2
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
+				&& !paused && !matchFinished){// Need to check cooldown skill2
 			player1.getPlayer().setSkilling2(true);
 			player1.getPlayer().setHasControl(false);
 		}
@@ -155,8 +176,14 @@ public class GameScreen implements Screen {
 		}
 		else if(player1.getPlayer().isDead()){
 			player1.getPlayer().setHp(0);
+			// For fade
+			deadTime += Gdx.graphics.getDeltaTime();
+			// For animation
 			player1.getPlayer().setDeadTime(player1.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.deadAnim(player1);
+			player2.getPlayer().setHitable(false);
+			matchFinished = true;
+			winner20Label = new Label(CharacterSelectScreen.p2Char + " (P2)", Utils.victorySkin, "winner20", Color.WHITE);
 		}
 		else if(player1.getPlayer().isHitted()){
 			GameScreenDrawAnim.getHitAnim(player1);
@@ -172,7 +199,8 @@ public class GameScreen implements Screen {
 		
 		//// Player2
 		// Start check input
-		if(Gdx.input.isKeyPressed(InputsControl.P2_LEFT) && player2.getPlayer().hasControl()) {
+		if(Gdx.input.isKeyPressed(InputsControl.P2_LEFT) && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveLeftAnim(player2);
 			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
 				if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
@@ -185,7 +213,8 @@ public class GameScreen implements Screen {
 				}
 			}
 		} 
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_RIGHT) && player2.getPlayer().hasControl()) {
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_RIGHT) && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveRightAnim(player2);
 			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
 				if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
@@ -198,30 +227,37 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()) {
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveUpAnim(player2);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl()) {
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl() 
+				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveDownAnim(player2);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() && player2.getPlayer().hasControl()){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() 
+				&& player2.getPlayer().hasControl() && !paused  && !matchFinished){
 			player2.getPlayer().setDashing(true);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking() && player2.getPlayer().hasControl() && !player2.getPlayer().isHitted()){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking()
+				&& player2.getPlayer().hasControl() && !player2.getPlayer().isHitted() && !paused  && !matchFinished){
 			player2.getPlayer().setAttacking(true);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking()
 				&& !player2.getPlayer().isDead() && !player2.getPlayer().isHitted() 
-				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()){
+				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()
+				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player2);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()){// Need to check cooldown skill1
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
+				&& !paused && !matchFinished){
 			player2.getPlayer().setSkilling1(true);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()){// Need to check cooldown skill2
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
+				&& !paused && !matchFinished){
 			player2.getPlayer().setSkilling2(true);
 			player2.getPlayer().setHasControl(false);
 		}
@@ -249,13 +285,19 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkSkill2Hit(player2, player1);
 			player2.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player2, player2.getPlayer().getDelayTime()));
 		}
-		else if(player2.getPlayer().isDead()){
-			player2.getPlayer().setHp(0);
-			player2.getPlayer().setDeadTime(player2.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
-			GameScreenDrawAnim.deadAnim(player2);
-		}
 		else if(player2.getPlayer().isHitted()){
 			GameScreenDrawAnim.getHitAnim(player2);
+		}
+		else if(player2.getPlayer().isDead()){
+			player2.getPlayer().setHp(0);
+			// For Fade
+			deadTime += Gdx.graphics.getDeltaTime();
+			// For Animation
+			player2.getPlayer().setDeadTime(player2.getPlayer().getDeadTime()+Gdx.graphics.getDeltaTime());
+			GameScreenDrawAnim.deadAnim(player2);
+			player1.getPlayer().setHitable(false);
+			matchFinished = true;
+			winner20Label = new Label(CharacterSelectScreen.p1Char + " (P1)", Utils.victorySkin, "winner20", Color.WHITE);
 		}
 		else {
 			GameScreenDrawAnim.idleAnim(player2);
@@ -288,9 +330,24 @@ public class GameScreen implements Screen {
 		
 		batch.end();
 		
+		// Check pause
+		if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && !paused){
+			paused = true;
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && paused){
+			paused = false;
+			pausedLabel.setColor(1, 1, 1, 0);
+		}
+		if(paused){
+			pausedLabel.setColor(1, 1, 1, 1);
+			pauseScreen();
+		}
+		if(matchFinished){
+			renderMatchFinished();
+		}
+		
 		renderHUD();
 		renderDebugMode();
-		System.out.println(player1.getPlayer().getHp());
 		
 		stage.act(delta);
 		stage.draw();
@@ -319,6 +376,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		batch.dispose();
+		stage.dispose();
 	}
 	
 	private void initialize(){
@@ -333,8 +391,11 @@ public class GameScreen implements Screen {
 		stage = new Stage();
 		shapeRenderer = new ShapeRenderer();
 		elapsedTime = 0;
+		trackTime = 0;
+		matchFinished = false;
 		fireballs = new ArrayList<Fireball>();
 		GameScreenHUD.load();
+		Utils.loadVictory();
 	}
 	
 	private void renderHUD(){
@@ -378,7 +439,7 @@ public class GameScreen implements Screen {
 		player1MPLabel.setText((int) player1.getPlayer().getMp()+"/"+(int) player1.getPlayer().getMaxMP());
 		player2HPLabel.setText((int) player2.getPlayer().getHp()+"/"+(int) player2.getPlayer().getMaxHP());
 		player2MPLabel.setText((int) player2.getPlayer().getMp()+"/"+(int) player2.getPlayer().getMaxMP());
-		timerLabel.setText(String.valueOf((int) elapsedTime));
+		timerLabel.setText(String.valueOf((int) trackTime));
 	}
 	
 	private void initialHUD(){
@@ -394,8 +455,11 @@ public class GameScreen implements Screen {
 		player1MPLabel.setPosition(GameScreenHUD.getP1MPLabel().getX(), GameScreenHUD.getP1MPLabel().getY());
 		player2HPLabel.setPosition(GameScreenHUD.getP2HPLabel().getX(), GameScreenHUD.getP2HPLabel().getY());
 		player2MPLabel.setPosition(GameScreenHUD.getP2MPLabel().getX(), GameScreenHUD.getP2MPLabel().getY());
-		timerLabel = new Label(String.valueOf((int) elapsedTime), Utils.gameScreenSkin, "imagineFontTimer", Color.WHITE);
+		timerLabel = new Label(String.valueOf((int) trackTime), Utils.gameScreenSkin, "imagineFontTimer", Color.WHITE);
 		timerLabel.setPosition(GameScreenHUD.getTimerLabel().getX(), GameScreenHUD.getTimerLabel().getY());
+		pausedLabel = new Label("Paused", Utils.gameScreenSkin, "imagineFontTimer", Color.WHITE);
+		pausedLabel.setPosition(Gdx.graphics.getWidth()*0.4f, Gdx.graphics.getHeight()*0.45f);
+		pausedLabel.setColor(1, 1, 1, 0);
 		
 		stage.addActor(player1Label);
 		stage.addActor(player2Label);
@@ -404,13 +468,101 @@ public class GameScreen implements Screen {
 		stage.addActor(player2HPLabel);
 		stage.addActor(player2MPLabel);
 		stage.addActor(timerLabel);
+		stage.addActor(pausedLabel);
 	}
 	
 	private void pauseScreen(){
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(0, 0, 0, 0.7f);
+		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
+	}
+	
+	private void renderMatchFinished(){
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		shapeRenderer.begin(ShapeType.Filled);
+		if(deadTime <= 0.7f){
+			shapeRenderer.setColor(0, 0, 0, deadTime);
+		}
+		else{
+			shapeRenderer.setColor(0, 0, 0, 0.7f);
+		}
+		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		shapeRenderer.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
+
+		winner10Label = new Label("wins", Utils.victorySkin, "winner10", Color.WHITE);
+		
+		stage.addActor(winner20Label);
+		stage.addActor(winner10Label);
+		stage.addActor(Utils.ButtonBG);
+		stage.addActor(Utils.exit);
+		stage.addActor(Utils.repick);
+		stage.addActor(Utils.rematch);
+		
+		if(deadTime<1){
+			winner20Label.setColor(1, 1, 1, deadTime);
+			winner10Label.setColor(1, 1, 1, deadTime);
+			Utils.ButtonBG.setColor(1, 1, 1, deadTime);
+			Utils.exit.setColor(1, 1, 1, deadTime);
+			Utils.repick.setColor(1, 1, 1, deadTime);
+			Utils.rematch.setColor(1, 1, 1, deadTime);
+		}
+		
+		winner20Label.setPosition(Gdx.graphics.getWidth()*0.4f, Gdx.graphics.getHeight()*0.8f);
+		winner10Label.setPosition(Gdx.graphics.getWidth()*0.5f, Gdx.graphics.getHeight()*0.75f);
+		Utils.ButtonBG.setPosition((Gdx.graphics.getWidth()*0.5f)-Utils.ButtonBG.getWidth()*0.5f, (Gdx.graphics.getHeight()*0.5f)-Utils.ButtonBG.getHeight()*0.5f);
+		Utils.exit.setPosition(Utils.ButtonBG.getX(), Utils.ButtonBG.getY()+Utils.exit.getHeight()*0.35f);
+		Utils.rematch.setSize(256, 112);
+		Utils.rematch.setPosition(Utils.ButtonBG.getX()+Utils.ButtonBG.getWidth()*0.2f, Gdx.graphics.getHeight()*0.57f);
+		Utils.rematch.setChecked(true);
+		Utils.repick.setSize(256, 112);
+		Utils.repick.setPosition(Gdx.graphics.getWidth()*0.45f, Gdx.graphics.getHeight()*0.46f);
+		
+		if(Gdx.input.isKeyJustPressed(Keys.UP) && menuSelected > 0){
+			menuSelected--;
+		}
+		else if(Gdx.input.isKeyJustPressed(Keys.DOWN) && menuSelected < 2){
+			menuSelected++;
+		}
+		
+		switch(menuSelected){
+		case 0:
+			Utils.rematch.setChecked(true);
+			Utils.repick.setChecked(false);
+			break;
+		case 1:
+			Utils.rematch.setChecked(false);
+			Utils.repick.setChecked(true);
+			Utils.exit.setChecked(false);
+			break;
+		case 2:
+			Utils.rematch.setChecked(false);
+			Utils.repick.setChecked(false);
+			Utils.exit.setChecked(true);
+			break;
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
+			switch(menuSelected){
+			case 0:
+				dispose();
+				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+				break;
+			case 1:
+				dispose();
+				((Game) Gdx.app.getApplicationListener()).setScreen(new CharacterSelectScreen());
+				break;
+			case 2:
+				dispose();
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+				break;
+			}
+		}
 	}
 	
 	private void renderDebugMode(){
@@ -442,6 +594,5 @@ public class GameScreen implements Screen {
 		player.setSkillPosXLeft(player.getHitbox().getX()-player.getSkill1Box().getWidth()+player.getHitbox().getWidth()*1.2f);
 		player.setSkillPosXRight(player.getHitbox().getX()-player.getHitbox().getWidth()*0.2f);
 		player.setHitboxPosY(player.getHitbox().getY()+player.getPlayer().getSize().getY()*0.5f);
-		
 	}
 }
