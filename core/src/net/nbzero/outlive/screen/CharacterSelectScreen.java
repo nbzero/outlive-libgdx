@@ -16,6 +16,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 import net.nbzero.outlive.InputsControl;
+import net.nbzero.outlive.Outlive;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
 import net.nbzero.outlive.utils.screenutils.CharacterScreenUtils;
@@ -49,6 +50,11 @@ public class CharacterSelectScreen implements Screen {
 	
 	@Override
 	public void show() {
+		Outlive.bgm.stop();
+		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Character select.wav"));
+		Outlive.bgm.play();
+		Outlive.bgm.setLooping(true);
+		Outlive.bgm.setVolume(0.5f);
 		Utils.loadCharSelect();
 		Utils.loadKitchenFont();
 		

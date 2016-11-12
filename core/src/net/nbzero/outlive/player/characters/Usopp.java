@@ -20,18 +20,18 @@ public class Usopp extends Character {
 	private static Animation getHit;
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
-	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
-	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
-	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
+	private Rectangle defaultAttackBox = new Rectangle(-80, -120, 80, 120);
+	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 20, 40);
+	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 20, 40);
+	private Rectangle defaultSkill1Box = new Rectangle(-140, -90, 50, 50);
+	private Rectangle defaultSkill2Box = new Rectangle(-90, -160, 80, 160);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
 	private static float atkSpeed = 20f;
-	private static float skill1Speed = 40f;
+	private static float skill1Speed = 520f;
 	private static float skill2Speed = 100f;
-	private static float skill1HitboxDelay = 0.2f;
+	private static float skill1HitboxDelay = 0.5f;
 	private static float skill2HitboxDelay = 0.5f;
 	private static String nameCharacter = "Usopp";
 	private static float[] skillCooldown = {4f, 6f};
@@ -43,6 +43,19 @@ public class Usopp extends Character {
 	private static float skill2Power = 30;
 	private static float defPower = 12;
 	private static int criticalChance = 12;
+	
+	private static float offsetX = -30f;
+	private static float offsetX2 = 0f;
+	private static float offsetX3 = 0f;
+	private static float offsetX4 = 0f;
+	private static float offsetX5 = 80f;
+	private static float offsetX6 = 0f;
+	private static float offsetY = -30f;
+	private static float offsetY2 = 0f;
+	private static float offsetY3 = 0f;
+	private static float offsetY4 = 0f;
+	private static float offsetY5 = -60f;
+	private static float offsetY6 = 0f;
 	
 	public Usopp(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
@@ -331,5 +344,53 @@ public class Usopp extends Character {
 	@Override
 	public void setSkillPosXRight(float posXRight) {
 		this.skillPosXRight = posXRight;
+	}
+	
+	public float getOffsetX(){
+		return offsetX;
+	}
+	
+	public float getOffsetX2(){
+		return offsetX2;
+	}
+	
+	public float getOffsetX3(){
+		return offsetX3;
+	}
+	
+	public float getOffsetX4(){
+		return offsetX4;
+	}
+	
+	public float getOffsetX5(){
+		return offsetX5;
+	}
+	
+	public float getOffsetX6(){
+		return offsetX6;
+	}
+	
+	public float getOffsetY(){
+		return offsetY;
+	}
+	
+	public float getOffsetY2(){
+		return offsetY2;
+	}
+	
+	public float getOffsetY3(){
+		return offsetY3;
+	}
+	
+	public float getOffsetY4(){
+		return offsetY4;
+	}
+	
+	public float getOffsetY5(){
+		return offsetY5;
+	}
+	
+	public float getOffsetY6(){
+		return offsetY6;
 	}
 }

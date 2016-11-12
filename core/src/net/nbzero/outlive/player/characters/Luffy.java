@@ -21,10 +21,10 @@ public class Luffy extends Character {
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
 	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
-	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
-	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
-	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
+	private Rectangle defaultAttackBox2 = new Rectangle(-60, -150, 60, 150);
+	private Rectangle defaultAttackBox3 = new Rectangle(-60, -100, 60, 100);
+	private Rectangle defaultSkill1Box = new Rectangle(-150, -150, 150, 150);
+	private Rectangle defaultSkill2Box = new Rectangle(-120, -120, 120, 120);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
 	
 	private static float moveSpeed = 5f;
@@ -43,6 +43,19 @@ public class Luffy extends Character {
 	private static float skill2Power = 30;
 	private static float defPower = 12;
 	private static int criticalChance = 12;
+	
+	private static float offsetX = 0f;
+	private static float offsetX2 = -10f;
+	private static float offsetX3 = -10f;
+	private static float offsetX4 = 0f;
+	private static float offsetX5 = -10f;
+	private static float offsetX6 = 0f;
+	private static float offsetY = 0f;
+	private static float offsetY2 = -50f;
+	private static float offsetY3 = -50f;
+	private static float offsetY4 = -50f;
+	private static float offsetY5 = -20f;
+	private static float offsetY6 = 0f;
 	
 	public Luffy(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
@@ -331,5 +344,53 @@ public class Luffy extends Character {
 	@Override
 	public void setSkillPosXRight(float posXRight) {
 		this.skillPosXRight = posXRight;
+	}
+	
+	public float getOffsetX(){
+		return offsetX;
+	}
+	
+	public float getOffsetX2(){
+		return offsetX2;
+	}
+	
+	public float getOffsetX3(){
+		return offsetX3;
+	}
+	
+	public float getOffsetX4(){
+		return offsetX4;
+	}
+	
+	public float getOffsetX5(){
+		return offsetX5;
+	}
+	
+	public float getOffsetX6(){
+		return offsetX6;
+	}
+	
+	public float getOffsetY(){
+		return offsetY;
+	}
+	
+	public float getOffsetY2(){
+		return offsetY2;
+	}
+	
+	public float getOffsetY3(){
+		return offsetY3;
+	}
+	
+	public float getOffsetY4(){
+		return offsetY4;
+	}
+	
+	public float getOffsetY5(){
+		return offsetY5;
+	}
+	
+	public float getOffsetY6(){
+		return offsetY6;
 	}
 }

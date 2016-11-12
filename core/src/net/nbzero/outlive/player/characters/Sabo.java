@@ -32,9 +32,9 @@ public class Sabo extends Character {
 	
 	private static float moveSpeed = 5f;
 	private static float atkSpeed = 20f;
-	private static float skill1Speed = 495f;
+	private static float skill1Speed = 590f;
 	private static float skill2Speed = 100f;
-	private static float skill1HitboxDelay = 0.2f;
+	private static float skill1HitboxDelay = 0.1f;
 	private static float skill2HitboxDelay = 0.2f;
 	private static String nameCharacter = "Sabo";
 	private static float[] skillCooldown = {4f, 6f};
@@ -46,6 +46,19 @@ public class Sabo extends Character {
 	private static float skill2Power = 30;
 	private static float defPower = 12;
 	private static int criticalChance = 12;
+	
+	private static float offsetX = 0f;
+	private static float offsetX2 = 0f;
+	private static float offsetX3 = 0f;
+	private static float offsetX4 = 0f;
+	private static float offsetX5 = 0f;
+	private static float offsetX6 = 0f;
+	private static float offsetY = 0f;
+	private static float offsetY2 = 0f;
+	private static float offsetY3 = 0f;
+	private static float offsetY4 = 0f;
+	private static float offsetY5 = 0f;
+	private static float offsetY6 = 0f;
 	
 	public Sabo(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
@@ -332,7 +345,7 @@ public class Sabo extends Character {
 
 	@Override
 	public void setSkillPosXLeft(float posXLeft) {
-		this.skillPosXLeft = posXLeft-100;
+		this.skillPosXLeft = posXLeft;
 	}
 
 	@Override
@@ -343,5 +356,53 @@ public class Sabo extends Character {
 	@Override
 	public void setSkillPosXRight(float posXRight) {
 		this.skillPosXRight = posXRight;
+	}
+	
+	public float getOffsetX(){
+		return offsetX;
+	}
+	
+	public float getOffsetX2(){
+		return offsetX2;
+	}
+	
+	public float getOffsetX3(){
+		return offsetX3;
+	}
+	
+	public float getOffsetX4(){
+		return offsetX4;
+	}
+	
+	public float getOffsetX5(){
+		return offsetX5;
+	}
+	
+	public float getOffsetX6(){
+		return offsetX6;
+	}
+	
+	public float getOffsetY(){
+		return offsetY;
+	}
+	
+	public float getOffsetY2(){
+		return offsetY2;
+	}
+	
+	public float getOffsetY3(){
+		return offsetY3;
+	}
+	
+	public float getOffsetY4(){
+		return offsetY4;
+	}
+	
+	public float getOffsetY5(){
+		return offsetY5;
+	}
+	
+	public float getOffsetY6(){
+		return offsetY6;
 	}
 }

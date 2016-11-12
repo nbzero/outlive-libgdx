@@ -11,6 +11,8 @@ import net.nbzero.outlive.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -22,10 +24,10 @@ public class LogoScreen implements Screen {
 	private TweenManager tweenManager;
 	private float fadeTime = 2.0f;
 	
+	
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
 		
@@ -54,6 +56,7 @@ public class LogoScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		
 		splash.draw(batch);
 		batch.end();
 		

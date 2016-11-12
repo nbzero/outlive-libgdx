@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,10 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.hud.GameScreenHUD;
+import net.nbzero.outlive.Outlive;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
 import net.nbzero.outlive.player.characters.Fireball;
+import net.nbzero.outlive.player.characters.Stone;
 import net.nbzero.outlive.positon.PositionHandler;
 import net.nbzero.outlive.utils.CollideHandler;
 import net.nbzero.outlive.utils.Utils;
@@ -43,7 +46,7 @@ public class GameScreen implements Screen {
 	protected static float speed, hitboxPosXLeft, hitboxPosXRight, hitboxPosY, skillPosXLeft, skillPosXRight;
 	// Set From Character select screen
 	protected static String p1Char = "Luffy";
-	protected static String p2Char = "Law";
+	protected static String p2Char = "Usopp";
 	private static String bgPath = "Stage/forest.png";
 	protected static ArrayList<Fireball> fireballs; 
 	protected static int checkFireball=1;
@@ -54,6 +57,7 @@ public class GameScreen implements Screen {
 	private static Label player1MPLabel;
 	private static Label player2MPLabel;
 	private static Label timerLabel;
+	protected static ArrayList<Stone> stones; 
 	private static boolean paused = false;
 	private static Label pausedLabel;
 	private static boolean matchFinished = false;
@@ -64,7 +68,12 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void show() {
-		debugMode = true;
+		Outlive.bgm.stop();
+		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Battle1.wav"));
+		Outlive.bgm.play();
+		Outlive.bgm.setVolume(0.5f);
+		Outlive.bgm.setLooping(true);
+		debugMode = false;
 		initialize();
 		initialHUD();
 	}
@@ -141,13 +150,15 @@ public class GameScreen implements Screen {
 			GameScreenDrawAnim.defenseAnim(player1);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
-				&& !paused && !matchFinished){
+				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready()){
 			player1.getPlayer().setSkilling1(true);
+			player1.getPlayer().setSkill1Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
-				&& !paused && !matchFinished){// Need to check cooldown skill2
+				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready()){
 			player1.getPlayer().setSkilling2(true);
+			player1.getPlayer().setSkill2Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -174,8 +185,10 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkSkill2Hit(player1, player2);
 			player1.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player1, player1.getPlayer().getDelayTime()));
 		}
-		else if(player1.getPlayer().isDead()){
+		else if(player1.getPlayer().isDead() || player1.getPlayer().getHp() <= 0){
 			player1.getPlayer().setHp(0);
+			player1.getPlayer().setDead(true);
+			player1.getPlayer().setHasControl(false);
 			// For fade
 			deadTime += Gdx.graphics.getDeltaTime();
 			// For animation
@@ -196,6 +209,7 @@ public class GameScreen implements Screen {
 				player1.getPlayer().setHasControl(false);
 			}
 		}
+		GameScreenAtkUtils.checkSkillCD(player1);
 		
 		//// Player2
 		// Start check input
@@ -252,13 +266,15 @@ public class GameScreen implements Screen {
 			GameScreenDrawAnim.defenseAnim(player2);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready()){
 			player2.getPlayer().setSkilling1(true);
+			player2.getPlayer().setSkill1Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready()){
 			player2.getPlayer().setSkilling2(true);
+			player2.getPlayer().setSkill2Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		// End check input
@@ -288,8 +304,10 @@ public class GameScreen implements Screen {
 		else if(player2.getPlayer().isHitted()){
 			GameScreenDrawAnim.getHitAnim(player2);
 		}
-		else if(player2.getPlayer().isDead()){
+		else if(player2.getPlayer().isDead() || player2.getPlayer().getHp()<=0){
 			player2.getPlayer().setHp(0);
+			player2.getPlayer().setDead(true);
+			player2.getPlayer().setHasControl(false);
 			// For Fade
 			deadTime += Gdx.graphics.getDeltaTime();
 			// For Animation
@@ -307,13 +325,7 @@ public class GameScreen implements Screen {
 				player2.getPlayer().setHasControl(false);
 			}
 		}
-		if (!player2.getPlayer().isSkilling1()&&!player2.getPlayer().isAttacking()){
-			checkFireball = 0;
-		}
-//		if (Gdx.input.isKeyJustPressed(Keys.B)){
-//			fireballs.add(new Fireball(player2.getPlayer().getPos().getX(), player2.getHitbox().getY(), player2.getPlayer().isRight(), false));
-//			
-//		}
+		GameScreenAtkUtils.checkSkillCD(player2);
 		//update fireball
 		ArrayList<Fireball> fireballsToRemove = new ArrayList<Fireball>();
 		for(Fireball fireball : fireballs){
@@ -326,6 +338,21 @@ public class GameScreen implements Screen {
 		
 		for (Fireball fireball : fireballs){
 			fireball.render(batch);
+		}
+		
+
+		//update stone
+		ArrayList<Stone> stonesToRemove = new ArrayList<Stone>();
+		for(Stone stone : stones){
+			stone.update(delta);
+			if (stone.remove){
+				stonesToRemove.add(stone);
+			}
+		}
+		stones.removeAll(stonesToRemove);
+		
+		for (Stone stone : stones){
+			stone.render(batch);
 		}
 		
 		batch.end();
@@ -395,7 +422,9 @@ public class GameScreen implements Screen {
 		matchFinished = false;
 		fireballs = new ArrayList<Fireball>();
 		GameScreenHUD.load();
+		stones = new ArrayList<Stone>();
 		Utils.loadVictory();
+		deadTime = 0;
 	}
 	
 	private void renderHUD(){
@@ -550,14 +579,17 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
 			switch(menuSelected){
 			case 0:
+				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
 				break;
 			case 1:
+				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new CharacterSelectScreen());
 				break;
 			case 2:
+				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 				break;
@@ -582,8 +614,6 @@ public class GameScreen implements Screen {
 		    shapeRenderer.rect(player2.getAttackBox3().getX(), player2.getAttackBox3().getY(), player2.getAttackBox3().getWidth(), player2.getAttackBox3().getHeight());
 		    shapeRenderer.rect(player2.getSkill1Box().getX(), player2.getSkill1Box().getY(), player2.getSkill1Box().getWidth(), player2.getSkill1Box().getHeight());
 		    shapeRenderer.rect(player2.getSkill2Box().getX(), player2.getSkill2Box().getY(), player2.getSkill2Box().getWidth(), player2.getSkill2Box().getHeight());
-// TODO
-//		    shapeRenderer.rect(Sabo.getFireballBox().getX(), Sabo.getFireballBox().getY(), Sabo.getFireballBox().getWidth(), Sabo.getFireballBox().getHeight());
 		    shapeRenderer.end();
 		}
 	}
