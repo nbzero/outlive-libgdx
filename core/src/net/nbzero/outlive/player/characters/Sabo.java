@@ -23,6 +23,8 @@ public class Sabo extends Character {
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
 	private Rectangle defaultAttackBox = new Rectangle(-70, -150, 70, 150);
+	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
+	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultFireballBox = new Rectangle(-50, -50, 50, 50);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
 	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
@@ -48,6 +50,8 @@ public class Sabo extends Character {
 	public Sabo(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
 		setAttackBox(new Rectangle(defaultAttackBox.x, defaultAttackBox.y, defaultAttackBox.width, defaultAttackBox.height));
+		setAttackBox2(new Rectangle(defaultAttackBox2.x, defaultAttackBox2.y, defaultAttackBox2.width, defaultAttackBox2.height));
+		setAttackBox3(new Rectangle(defaultAttackBox3.x, defaultAttackBox3.y, defaultAttackBox3.width, defaultAttackBox3.height));
 		setFireballBox(new Rectangle(defaultFireballBox.x, defaultFireballBox.y, defaultFireballBox.width, defaultFireballBox.height));
 		setSkill1Box(new Rectangle(defaultSkill1Box.x, defaultSkill1Box.y, defaultSkill1Box.width, defaultSkill1Box.height));
 		setSkill2Box(new Rectangle(defaultSkill2Box.x, defaultSkill2Box.y, defaultSkill2Box.width, defaultSkill2Box.height));
@@ -66,6 +70,16 @@ public class Sabo extends Character {
 		getHit = drawGetHit();
 	}
 
+	@Override
+	public Rectangle getDefaultAttackBox2() {
+		return defaultAttackBox2;
+	}
+	
+	@Override
+	public Rectangle getDefaultAttackBox3() {
+		return defaultAttackBox3;
+	}
+	
 	public void setFireballBox(Rectangle fireballBox) {
 		this.fireballBox = fireballBox;
 	}

@@ -12,6 +12,8 @@ abstract public class Character {
 	protected Rectangle hitbox;
 	protected Rectangle fireballBox;
 	protected Rectangle attackBox;
+	protected Rectangle attackBox2;
+	protected Rectangle attackBox3;
 	protected Rectangle skill1Box;
 	protected Rectangle skill2Box;
 	protected float atkCount;
@@ -54,10 +56,21 @@ abstract public class Character {
 		this.attackBox = attackBox;
 	}
 
+	public void setAttackBox2(Rectangle attackBox2) {
+		this.attackBox2 = attackBox2;
+	}
+	public void setAttackBox3(Rectangle attackBox3) {
+		this.attackBox3 = attackBox3;
+	}
 	public Rectangle getAttackBox() {
 		return attackBox;
 	}
-	
+	public Rectangle getAttackBox2() {
+		return attackBox2;
+	}
+	public Rectangle getAttackBox3() {
+		return attackBox3;
+	}
 	public Rectangle getSkill1Box() {
 		return skill1Box;
 	}
@@ -119,6 +132,8 @@ abstract public class Character {
 	
 	public abstract Rectangle getDefaultHitBox();
 	public abstract Rectangle getDefaultAttackBox();
+	public abstract Rectangle getDefaultAttackBox2();
+	public abstract Rectangle getDefaultAttackBox3();
 	public abstract Rectangle getDefaultSkill1Box();
 	public abstract Rectangle getDefaultSkill2Box();
 	
@@ -153,4 +168,6 @@ abstract public class Character {
 	public abstract void setSkillPosXLeft(float posXLeft);
 	public abstract float getSkillPosXRight();
 	public abstract void setSkillPosXRight(float posXRight);
+
+
 }

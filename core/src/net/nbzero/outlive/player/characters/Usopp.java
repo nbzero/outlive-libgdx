@@ -21,6 +21,8 @@ public class Usopp extends Character {
 	
 	private static PositionHandler whiteSize = new PositionHandler(125, 20);
 	private Rectangle defaultAttackBox = new Rectangle(-50, -70, 50, 70);
+	private Rectangle defaultAttackBox2 = new Rectangle(-100, -100, 100, 100);
+	private Rectangle defaultAttackBox3 = new Rectangle(-100, -100, 100, 100);
 	private Rectangle defaultSkill1Box = new Rectangle(-140, -100, 140, 90);
 	private Rectangle defaultSkill2Box = new Rectangle(-90, -80, 90, 80);
 	private Rectangle defaultHitBox = new Rectangle(0, 0, 50, 90);
@@ -45,6 +47,8 @@ public class Usopp extends Character {
 	public Usopp(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
 		setAttackBox(new Rectangle(defaultAttackBox.x, defaultAttackBox.y, defaultAttackBox.width, defaultAttackBox.height));
+		setAttackBox2(new Rectangle(defaultAttackBox2.x, defaultAttackBox2.y, defaultAttackBox2.width, defaultAttackBox2.height));
+		setAttackBox3(new Rectangle(defaultAttackBox3.x, defaultAttackBox3.y, defaultAttackBox3.width, defaultAttackBox3.height));
 		setSkill1Box(new Rectangle(defaultSkill1Box.x, defaultSkill1Box.y, defaultSkill1Box.width, defaultSkill1Box.height));
 		setSkill2Box(new Rectangle(defaultSkill2Box.x, defaultSkill2Box.y, defaultSkill2Box.width, defaultSkill2Box.height));
 		setHitbox(new Rectangle(playerData.getPos().getX()+whiteSize.getX(), playerData.getPos().getY()+whiteSize.getY(), defaultHitBox.getWidth(), defaultHitBox.getHeight()));
@@ -62,6 +66,16 @@ public class Usopp extends Character {
 		getHit = drawGetHit();
 	}
 
+	@Override
+	public Rectangle getDefaultAttackBox2() {
+		return defaultAttackBox2;
+	}
+	
+	@Override
+	public Rectangle getDefaultAttackBox3() {
+		return defaultAttackBox3;
+	}
+	
 	public String getNameCharacter(){
 		return nameCharacter;
 	}
