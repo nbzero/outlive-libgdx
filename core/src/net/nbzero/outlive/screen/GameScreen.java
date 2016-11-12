@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.hud.GameScreenHUD;
+import net.nbzero.outlive.Outlive;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
@@ -66,7 +68,12 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void show() {
-		debugMode = true;
+		Outlive.bgm.stop();
+		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Battle1.wav"));
+		Outlive.bgm.play();
+		Outlive.bgm.setVolume(0.5f);
+		Outlive.bgm.setLooping(true);
+		debugMode = false;
 		initialize();
 		initialHUD();
 	}
@@ -561,14 +568,17 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
 			switch(menuSelected){
 			case 0:
+				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
 				break;
 			case 1:
+				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new CharacterSelectScreen());
 				break;
 			case 2:
+				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 				break;

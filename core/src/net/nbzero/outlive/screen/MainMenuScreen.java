@@ -14,6 +14,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
+import net.nbzero.outlive.Outlive;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
 
@@ -26,6 +27,10 @@ public class MainMenuScreen implements Screen {
 	
 	@Override
 	public void show() {
+		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Title.wav"));
+		Outlive.bgm.play();
+		Outlive.bgm.setVolume(0.2f);
+		Outlive.bgm.setLooping(true);
 		stage = new Stage();
 		
 		table = new Table(Utils.skin);
