@@ -45,7 +45,7 @@ public class Nami extends Character {
 	private static float skill2Power = 30;
 	private static float skill1MP = 20;
 	private static float skill2MP = 30;
-	private static float defPower = 12;
+	private static float defPower = 0.5f;
 	private static int criticalChance = 12;
 	
 	private static float offsetX = -65f;

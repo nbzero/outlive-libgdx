@@ -156,6 +156,7 @@ public class GameScreen implements Screen {
 				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()
 				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player1);
+			player1.getPlayer().setDefending(true);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
 				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready()){
@@ -272,6 +273,7 @@ public class GameScreen implements Screen {
 				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()
 				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player2);
+			player2.getPlayer().setDefending(true);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
 				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready()){

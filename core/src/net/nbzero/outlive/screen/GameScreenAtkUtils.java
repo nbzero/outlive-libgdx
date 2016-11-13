@@ -13,7 +13,10 @@ public class GameScreenAtkUtils {
 				|| CollideHandler.checkCollide("Right", attacker.getAttackBox3(), defender.getHitbox())
 				&& defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
-			if(!defender.getPlayer().isHitted()){
+			if(!defender.getPlayer().isHitted() && defender.getPlayer().isDefending()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-(attacker.getAtkPower()*defender.getDefPower()));
+			}
+			else if(!defender.getPlayer().isHitted()){
 				defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getAtkPower());
 			}
 			defender.getPlayer().setHitted(true);
@@ -57,6 +60,12 @@ public class GameScreenAtkUtils {
 	
 	public static void checkSkill1Hit(Character attacker, Character defender){
 		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getSkill1Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
+			if(!defender.getPlayer().isHitted() && defender.getPlayer().isDefending()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-(attacker.getSkill1Power()*defender.getDefPower()));
+			}
+			else if(!defender.getPlayer().isHitted()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill1Power());
+			}
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
 			defender.getPlayer().setHitable(false);
@@ -65,9 +74,14 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
-			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill1Power());
 		}
 		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getSkill1Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
+			if(!defender.getPlayer().isHitted() && defender.getPlayer().isDefending()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-(attacker.getSkill1Power()*defender.getDefPower()));
+			}
+			else if(!defender.getPlayer().isHitted()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill1Power());
+			}
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
 			defender.getPlayer().setHitable(false);
@@ -76,7 +90,6 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
-			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill1Power());
 		}
 		if(attacker.getSkilling1().isAnimationFinished(attacker.getPlayer().getDelayTime())){
 			defender.getPlayer().setHitted(false);
@@ -95,6 +108,12 @@ public class GameScreenAtkUtils {
 	
 	public static void checkSkill2Hit(Character attacker, Character defender){
 		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getSkill2Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
+			if(!defender.getPlayer().isHitted() && defender.getPlayer().isDefending()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-(attacker.getSkill2Power()*defender.getDefPower()));
+			}
+			else if(!defender.getPlayer().isHitted()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill2Power());
+			}
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
 			defender.getPlayer().setHitable(false);
@@ -103,9 +122,14 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
-			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill2Power());
 		}
 		else if(!attacker.getPlayer().isRight() && CollideHandler.checkCollide("Left", attacker.getSkill2Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
+			if(!defender.getPlayer().isHitted() && defender.getPlayer().isDefending()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-(attacker.getSkill2Power()*defender.getDefPower()));
+			}
+			else if(!defender.getPlayer().isHitted()){
+				defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill2Power());
+			}
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
 			defender.getPlayer().setHitable(false);
@@ -114,7 +138,6 @@ public class GameScreenAtkUtils {
 			defender.getPlayer().setSkilling2(false);
 			defender.getPlayer().setAttackTime(0);
 			defender.getPlayer().setDelayTime(0);
-			defender.getPlayer().setHp(defender.getPlayer().getHp()-attacker.getSkill2Power());
 		}
 		if(attacker.getSkilling2().isAnimationFinished(attacker.getPlayer().getDelayTime())){
 			defender.getPlayer().setHitted(false);
