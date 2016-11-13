@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 
 import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.hud.GameScreenHUD;
@@ -57,6 +58,10 @@ public class GameScreen implements Screen {
 	private static Label player2HPLabel;
 	private static Label player1MPLabel;
 	private static Label player2MPLabel;
+	private static Label p1Skill1CDLabel;
+	private static Label p1Skill2CDLabel;
+	private static Label p2Skill1CDLabel;
+	private static Label p2Skill2CDLabel;
 	private static Label timerLabel;
 	protected static ArrayList<Stone> stones; 
 	private static boolean paused = false;
@@ -67,8 +72,6 @@ public class GameScreen implements Screen {
 	private static Label winner10Label;
 	private float regenTime = 0;
 	private Sound click;
-	private Sound select;
-	private Sound exit;
 	
 	@Override
 	public void show() {
@@ -455,6 +458,10 @@ public class GameScreen implements Screen {
 		deadTime = 0;
 		paused = false;
 		menuSelected = 0;
+		player1.getPlayer().setSkill1CDTime(player1.getPlayer().getSkillCD(0));
+		player1.getPlayer().setSkill2CDTime(player1.getPlayer().getSkillCD(1));
+		player2.getPlayer().setSkill1CDTime(player2.getPlayer().getSkillCD(0));
+		player2.getPlayer().setSkill2CDTime(player2.getPlayer().getSkillCD(1));
 	}
 	
 	private void renderHUD(){
@@ -492,12 +499,54 @@ public class GameScreen implements Screen {
 				player1.getPlayer().getMPPercentage()*250, GameScreenHUD.getP1BaseMPBar().getHeight());
 		shapeRenderer.rect(GameScreenHUD.getP2BaseMPBar().getX(), GameScreenHUD.getP2BaseMPBar().getY(),
 				player2.getPlayer().getMPPercentage()*250, GameScreenHUD.getP2BaseMPBar().getHeight());
+		// Skill Cooldown
+		shapeRenderer.setColor(1, 1, 1, 0.8f);
+		shapeRenderer.rect(GameScreenHUD.getP1Skill1Bar().getX(), GameScreenHUD.getP1Skill1Bar().getY(),
+				GameScreenHUD.getP1Skill1Bar().getWidth(), GameScreenHUD.getP1Skill1Bar().getHeight());
+		shapeRenderer.rect(GameScreenHUD.getP1Skill2Bar().getX(), GameScreenHUD.getP1Skill2Bar().getY(),
+				GameScreenHUD.getP1Skill2Bar().getWidth(), GameScreenHUD.getP1Skill2Bar().getHeight());
+		shapeRenderer.rect(GameScreenHUD.getP2Skill1Bar().getX(), GameScreenHUD.getP2Skill1Bar().getY(),
+				GameScreenHUD.getP2Skill1Bar().getWidth(), GameScreenHUD.getP2Skill1Bar().getHeight());
+		shapeRenderer.rect(GameScreenHUD.getP2Skill2Bar().getX(), GameScreenHUD.getP2Skill2Bar().getY(),
+				GameScreenHUD.getP2Skill2Bar().getWidth(), GameScreenHUD.getP2Skill2Bar().getHeight());
 		shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		player1HPLabel.setText((int) player1.getPlayer().getHp()+"/"+(int) player1.getPlayer().getMaxHP());
 		player1MPLabel.setText((int) player1.getPlayer().getMp()+"/"+(int) player1.getPlayer().getMaxMP());
 		player2HPLabel.setText((int) player2.getPlayer().getHp()+"/"+(int) player2.getPlayer().getMaxHP());
 		player2MPLabel.setText((int) player2.getPlayer().getMp()+"/"+(int) player2.getPlayer().getMaxMP());
+		if(player1.getPlayer().getSkill1CDTime() >= player1.getPlayer().getSkillCD(0)){
+			p1Skill1CDLabel.setText("Ready");
+			p1Skill1CDLabel.setFontScale(1);
+		}
+		else{
+			p1Skill1CDLabel.setText(String.valueOf((int) player1.getPlayer().getSkill1CDTime()+1));
+			p1Skill1CDLabel.setFontScale(1.5f);
+		}
+		if(player1.getPlayer().getSkill2CDTime() >= player1.getPlayer().getSkillCD(1)){
+			p1Skill2CDLabel.setText("Ready");
+			p1Skill2CDLabel.setFontScale(1);
+		}
+		else{
+			p1Skill2CDLabel.setText(String.valueOf((int) player1.getPlayer().getSkill2CDTime()+1));
+			p1Skill2CDLabel.setFontScale(1.5f);
+		}
+		if(player2.getPlayer().getSkill1CDTime() >= player2.getPlayer().getSkillCD(0)){
+			p2Skill1CDLabel.setText("Ready");
+			p2Skill1CDLabel.setFontScale(1);
+		}
+		else{
+			p2Skill1CDLabel.setText(String.valueOf((int) player2.getPlayer().getSkill1CDTime()+1));
+			p2Skill1CDLabel.setFontScale(1.5f);
+		}
+		if(player2.getPlayer().getSkill2CDTime() >= player2.getPlayer().getSkillCD(1)){
+			p2Skill2CDLabel.setText("Ready");
+			p2Skill2CDLabel.setFontScale(1);
+		}
+		else{
+			p2Skill2CDLabel.setText(String.valueOf((int) player2.getPlayer().getSkill2CDTime()+1));
+			p2Skill2CDLabel.setFontScale(1.5f);
+		}
 		timerLabel.setText(String.valueOf((int) trackTime));
 	}
 	
@@ -507,6 +556,7 @@ public class GameScreen implements Screen {
 		player2Label = new Label(CharacterSelectScreen.p2Char + " (P2)", Utils.gameScreenSkin, "imagineFontPlayer", Color.BLACK);
 		player1Label.setPosition(GameScreenHUD.getP1NameLabel().getX(), GameScreenHUD.getP1NameLabel().getY());
 		player2Label.setPosition(GameScreenHUD.getP2NameLabel().getX(), GameScreenHUD.getP2NameLabel().getY());
+		
 		player1HPLabel = new Label((int) player1.getPlayer().getHp()+"/"+(int) player1.getPlayer().getMaxHP(), Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
 		player1MPLabel = new Label((int) player1.getPlayer().getMp()+"/"+(int) player1.getPlayer().getMaxMP(), Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
 		player2HPLabel = new Label((int) player2.getPlayer().getHp()+"/"+(int) player2.getPlayer().getMaxHP(), Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
@@ -515,6 +565,20 @@ public class GameScreen implements Screen {
 		player1MPLabel.setPosition(GameScreenHUD.getP1MPLabel().getX(), GameScreenHUD.getP1MPLabel().getY());
 		player2HPLabel.setPosition(GameScreenHUD.getP2HPLabel().getX(), GameScreenHUD.getP2HPLabel().getY());
 		player2MPLabel.setPosition(GameScreenHUD.getP2MPLabel().getX(), GameScreenHUD.getP2MPLabel().getY());
+		
+		p1Skill1CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
+		p1Skill2CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
+		p2Skill1CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
+		p2Skill2CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
+		p1Skill1CDLabel.setPosition(GameScreenHUD.getP1Skill1LabelPos().getX(), GameScreenHUD.getP1Skill1LabelPos().getY());
+		p1Skill2CDLabel.setPosition(GameScreenHUD.getP1Skill2LabelPos().getX(), GameScreenHUD.getP1Skill2LabelPos().getY());
+		p2Skill1CDLabel.setPosition(GameScreenHUD.getP2Skill1LabelPos().getX(), GameScreenHUD.getP2Skill1LabelPos().getY());
+		p2Skill2CDLabel.setPosition(GameScreenHUD.getP2Skill2LabelPos().getX(), GameScreenHUD.getP2Skill2LabelPos().getY());
+		p1Skill1CDLabel.setAlignment(Align.center);
+		p1Skill2CDLabel.setAlignment(Align.center);
+		p2Skill1CDLabel.setAlignment(Align.center);
+		p2Skill2CDLabel.setAlignment(Align.center);
+		
 		timerLabel = new Label(String.valueOf((int) trackTime), Utils.gameScreenSkin, "imagineFontTimer", Color.WHITE);
 		timerLabel.setPosition(GameScreenHUD.getTimerLabel().getX(), GameScreenHUD.getTimerLabel().getY());
 		
@@ -549,6 +613,10 @@ public class GameScreen implements Screen {
 		stage.addActor(player1MPLabel);
 		stage.addActor(player2HPLabel);
 		stage.addActor(player2MPLabel);
+		stage.addActor(p1Skill1CDLabel);
+		stage.addActor(p1Skill2CDLabel);
+		stage.addActor(p2Skill1CDLabel);
+		stage.addActor(p2Skill2CDLabel);
 		stage.addActor(timerLabel);
 	}
 	

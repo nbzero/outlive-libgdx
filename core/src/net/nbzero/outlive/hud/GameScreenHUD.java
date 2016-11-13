@@ -17,6 +17,16 @@ public class GameScreenHUD {
 	private static Rectangle p2BaseHPBar;
 	private static Rectangle p2BaseMPBar;
 	
+	private static Rectangle p1Skill1Bar;
+	private static Rectangle p1Skill2Bar;
+	private static Rectangle p2Skill1Bar;
+	private static Rectangle p2Skill2Bar;
+	
+	private static PositionHandler p1Skill1LabelPos;
+	private static PositionHandler p1Skill2LabelPos;
+	private static PositionHandler p2Skill1LabelPos;
+	private static PositionHandler p2Skill2LabelPos;	
+	
 	private static PositionHandler p1NameLabel;
 	private static PositionHandler p2NameLabel;
 	private static PositionHandler p1HPLabel;
@@ -41,17 +51,17 @@ public class GameScreenHUD {
 		p1MPLabel = new PositionHandler(p1BaseMPBar.width, Gdx.graphics.getHeight()*0.85f);
 		p2HPLabel = new PositionHandler(Gdx.graphics.getWidth()-p2BaseMPBar.width*0.6f, Gdx.graphics.getHeight()*0.90f);
 		p2MPLabel = new PositionHandler(Gdx.graphics.getWidth()-p2BaseMPBar.width*0.6f, Gdx.graphics.getHeight()*0.85f);
+		p1Skill1Bar = new Rectangle(0, p1PlayerBarBG1.getY()-70, 100, 50);
+		p1Skill2Bar = new Rectangle(0, p1Skill1Bar.getY()-70, 100, 50);
+		p2Skill1Bar = new Rectangle(Gdx.graphics.getWidth()-100, p1Skill1Bar.getY(), 100, 50);
+		p2Skill2Bar = new Rectangle(Gdx.graphics.getWidth()-100, p1Skill2Bar.getY(), 100, 50);
+		p1Skill1LabelPos = new PositionHandler(p1Skill1Bar.getX()+10, p1Skill1Bar.getY()+15);
+		p1Skill2LabelPos = new PositionHandler(p1Skill2Bar.getX()+10, p1Skill2Bar.getY()+15);
+		p2Skill1LabelPos = new PositionHandler(p2Skill1Bar.getX()+10, p2Skill1Bar.getY()+15);
+		p2Skill2LabelPos = new PositionHandler(p2Skill2Bar.getX()+10, p2Skill2Bar.getY()+15);
 		timerLabel = new PositionHandler(Gdx.graphics.getWidth()*0.48f, Gdx.graphics.getHeight()*0.92f);
 	}
 	
-	public static void drawHPBar(){
-		
-	}
-	
-	public static void drawMPBar(){
-		
-	}
-
 	public static Rectangle getP1PlayerBarBG1() {
 		return p1PlayerBarBG1;
 	}
@@ -103,12 +113,45 @@ public class GameScreenHUD {
 	public static PositionHandler getP1MPLabel() {
 		return p1MPLabel;
 	}
+	
 	public static PositionHandler getP2MPLabel() {
 		return p2MPLabel;
 	}
 
 	public static PositionHandler getTimerLabel() {
 		return timerLabel;
+	}
+
+	public static Rectangle getP1Skill1Bar() {
+		return p1Skill1Bar;
+	}
+
+	public static Rectangle getP1Skill2Bar() {
+		return p1Skill2Bar;
+	}
+
+	public static Rectangle getP2Skill1Bar() {
+		return p2Skill1Bar;
+	}
+
+	public static Rectangle getP2Skill2Bar() {
+		return p2Skill2Bar;
+	}
+
+	public static PositionHandler getP1Skill1LabelPos() {
+		return p1Skill1LabelPos;
+	}
+
+	public static PositionHandler getP1Skill2LabelPos() {
+		return p1Skill2LabelPos;
+	}
+
+	public static PositionHandler getP2Skill1LabelPos() {
+		return p2Skill1LabelPos;
+	}
+
+	public static PositionHandler getP2Skill2LabelPos() {
+		return p2Skill2LabelPos;
 	}
 
 	public static void setTimerLabel(PositionHandler timerLabel) {

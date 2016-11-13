@@ -133,16 +133,16 @@ public class GameScreenAtkUtils {
 	
 	public static void checkSkillCD(Character player){
 		if(!player.getPlayer().isSkill1Ready()){
-			player.getPlayer().setSkill1CDTime(player.getPlayer().getSkill1CDTime()+Gdx.graphics.getDeltaTime());
-			if(player.getPlayer().getSkill1CDTime() >= player.getPlayer().getSkillCD(0)){
-				player.getPlayer().setSkill1CDTime(0);
+			player.getPlayer().setSkill1CDTime(player.getPlayer().getSkill1CDTime()-Gdx.graphics.getDeltaTime());
+			if(player.getPlayer().getSkill1CDTime() <= 0){
+				player.getPlayer().setSkill1CDTime(player.getPlayer().getSkillCD(0));
 				player.getPlayer().setSkill1Ready(true);
 			}
 		}
 		if(!player.getPlayer().isSkill2Ready()){
-			player.getPlayer().setSkill2CDTime(player.getPlayer().getSkill2CDTime()+Gdx.graphics.getDeltaTime());
-			if(player.getPlayer().getSkill2CDTime() >= player.getPlayer().getSkillCD(1)){
-				player.getPlayer().setSkill2CDTime(0);
+			player.getPlayer().setSkill2CDTime(player.getPlayer().getSkill2CDTime()-Gdx.graphics.getDeltaTime());
+			if(player.getPlayer().getSkill2CDTime() <= 0){
+				player.getPlayer().setSkill2CDTime(player.getPlayer().getSkillCD(1));
 				player.getPlayer().setSkill2Ready(true);
 			}
 		}
