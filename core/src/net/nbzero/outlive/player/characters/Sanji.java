@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 
 import net.nbzero.outlive.player.PlayerData;
-import net.nbzero.outlive.positon.PositionHandler;
+import net.nbzero.outlive.utils.PositionHandler;
 
 public class Sanji extends Character {
 	private static Animation standing;

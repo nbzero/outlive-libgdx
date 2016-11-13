@@ -1,4 +1,4 @@
-package net.nbzero.outlive.positon;
+package net.nbzero.outlive.utils;
 
 public class PositionHandler {
 	private float x;

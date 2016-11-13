@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 
 import net.nbzero.outlive.player.PlayerData;
-import net.nbzero.outlive.positon.PositionHandler;
+import net.nbzero.outlive.utils.PositionHandler;
 
 abstract public class Character {
 	// Player data

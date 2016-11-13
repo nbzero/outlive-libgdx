@@ -3,7 +3,7 @@ package net.nbzero.outlive.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
-import net.nbzero.outlive.positon.PositionHandler;
+import net.nbzero.outlive.utils.PositionHandler;
 import net.nbzero.outlive.utils.Utils;
 
 public class GameScreenHUD {
