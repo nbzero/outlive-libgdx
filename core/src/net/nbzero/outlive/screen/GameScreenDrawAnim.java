@@ -107,6 +107,7 @@ public class GameScreenDrawAnim {
 	}
 	
 	protected static void defenseAnim(Character player){
+		player.getPlayer().setDefending(true);
 		player.getPlayer().setHasControl(false);
 		GameScreen.keyFrame = player.getDefending().getKeyFrame(GameScreen.elapsedTime);
 		if(!player.getPlayer().isRight()){

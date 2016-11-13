@@ -105,53 +105,52 @@ public class GameScreen implements Screen {
 		batch.draw(bg, 0, 0);
 		//// Player1
 		// Start check input
-		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl() 
+		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveLeftAnim(player1);
 			p1MultiCommand();
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl() 
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveRightAnim(player1);
 			p1MultiCommand();
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl() 
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveUpAnim(player1);
 			player1.setUping(true);
 			p1MultiCommand();
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl() 
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveDownAnim(player1);
 			player1.setDowning(true);
 			p1MultiCommand();
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing()
+				&& player1.getPlayer().hasControl() && !paused && !matchFinished){
 			player1.getPlayer().setDashing(true);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking() && player1.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking()
+				&& player1.getPlayer().hasControl()	&& !player1.getPlayer().isHitted() && !paused && !matchFinished){
 			player1.getPlayer().setAttacking(true);
 			player1.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking()
-				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted()
 				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()
 				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player1);
-			player1.getPlayer().setDefending(true);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
-				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready()){
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()
+				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready() && player1.getPlayer().getMp() >= player1.getSkill1MP()){
 			player1.getPlayer().setSkilling1(true);
 			player1.getPlayer().setSkill1Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2) && !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
-				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready()){
+				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready() && player1.getPlayer().getMp() >= player1.getSkill2MP()){
 			player1.getPlayer().setSkilling2(true);
 			player1.getPlayer().setSkill2Ready(false);
 			player1.getPlayer().setHasControl(false);
@@ -216,7 +215,7 @@ public class GameScreen implements Screen {
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_RIGHT) && player2.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveRightAnim(player2);
-			p2MultiCommand();			
+			p2MultiCommand();
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
@@ -224,37 +223,36 @@ public class GameScreen implements Screen {
 			player2.setUping(true);
 			p2MultiCommand();
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl() 
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveDownAnim(player2);
 			player2.setDowning(true);
 			p2MultiCommand();
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() 
-				&& player2.getPlayer().hasControl() && !paused  && !matchFinished){
+				&& player2.getPlayer().hasControl() && !paused && !matchFinished){
 			player2.getPlayer().setDashing(true);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking()
-				&& player2.getPlayer().hasControl() && !player2.getPlayer().isHitted() && !paused  && !matchFinished){
+				&& player2.getPlayer().hasControl() && !player2.getPlayer().isHitted() && !paused && !matchFinished){
 			player2.getPlayer().setAttacking(true);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking()
-				&& !player2.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+				&& !player2.getPlayer().isDead() && !player1.getPlayer().isHitted()
 				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()
 				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player2);
-			player2.getPlayer().setDefending(true);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready()){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready() && player2.getPlayer().getMp() >= player2.getSkill1MP()){
 			player2.getPlayer().setSkilling1(true);
 			player2.getPlayer().setSkill1Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2) && !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready()){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready() && player2.getPlayer().getMp() >= player2.getSkill2MP()){
 			player2.getPlayer().setSkilling2(true);
 			player2.getPlayer().setSkill2Ready(false);
 			player2.getPlayer().setHasControl(false);
@@ -283,9 +281,6 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkSkill2Hit(player2, player1);
 			player2.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill2Time(player2, player2.getPlayer().getDelayTime()));
 		}
-		else if(player2.getPlayer().isHitted()){
-			GameScreenDrawAnim.getHitAnim(player2);
-		}
 		else if(player2.getPlayer().isDead() || player2.getPlayer().getHp()<=0){
 			player2.getPlayer().setHp(0);
 			player2.getPlayer().setDead(true);
@@ -298,6 +293,9 @@ public class GameScreen implements Screen {
 			player1.getPlayer().setHitable(false);
 			matchFinished = true;
 			winner20Label.setText(CharacterSelectScreen.p1Char + " (P1)");
+		}
+		else if(player2.getPlayer().isHitted()){
+			GameScreenDrawAnim.getHitAnim(player2);
 		}
 		else {
 			GameScreenDrawAnim.idleAnim(player2);
@@ -749,31 +747,30 @@ public class GameScreen implements Screen {
 				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing()
+				&& player1.getPlayer().hasControl() && !paused && !matchFinished){
 			player1.getPlayer().setDashing(true);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking() && player1.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking()
+				&& player1.getPlayer().hasControl()	&& !player1.getPlayer().isHitted() && !paused && !matchFinished){
 			player1.getPlayer().setAttacking(true);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking()
-				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking()
+				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted()
 				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()
 				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player1);
-			player1.getPlayer().setDefending(true);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
-				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready()){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl()
+				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready() && player1.getPlayer().getMp() >= player1.getSkill1MP()){
 			player1.getPlayer().setSkilling1(true);
 			player1.getPlayer().setSkill1Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_SKILL2) && !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
-				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready()){
+				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready() && player1.getPlayer().getMp() >= player1.getSkill2MP()){
 			player1.getPlayer().setSkilling2(true);
 			player1.getPlayer().setSkill2Ready(false);
 			player1.getPlayer().setHasControl(false);
@@ -792,31 +789,30 @@ public class GameScreen implements Screen {
 				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() && player2.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing()
+				&& player2.getPlayer().hasControl() && !paused && !matchFinished){
 			player2.getPlayer().setDashing(true);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking() && player2.getPlayer().hasControl()
-				&& !paused && !matchFinished){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking()
+				&& player2.getPlayer().hasControl() && !player2.getPlayer().isHitted() && !paused && !matchFinished){
 			player2.getPlayer().setAttacking(true);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking()
-				&& !player2.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking()
+				&& !player2.getPlayer().isDead() && !player1.getPlayer().isHitted()
 				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()
 				&& !paused && !matchFinished){
 			GameScreenDrawAnim.defenseAnim(player2);
-			player2.getPlayer().setDefending(true);
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl() 
-				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready()){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl()
+				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready() && player2.getPlayer().getMp() >= player2.getSkill1MP()){
 			player2.getPlayer().setSkilling1(true);
 			player2.getPlayer().setSkill1Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_SKILL2) && !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
-				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready()){
+				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready() && player2.getPlayer().getMp() >= player2.getSkill2MP()){
 			player2.getPlayer().setSkilling2(true);
 			player2.getPlayer().setSkill2Ready(false);
 			player2.getPlayer().setHasControl(false);
