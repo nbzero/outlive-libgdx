@@ -2,7 +2,6 @@ package net.nbzero.outlive.utils.screenutils;
 
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.screen.GameScreen;
-import net.nbzero.outlive.screen.GameScreenAtkUtils;
 import net.nbzero.outlive.utils.CollideHandler;
 import net.nbzero.outlive.utils.Fireball;
 import net.nbzero.outlive.utils.Stone;

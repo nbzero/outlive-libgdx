@@ -1,4 +1,4 @@
-package net.nbzero.outlive.screen;
+package net.nbzero.outlive.utils.screenutils;
 
 import com.badlogic.gdx.Gdx;
 
