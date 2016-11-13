@@ -11,7 +11,7 @@ public class InputsControl {
 	public static final int P1_DOWN = Keys.S;
 	
 	// Actions
-	public static final int P1_DASH = Keys.SHIFT_LEFT;
+	public static final int P1_DASH = Keys.SPACE;
 	public static final int P1_ATTACK = Keys.J;
 	public static final int P1_DEFENSE = Keys.K;
 	public static final int P1_SKILL1 = Keys.U;

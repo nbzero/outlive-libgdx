@@ -4,9 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -14,23 +16,30 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
-import net.nbzero.outlive.Outlive;
+import net.nbzero.outlive.sound.BGM;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
+import net.nbzero.outlive.utils.screenutils.MainMenuUtils;
 
 public class MainMenuScreen implements Screen {
 	private Stage stage;
-	private TweenManager tweenManager;
+	public static TweenManager tweenManager;
 	private Table table;
+	public static Table configTable;
 	private static int selected = 0;
 	private static int menu = 0; 
 	
 	@Override
 	public void show() {
-		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Title.wav"));
-		Outlive.bgm.play();
-		Outlive.bgm.setVolume(0.2f);
-		Outlive.bgm.setLooping(true);
+//		Utils.configBGMLabel = new Label("BGM", Utils.skin, "KitchenPoliceConfig", Color.WHITE);
+//		Utils.configBGMNumLabel = new Label((int)(BGM.MainMenu.getVolume()*100) + "%", Utils.skin, "KitchenPoliceConfig", Color.WHITE);
+		configTable = new Table(Utils.skin);
+		configTable.setPosition(Gdx.graphics.getWidth()*0.8f, Gdx.graphics.getHeight()*0.5f);
+		configTable.setColor(1, 1, 1, 0);
+		configTable.add(Utils.configBGMLabel);
+		configTable.add(Utils.configBGMNumLabel).padLeft(50).row();
+		
+		BGM.MainMenu.play();
 		stage = new Stage();
 		
 		table = new Table(Utils.skin);
@@ -45,6 +54,7 @@ public class MainMenuScreen implements Screen {
 		
 		stage.addActor(Utils.mainMenuBG);
 		stage.addActor(table);
+		stage.addActor(configTable);
 		
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Actor.class, new ActorAccessor());
@@ -53,7 +63,7 @@ public class MainMenuScreen implements Screen {
 		.push(Tween.set(Utils.mainMenuBG, ActorAccessor.ALPHA).target(0))
 		.push(Tween.to(Utils.mainMenuBG, ActorAccessor.ALPHA, 0.5f).target(1))
 		.end().start(tweenManager);
-		fadeInButton();
+		MainMenuUtils.fadeInButton();
 		
 		Tween.from(table, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0).start(tweenManager);
 		Tween.from(table, ActorAccessor.Y, Utils.GLIDE_TIME).target(Gdx.graphics.getHeight()/8).start(tweenManager);
@@ -71,19 +81,17 @@ public class MainMenuScreen implements Screen {
 		
 		// Main Menu Controller
 		if(menu == 0){
-			checkSelectButton(selected);
+			MainMenuUtils.checkSelectButton(selected);
 			if(Gdx.input.isKeyJustPressed(Keys.DOWN) && selected<4) {
 				selected++;
-				checkSelectButton(selected);
 			}
 			if(Gdx.input.isKeyJustPressed(Keys.UP) && selected>0){
 				selected--;
-				checkSelectButton(selected);
 			}
 			if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
 				switch(selected){
 				case 0:
-					fadeOutButton();
+					MainMenuUtils.fadeOutButton();
 					Timeline.createParallel().beginParallel()
 					.push(Tween.set(Utils.mainMenuBG, ActorAccessor.ALPHA).target(1))
 					.push(Tween.to(Utils.mainMenuBG, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
@@ -105,7 +113,8 @@ public class MainMenuScreen implements Screen {
 					menu = 1;
 					break;
 				case 2:
-					fadeOutButton();
+					MainMenuUtils.fadeOutButton();
+					MainMenuUtils.fadeInConfig();
 					menu = 2;
 					break;
 				case 3:
@@ -134,10 +143,19 @@ public class MainMenuScreen implements Screen {
 			}
 		}
 		else if(menu == 2){
+			if(Gdx.input.isKeyJustPressed(Keys.LEFT) && BGM.MainMenu.getVolume()>=0.049f){
+				BGM.MainMenu.setVolume(BGM.MainMenu.getVolume()-0.05f);
+				Utils.configBGMNumLabel.setText((int)(BGM.MainMenu.getVolume()*100) + "%");
+			}
+			if(Gdx.input.isKeyJustPressed(Keys.RIGHT) && BGM.MainMenu.getVolume()<=0.951f){
+				BGM.MainMenu.setVolume(BGM.MainMenu.getVolume()+0.05f);
+				Utils.configBGMNumLabel.setText((int)(BGM.MainMenu.getVolume()*100) + "%");
+			}
 			if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 				selected = 2;
 				menu = 0;
-				fadeInButton();
+				MainMenuUtils.fadeInButton();
+				MainMenuUtils.fadeOutConfig();
 			}
 		}
 		else if(menu == 3){
@@ -169,65 +187,6 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		Utils.skin.dispose();
-	}
-
-	// Select Button Checker
-	private void checkSelectButton(int selected){
-		switch(selected){
-		case 0:
-			Utils.startButton.setChecked(true);
-			Utils.tutorialButton.setChecked(false);
-			break;
-		case 1:
-			Utils.startButton.setChecked(false);
-			Utils.tutorialButton.setChecked(true);
-			Utils.configButton.setChecked(false);
-			break;
-		case 2:
-			Utils.tutorialButton.setChecked(false);
-			Utils.configButton.setChecked(true);
-			Utils.creditsButton.setChecked(false);
-			break;
-		case 3:
-			Utils.configButton.setChecked(false);
-			Utils.creditsButton.setChecked(true);
-			Utils.exitButton.setChecked(false);
-			break;
-		case 4:
-			Utils.creditsButton.setChecked(false);
-			Utils.exitButton.setChecked(true);
-			break;
-		}
-	}
-	
-	private void fadeOutButton(){
-		Timeline.createParallel().beginParallel()
-		.push(Tween.set(Utils.startButton, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.tutorialButton, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.configButton, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.creditsButton, ActorAccessor.ALPHA).target(1))
-		.push(Tween.set(Utils.exitButton, ActorAccessor.ALPHA).target(1))
-		.push(Tween.to(Utils.startButton, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
-		.push(Tween.to(Utils.tutorialButton, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
-		.push(Tween.to(Utils.configButton, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
-		.push(Tween.to(Utils.creditsButton, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
-		.push(Tween.to(Utils.exitButton, ActorAccessor.ALPHA, Utils.GLIDE_TIME).target(0))
-		.end().start(tweenManager);
-	}
-	
-	private void fadeInButton(){
-		Timeline.createSequence().beginSequence()
-		.push(Tween.set(Utils.startButton, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.tutorialButton, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.configButton, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.creditsButton, ActorAccessor.ALPHA).target(0))
-		.push(Tween.set(Utils.exitButton, ActorAccessor.ALPHA).target(0))
-		.push(Tween.to(Utils.startButton, ActorAccessor.ALPHA, Utils.FADE_TIME).target(1))
-		.push(Tween.to(Utils.tutorialButton, ActorAccessor.ALPHA, Utils.FADE_TIME).target(1))
-		.push(Tween.to(Utils.configButton, ActorAccessor.ALPHA, Utils.FADE_TIME).target(1))
-		.push(Tween.to(Utils.creditsButton, ActorAccessor.ALPHA, Utils.FADE_TIME).target(1))
-		.push(Tween.to(Utils.exitButton, ActorAccessor.ALPHA, Utils.FADE_TIME).target(1))
-		.end().start(tweenManager);
+		BGM.MainMenu.getBGM().dispose();
 	}
 }

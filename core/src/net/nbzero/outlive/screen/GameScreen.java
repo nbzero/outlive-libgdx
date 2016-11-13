@@ -24,8 +24,9 @@ import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
 import net.nbzero.outlive.player.characters.Fireball;
 import net.nbzero.outlive.player.characters.Stone;
-import net.nbzero.outlive.positon.PositionHandler;
+import net.nbzero.outlive.sound.BGM;
 import net.nbzero.outlive.utils.CollideHandler;
+import net.nbzero.outlive.utils.PositionHandler;
 import net.nbzero.outlive.utils.Utils;
 
 public class GameScreen implements Screen {
@@ -67,11 +68,22 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void show() {
-		Outlive.bgm.stop();
-		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Battle1.wav"));
-		Outlive.bgm.play();
-		Outlive.bgm.setVolume(0.5f);
-		Outlive.bgm.setLooping(true);
+		switch(bgPath){
+		case "Stage/forest.png":
+			BGM.Battle1.getBGM().play();
+			break;
+		case "Stage/water.png":
+			BGM.Battle2.getBGM().play();
+			break;
+		case "Stage/train.png":
+			BGM.Battle3.getBGM().play();
+			break;
+		}
+//		Outlive.bgm.stop();
+//		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Battle1.wav"));
+//		Outlive.bgm.play();
+//		Outlive.bgm.setVolume(0.5f);
+//		Outlive.bgm.setLooping(true);
 		debugMode = false;
 		initialize();
 		initialHUD();
@@ -403,6 +415,9 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		batch.dispose();
 		stage.dispose();
+		BGM.Battle1.getBGM().dispose();
+		BGM.Battle2.getBGM().dispose();
+		BGM.Battle3.getBGM().dispose();
 	}
 	
 	private void initialize(){
@@ -578,17 +593,14 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
 			switch(menuSelected){
 			case 0:
-				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
 				break;
 			case 1:
-				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new CharacterSelectScreen());
 				break;
 			case 2:
-				Outlive.bgm.stop();
 				dispose();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 				break;

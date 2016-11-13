@@ -1,6 +1,6 @@
 package net.nbzero.outlive.player;
 
-import net.nbzero.outlive.positon.PositionHandler;
+import net.nbzero.outlive.utils.PositionHandler;
 
 public class PlayerData {
 	

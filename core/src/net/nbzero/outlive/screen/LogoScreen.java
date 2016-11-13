@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
+import net.nbzero.outlive.sound.BGM;
 import net.nbzero.outlive.tween.SpriteAccessor;
 import net.nbzero.outlive.utils.Utils;
 
@@ -33,6 +34,7 @@ public class LogoScreen implements Screen {
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
+		BGM.Logo.play();
 		
 		splash = new Sprite(new Texture(Utils.gameLogoPath));
 		splash.setPosition(Gdx.graphics.getWidth()/2 - splash.getWidth()/2, Gdx.graphics.getHeight()/2 - splash.getHeight()/2);
@@ -40,11 +42,12 @@ public class LogoScreen implements Screen {
 		Timeline.createSequence().beginSequence()
 			.push(Tween.set(splash, SpriteAccessor.ALPHA).target(0))
 			.push(Tween.to(splash, SpriteAccessor.ALPHA, fadeTime).target(1))
-			.push(Tween.to(splash, SpriteAccessor.ALPHA, fadeTime-1).target(0))
+			.push(Tween.to(splash, SpriteAccessor.ALPHA, fadeTime-0.5f).target(0))
 			.end().setCallback(new TweenCallback() {
 				
 				@Override
 				public void onEvent(int type, BaseTween<?> source) {
+					dispose();
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 				}
 			}).start(tweenManager);
@@ -81,6 +84,7 @@ public class LogoScreen implements Screen {
 	@Override
 	public void dispose() { 
 		batch.dispose();
+		BGM.Logo.getBGM().dispose();
 	}
 
 }
