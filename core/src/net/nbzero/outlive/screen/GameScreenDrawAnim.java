@@ -28,7 +28,7 @@ public class GameScreenDrawAnim {
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
 		player.getPlayer().setRight(false);
 		if(!CollideHandler.checkMapCollide("left", player.getHitbox())){
-			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), -5);
+			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), -player.getMoveSpeed());
 		}
 		GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 	}
@@ -37,7 +37,7 @@ public class GameScreenDrawAnim {
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
 		player.getPlayer().setRight(true);
 		if(!CollideHandler.checkMapCollide("right", player.getHitbox())){
-			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), 5);
+			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), player.getMoveSpeed());
 		}
 		GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 	}
@@ -45,7 +45,7 @@ public class GameScreenDrawAnim {
 	protected static void moveUpAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
 		if(!CollideHandler.checkMapCollide("up", player.getHitbox())){
-			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), 5);
+			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), player.getMoveSpeed());
 		}
 		if(player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
@@ -57,7 +57,7 @@ public class GameScreenDrawAnim {
 	protected static void moveDownAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
 		if(!CollideHandler.checkMapCollide("down", player.getHitbox())){
-			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), -5);
+			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), -player.getMoveSpeed());
 		}
 		if(player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
