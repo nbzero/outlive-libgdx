@@ -349,6 +349,7 @@ public class GameScreen implements Screen {
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && paused){
 			paused = false;
+			unfadeLabels();
 			winner20Label.setColor(1, 1, 1, 0);
 			winner10Label.setColor(1, 1, 1, 0);
 			Utils.ButtonBG.setColor(1, 1, 1, 0);
@@ -356,15 +357,16 @@ public class GameScreen implements Screen {
 			Utils.repick.setColor(1, 1, 1, 0);
 			Utils.rematch.setColor(1, 1, 1, 0);
 		}
+		
+		renderHUD();
+		renderDebugMode();
+		
 		if(paused){
 			renderPauseScreen();
 		}
 		if(matchFinished){
 			renderMatchFinished();
 		}
-		
-		renderHUD();
-		renderDebugMode();
 		
 		stage.act(delta);
 		stage.draw();
@@ -618,6 +620,8 @@ public class GameScreen implements Screen {
 		shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		
+		fadeLabels();
+		
 		winner20Label.setColor(1, 1, 1, 1);
 		winner10Label.setColor(1, 1, 1, 1);
 		Utils.ButtonBG.setColor(1, 1, 1, 1);
@@ -632,8 +636,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.begin(ShapeType.Filled);
-		if(deadTime <= 0.7f){
-			shapeRenderer.setColor(0, 0, 0, deadTime);
+		if(deadTime*0.5f <= 0.7f){
+			shapeRenderer.setColor(0, 0, 0, deadTime*0.5f);
 		}
 		else{
 			shapeRenderer.setColor(0, 0, 0, 0.7f);
@@ -643,6 +647,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		
 		winner10Label.setText("wins");
+		
+		fadeLabels();
 		
 		if(deadTime<1){
 			winner20Label.setColor(1, 1, 1, deadTime);
@@ -815,5 +821,37 @@ public class GameScreen implements Screen {
 			player2.getPlayer().setSkill2Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
+	}
+	
+	private void fadeLabels(){
+		timerLabel.setColor(1, 1, 1, 0.7f);
+		p1Skill1Label.setColor(1, 1, 1, 0.7f);
+		p1Skill2Label.setColor(1, 1, 1, 0.7f);
+		p2Skill1Label.setColor(1, 1, 1, 0.7f);
+		p2Skill2Label.setColor(1, 1, 1, 0.7f);
+		p1Skill1CDLabel.setColor(1, 1, 1, 0.7f);
+		p1Skill2CDLabel.setColor(1, 1, 1, 0.7f);
+		p2Skill1CDLabel.setColor(1, 1, 1, 0.7f);
+		p2Skill2CDLabel.setColor(1, 1, 1, 0.7f);
+		player1HPLabel.setColor(1, 1, 1, 0.7f);
+		player1MPLabel.setColor(1, 1, 1, 0.7f);
+		player2HPLabel.setColor(1, 1, 1, 0.7f);
+		player2MPLabel.setColor(1, 1, 1, 0.7f);
+	}
+	
+	private void unfadeLabels(){
+		timerLabel.setColor(1, 1, 1, 1);
+		p1Skill1Label.setColor(1, 1, 1, 1);
+		p1Skill2Label.setColor(1, 1, 1, 1);
+		p2Skill1Label.setColor(1, 1, 1, 1);
+		p2Skill2Label.setColor(1, 1, 1, 1);
+		p1Skill1CDLabel.setColor(1, 1, 1, 1);
+		p1Skill2CDLabel.setColor(1, 1, 1, 1);
+		p2Skill1CDLabel.setColor(1, 1, 1, 1);
+		p2Skill2CDLabel.setColor(1, 1, 1, 1);
+		player1HPLabel.setColor(1, 1, 1, 1);
+		player1MPLabel.setColor(1, 1, 1, 1);
+		player2HPLabel.setColor(1, 1, 1, 1);
+		player2MPLabel.setColor(1, 1, 1, 1);
 	}
 }
