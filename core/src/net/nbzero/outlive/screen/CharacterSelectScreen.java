@@ -3,6 +3,7 @@ package net.nbzero.outlive.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -47,6 +48,9 @@ public class CharacterSelectScreen implements Screen {
 	private float elapsedTime = 0;
 	private float fadeOutTime = 0;
 	private float fadeInTime = 0;
+	private Sound click;
+	private Sound select;
+	private Sound exit;
 	
 	@Override
 	public void show() {
@@ -55,6 +59,9 @@ public class CharacterSelectScreen implements Screen {
 		Outlive.bgm.play();
 		Outlive.bgm.setLooping(true);
 		Outlive.bgm.setVolume(0.5f);
+		click = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Click.mp3"));
+		select = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Select.mp3"));
+		exit = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Exit.mp3"));
 		Utils.loadCharSelect();
 		Utils.loadKitchenFont();
 		
@@ -190,30 +197,38 @@ public class CharacterSelectScreen implements Screen {
 			CharacterScreenUtils.addP1CharBG(p1Selected);
 			p1CharText.setText(CharacterScreenUtils.getCharName(p1Selected));
 			if(Gdx.input.isKeyJustPressed(InputsControl.P1_LEFT) && p1Selected > 0){
+				click.play();
 				p1Selected--;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P1_RIGHT) && p1Selected < 7){
+				click.play();
 				p1Selected++;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P1_UP) && p1Selected > 3){
+				click.play();
 				p1Selected -= 4;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P1_UP) && p1Selected < 4){
+				click.play();
 				p1Selected = 0;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DOWN) && p1Selected < 4){
+				click.play();
 				p1Selected += 4;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DOWN) && p1Selected > 3){
+				click.play();
 				p1Selected = 7;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK)){
+				select.play();
 				p1Locked.setColor(1, 1, 1, 1);
 				p1Lock = true;
 				p1Char = CharacterScreenUtils.getCharName(p1Selected);
 			}
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE) && delayTime < 5f){
+			exit.play();
 			p1Locked.setColor(1, 1, 1, 0);
 			p1Lock = false;
 			p1Char = null;
@@ -223,30 +238,38 @@ public class CharacterSelectScreen implements Screen {
 			CharacterScreenUtils.addP2CharBG(p2Selected);
 			p2CharText.setText(CharacterScreenUtils.getCharName(p2Selected));
 			if(Gdx.input.isKeyJustPressed(InputsControl.P2_LEFT) && p2Selected > 0){
+				click.play();
 				p2Selected--;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P2_RIGHT) && p2Selected < 7){
+				click.play();
 				p2Selected++;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P2_UP) && p2Selected > 3){
+				click.play();
 				p2Selected -= 4;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P2_UP) && p2Selected < 4){
+				click.play();
 				p2Selected = 0;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DOWN) && p2Selected < 4){
+				click.play();
 				p2Selected += 4;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DOWN) && p2Selected > 3){
+				click.play();
 				p2Selected = 7;
 			}
 			else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK)){
+				select.play();
 				p2Locked.setColor(1, 1, 1, 1);
 				p2Lock = true;
 				p2Char = CharacterScreenUtils.getCharName(p2Selected);
 			}
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE) && delayTime < 5f){
+			exit.play();
 			p2Locked.setColor(1, 1, 1, 0);
 			p2Lock = false;
 			p2Char = null;

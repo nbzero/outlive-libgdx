@@ -3,6 +3,7 @@ package net.nbzero.outlive.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -24,6 +25,8 @@ public class MainMenuScreen implements Screen {
 	private Table table;
 	private static int selected = 0;
 	private static int menu = 0; 
+	private Sound click;
+	private Sound select;
 	
 	@Override
 	public void show() {
@@ -31,6 +34,8 @@ public class MainMenuScreen implements Screen {
 		Outlive.bgm.play();
 		Outlive.bgm.setVolume(0.2f);
 		Outlive.bgm.setLooping(true);
+		click = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Click.mp3"));
+		select = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Select.mp3"));
 		stage = new Stage();
 		
 		table = new Table(Utils.skin);
@@ -74,13 +79,16 @@ public class MainMenuScreen implements Screen {
 			checkSelectButton(selected);
 			if(Gdx.input.isKeyJustPressed(Keys.DOWN) && selected<4) {
 				selected++;
+				click.play();
 				checkSelectButton(selected);
 			}
 			if(Gdx.input.isKeyJustPressed(Keys.UP) && selected>0){
 				selected--;
+				click.play();
 				checkSelectButton(selected);
 			}
 			if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+				select.play();
 				switch(selected){
 				case 0:
 					fadeOutButton();

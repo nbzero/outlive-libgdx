@@ -61,11 +61,11 @@ public class Sabo extends Character {
 	private static float offsetY4 = 0f;
 	private static float offsetY5 = 0f;
 	private static float offsetY6 = 0f;
-	
-	private static Sound atk1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
-	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
-	private static Sound atk3 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
-	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
+
+	private static Sound atk1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack2.mp3"));
+	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Sabo_fireball1.mp3"));
+	private static Sound atk3 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Sabo_fireball1.mp3"));
+	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Sabo_fireball2.mp3"));
 	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
 	
 	public Sabo(PlayerData playerData){
