@@ -160,6 +160,8 @@ public class CharacterSelectScreen implements Screen {
 		readyText.setZIndex(4);
 		countDownText.setZIndex(4);
 		Utils.characterSelectReadyBG.setZIndex(3);
+		p2CharText.setZIndex(2);
+		p1CharText.setZIndex(2);
 		Utils.characterSelectReadyBG.setPosition(Gdx.graphics.getWidth()*0.115f, Gdx.graphics.getHeight()*0.26f);
 		Utils.characterSelectReadyBG.setColor(1, 1, 1, 0);
 		vsText1.setZIndex(2);
