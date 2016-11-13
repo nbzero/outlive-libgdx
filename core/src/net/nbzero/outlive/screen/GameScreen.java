@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import net.nbzero.outlive.InputsControl;
-import net.nbzero.outlive.Outlive;
 import net.nbzero.outlive.hud.GameScreenHUD;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
@@ -59,7 +58,6 @@ public class GameScreen implements Screen {
 	private static Label timerLabel;
 	protected static ArrayList<Stone> stones; 
 	private static boolean paused = false;
-	private static Label pausedLabel;
 	private static boolean matchFinished = false;
 	private static float deadTime = 0;
 	private static int menuSelected;
@@ -207,7 +205,7 @@ public class GameScreen implements Screen {
 			GameScreenDrawAnim.deadAnim(player1);
 			player2.getPlayer().setHitable(false);
 			matchFinished = true;
-			winner20Label = new Label(CharacterSelectScreen.p2Char + " (P2)", Utils.victorySkin, "winner20", Color.WHITE);
+			winner20Label.setText(CharacterSelectScreen.p2Char + " (P2)");
 		}
 		else if(player1.getPlayer().isHitted()){
 			GameScreenDrawAnim.getHitAnim(player1);
@@ -326,7 +324,7 @@ public class GameScreen implements Screen {
 			GameScreenDrawAnim.deadAnim(player2);
 			player1.getPlayer().setHitable(false);
 			matchFinished = true;
-			winner20Label = new Label(CharacterSelectScreen.p1Char + " (P1)", Utils.victorySkin, "winner20", Color.WHITE);
+			winner20Label.setText(CharacterSelectScreen.p1Char + " (P1)");
 		}
 		else {
 			GameScreenDrawAnim.idleAnim(player2);
@@ -369,16 +367,20 @@ public class GameScreen implements Screen {
 		batch.end();
 		
 		// Check pause
-		if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && !paused){
+		if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && !paused && !matchFinished){
 			paused = true;
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && paused){
 			paused = false;
-			pausedLabel.setColor(1, 1, 1, 0);
+			winner20Label.setColor(1, 1, 1, 0);
+			winner10Label.setColor(1, 1, 1, 0);
+			Utils.ButtonBG.setColor(1, 1, 1, 0);
+			Utils.exit.setColor(1, 1, 1, 0);
+			Utils.repick.setColor(1, 1, 1, 0);
+			Utils.rematch.setColor(1, 1, 1, 0);
 		}
 		if(paused){
-			pausedLabel.setColor(1, 1, 1, 1);
-			pauseScreen();
+			renderPauseScreen();
 		}
 		if(matchFinished){
 			renderMatchFinished();
@@ -421,8 +423,8 @@ public class GameScreen implements Screen {
 	}
 	
 	private void initialize(){
-		p1 = new PlayerData(100, 100, 0, new PositionHandler(), "Right");
-		p2 = new PlayerData(100, 100, 0, new PositionHandler(500, 50), "Left");
+		p1 = new PlayerData(100, 100, 0, new PositionHandler(160, 50), "Right");
+		p2 = new PlayerData(100, 100, 0, new PositionHandler(820, 50), "Left");
 //		player1 = CharacterFactory.valueOf(p1Char).getNew(p1);
 //		player2 = CharacterFactory.valueOf(p2Char).getNew(p2);
 		player1 = CharacterFactory.valueOf(CharacterSelectScreen.p1Char).getNew(p1);
@@ -439,6 +441,8 @@ public class GameScreen implements Screen {
 		stones = new ArrayList<Stone>();
 		Utils.loadVictory();
 		deadTime = 0;
+		paused = false;
+		menuSelected = 0;
 	}
 	
 	private void renderHUD(){
@@ -486,6 +490,7 @@ public class GameScreen implements Screen {
 	}
 	
 	private void initialHUD(){
+		// HUD
 		player1Label = new Label(CharacterSelectScreen.p1Char + " (P1)", Utils.gameScreenSkin, "imagineFontPlayer", Color.BLACK);
 		player2Label = new Label(CharacterSelectScreen.p2Char + " (P2)", Utils.gameScreenSkin, "imagineFontPlayer", Color.BLACK);
 		player1Label.setPosition(GameScreenHUD.getP1NameLabel().getX(), GameScreenHUD.getP1NameLabel().getY());
@@ -500,10 +505,32 @@ public class GameScreen implements Screen {
 		player2MPLabel.setPosition(GameScreenHUD.getP2MPLabel().getX(), GameScreenHUD.getP2MPLabel().getY());
 		timerLabel = new Label(String.valueOf((int) trackTime), Utils.gameScreenSkin, "imagineFontTimer", Color.WHITE);
 		timerLabel.setPosition(GameScreenHUD.getTimerLabel().getX(), GameScreenHUD.getTimerLabel().getY());
-		pausedLabel = new Label("Paused", Utils.gameScreenSkin, "imagineFontTimer", Color.WHITE);
-		pausedLabel.setPosition(Gdx.graphics.getWidth()*0.4f, Gdx.graphics.getHeight()*0.45f);
-		pausedLabel.setColor(1, 1, 1, 0);
 		
+		// Pause & Victory
+		winner20Label = new Label("Paused", Utils.victorySkin, "winner20", Color.WHITE);
+		winner10Label = new Label("", Utils.victorySkin, "winner10", Color.WHITE);
+		winner20Label.setPosition(Gdx.graphics.getWidth()*0.4f, Gdx.graphics.getHeight()*0.8f);
+		winner10Label.setPosition(Gdx.graphics.getWidth()*0.5f, Gdx.graphics.getHeight()*0.75f);
+		Utils.ButtonBG.setPosition((Gdx.graphics.getWidth()*0.5f)-Utils.ButtonBG.getWidth()*0.5f, (Gdx.graphics.getHeight()*0.5f)-Utils.ButtonBG.getHeight()*0.5f);
+		Utils.exit.setPosition(Utils.ButtonBG.getX(), Utils.ButtonBG.getY()+Utils.exit.getHeight()*0.35f);
+		Utils.rematch.setSize(256, 112);
+		Utils.rematch.setPosition(Utils.ButtonBG.getX()+Utils.ButtonBG.getWidth()*0.2f, Gdx.graphics.getHeight()*0.57f);
+		Utils.rematch.setChecked(true);
+		Utils.repick.setSize(256, 112);
+		Utils.repick.setPosition(Gdx.graphics.getWidth()*0.45f, Gdx.graphics.getHeight()*0.46f);
+		winner20Label.setColor(1, 1, 1, 0);
+		winner10Label.setColor(1, 1, 1, 0);
+		Utils.ButtonBG.setColor(1, 1, 1, 0);
+		Utils.exit.setColor(1, 1, 1, 0);
+		Utils.repick.setColor(1, 1, 1, 0);
+		Utils.rematch.setColor(1, 1, 1, 0);
+				
+		stage.addActor(winner20Label);
+		stage.addActor(winner10Label);
+		stage.addActor(Utils.ButtonBG);
+		stage.addActor(Utils.exit);
+		stage.addActor(Utils.repick);
+		stage.addActor(Utils.rematch);
 		stage.addActor(player1Label);
 		stage.addActor(player2Label);
 		stage.addActor(player1HPLabel);
@@ -511,10 +538,9 @@ public class GameScreen implements Screen {
 		stage.addActor(player2HPLabel);
 		stage.addActor(player2MPLabel);
 		stage.addActor(timerLabel);
-		stage.addActor(pausedLabel);
 	}
 	
-	private void pauseScreen(){
+	private void renderPauseScreen(){
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.begin(ShapeType.Filled);
@@ -522,6 +548,15 @@ public class GameScreen implements Screen {
 		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
+		
+		winner20Label.setColor(1, 1, 1, 1);
+		winner10Label.setColor(1, 1, 1, 1);
+		Utils.ButtonBG.setColor(1, 1, 1, 1);
+		Utils.exit.setColor(1, 1, 1, 1);
+		Utils.repick.setColor(1, 1, 1, 1);
+		Utils.rematch.setColor(1, 1, 1, 1);
+		
+		pauseMenuChecker();
 	}
 	
 	private void renderMatchFinished(){
@@ -537,15 +572,8 @@ public class GameScreen implements Screen {
 		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
-
-		winner10Label = new Label("wins", Utils.victorySkin, "winner10", Color.WHITE);
 		
-		stage.addActor(winner20Label);
-		stage.addActor(winner10Label);
-		stage.addActor(Utils.ButtonBG);
-		stage.addActor(Utils.exit);
-		stage.addActor(Utils.repick);
-		stage.addActor(Utils.rematch);
+		winner10Label.setText("wins");
 		
 		if(deadTime<1){
 			winner20Label.setColor(1, 1, 1, deadTime);
@@ -556,16 +584,39 @@ public class GameScreen implements Screen {
 			Utils.rematch.setColor(1, 1, 1, deadTime);
 		}
 		
-		winner20Label.setPosition(Gdx.graphics.getWidth()*0.4f, Gdx.graphics.getHeight()*0.8f);
-		winner10Label.setPosition(Gdx.graphics.getWidth()*0.5f, Gdx.graphics.getHeight()*0.75f);
-		Utils.ButtonBG.setPosition((Gdx.graphics.getWidth()*0.5f)-Utils.ButtonBG.getWidth()*0.5f, (Gdx.graphics.getHeight()*0.5f)-Utils.ButtonBG.getHeight()*0.5f);
-		Utils.exit.setPosition(Utils.ButtonBG.getX(), Utils.ButtonBG.getY()+Utils.exit.getHeight()*0.35f);
-		Utils.rematch.setSize(256, 112);
-		Utils.rematch.setPosition(Utils.ButtonBG.getX()+Utils.ButtonBG.getWidth()*0.2f, Gdx.graphics.getHeight()*0.57f);
-		Utils.rematch.setChecked(true);
-		Utils.repick.setSize(256, 112);
-		Utils.repick.setPosition(Gdx.graphics.getWidth()*0.45f, Gdx.graphics.getHeight()*0.46f);
-		
+		pauseMenuChecker();
+	}
+	
+	private void renderDebugMode(){
+		if(debugMode){
+			shapeRenderer.begin(ShapeType.Line);
+		    shapeRenderer.setColor(1, 1, 0, 1);
+		    shapeRenderer.rect(player1.getHitbox().getX(), player1.getHitbox().getY(), player1.getHitbox().width, player1.getHitbox().height);
+		    shapeRenderer.rect(player2.getHitbox().getX(), player2.getHitbox().getY(), player2.getHitbox().width, player2.getHitbox().height);
+		    shapeRenderer.setColor(1, 0, 0, 0);
+		    shapeRenderer.rect(player1.getAttackBox().getX(), player1.getAttackBox().getY(), player1.getAttackBox().getWidth(), player1.getAttackBox().getHeight());
+		    shapeRenderer.rect(player1.getAttackBox2().getX(), player1.getAttackBox2().getY(), player1.getAttackBox2().getWidth(), player1.getAttackBox2().getHeight());
+		    shapeRenderer.rect(player1.getAttackBox3().getX(), player1.getAttackBox3().getY(), player1.getAttackBox3().getWidth(), player1.getAttackBox3().getHeight());
+		    shapeRenderer.rect(player1.getSkill1Box().getX(), player1.getSkill1Box().getY(), player1.getSkill1Box().getWidth(), player1.getSkill1Box().getHeight());
+		    shapeRenderer.rect(player1.getSkill2Box().getX(), player1.getSkill2Box().getY(), player1.getSkill2Box().getWidth(), player1.getSkill2Box().getHeight());
+		    shapeRenderer.rect(player2.getAttackBox().getX(), player2.getAttackBox().getY(), player2.getAttackBox().getWidth(), player2.getAttackBox().getHeight());
+		    shapeRenderer.rect(player2.getAttackBox2().getX(), player2.getAttackBox2().getY(), player2.getAttackBox2().getWidth(), player2.getAttackBox2().getHeight());
+		    shapeRenderer.rect(player2.getAttackBox3().getX(), player2.getAttackBox3().getY(), player2.getAttackBox3().getWidth(), player2.getAttackBox3().getHeight());
+		    shapeRenderer.rect(player2.getSkill1Box().getX(), player2.getSkill1Box().getY(), player2.getSkill1Box().getWidth(), player2.getSkill1Box().getHeight());
+		    shapeRenderer.rect(player2.getSkill2Box().getX(), player2.getSkill2Box().getY(), player2.getSkill2Box().getWidth(), player2.getSkill2Box().getHeight());
+		    shapeRenderer.end();
+		}
+	}
+	
+	private void updateHitbox(Character player){
+		player.setHitboxPosXLeft(player.getHitbox().getX()-player.getHitbox().getWidth()*0.8f);
+		player.setHitboxPosXRight(player.getHitbox().getX()+player.getHitbox().getWidth()*0.8f);
+		player.setSkillPosXLeft(player.getHitbox().getX()-player.getSkill1Box().getWidth()+player.getHitbox().getWidth()*1.2f);
+		player.setSkillPosXRight(player.getHitbox().getX()-player.getHitbox().getWidth()*0.2f);
+		player.setHitboxPosY(player.getHitbox().getY()+player.getPlayer().getSize().getY()*0.5f);
+	}
+	
+	private void pauseMenuChecker(){
 		if(Gdx.input.isKeyJustPressed(Keys.UP) && menuSelected > 0){
 			menuSelected--;
 		}
@@ -606,34 +657,5 @@ public class GameScreen implements Screen {
 				break;
 			}
 		}
-	}
-	
-	private void renderDebugMode(){
-		if(debugMode){
-			shapeRenderer.begin(ShapeType.Line);
-		    shapeRenderer.setColor(1, 1, 0, 1);
-		    shapeRenderer.rect(player1.getHitbox().getX(), player1.getHitbox().getY(), player1.getHitbox().width, player1.getHitbox().height);
-		    shapeRenderer.rect(player2.getHitbox().getX(), player2.getHitbox().getY(), player2.getHitbox().width, player2.getHitbox().height);
-		    shapeRenderer.setColor(1, 0, 0, 0);
-		    shapeRenderer.rect(player1.getAttackBox().getX(), player1.getAttackBox().getY(), player1.getAttackBox().getWidth(), player1.getAttackBox().getHeight());
-		    shapeRenderer.rect(player1.getAttackBox2().getX(), player1.getAttackBox2().getY(), player1.getAttackBox2().getWidth(), player1.getAttackBox2().getHeight());
-		    shapeRenderer.rect(player1.getAttackBox3().getX(), player1.getAttackBox3().getY(), player1.getAttackBox3().getWidth(), player1.getAttackBox3().getHeight());
-		    shapeRenderer.rect(player1.getSkill1Box().getX(), player1.getSkill1Box().getY(), player1.getSkill1Box().getWidth(), player1.getSkill1Box().getHeight());
-		    shapeRenderer.rect(player1.getSkill2Box().getX(), player1.getSkill2Box().getY(), player1.getSkill2Box().getWidth(), player1.getSkill2Box().getHeight());
-		    shapeRenderer.rect(player2.getAttackBox().getX(), player2.getAttackBox().getY(), player2.getAttackBox().getWidth(), player2.getAttackBox().getHeight());
-		    shapeRenderer.rect(player2.getAttackBox2().getX(), player2.getAttackBox2().getY(), player2.getAttackBox2().getWidth(), player2.getAttackBox2().getHeight());
-		    shapeRenderer.rect(player2.getAttackBox3().getX(), player2.getAttackBox3().getY(), player2.getAttackBox3().getWidth(), player2.getAttackBox3().getHeight());
-		    shapeRenderer.rect(player2.getSkill1Box().getX(), player2.getSkill1Box().getY(), player2.getSkill1Box().getWidth(), player2.getSkill1Box().getHeight());
-		    shapeRenderer.rect(player2.getSkill2Box().getX(), player2.getSkill2Box().getY(), player2.getSkill2Box().getWidth(), player2.getSkill2Box().getHeight());
-		    shapeRenderer.end();
-		}
-	}
-	
-	private void updateHitbox(Character player){
-		player.setHitboxPosXLeft(player.getHitbox().getX()-player.getHitbox().getWidth()*0.8f);
-		player.setHitboxPosXRight(player.getHitbox().getX()+player.getHitbox().getWidth()*0.8f);
-		player.setSkillPosXLeft(player.getHitbox().getX()-player.getSkill1Box().getWidth()+player.getHitbox().getWidth()*1.2f);
-		player.setSkillPosXRight(player.getHitbox().getX()-player.getHitbox().getWidth()*0.2f);
-		player.setHitboxPosY(player.getHitbox().getY()+player.getPlayer().getSize().getY()*0.5f);
 	}
 }

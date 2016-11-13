@@ -12,8 +12,6 @@ import net.nbzero.outlive.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -28,9 +26,6 @@ public class LogoScreen implements Screen {
 	
 	@Override
 	public void show() {
-//		Sound sfx;
-//		sfx = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/sword17.mp3"));
-//		sfx.play(1.0f);
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
