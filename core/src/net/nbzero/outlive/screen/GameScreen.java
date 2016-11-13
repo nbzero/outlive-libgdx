@@ -21,11 +21,11 @@ import net.nbzero.outlive.hud.GameScreenHUD;
 import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
-import net.nbzero.outlive.player.characters.Fireball;
-import net.nbzero.outlive.player.characters.Stone;
 import net.nbzero.outlive.sound.BGM;
 import net.nbzero.outlive.utils.CollideHandler;
+import net.nbzero.outlive.utils.Fireball;
 import net.nbzero.outlive.utils.PositionHandler;
+import net.nbzero.outlive.utils.Stone;
 import net.nbzero.outlive.utils.Utils;
 
 public class GameScreen implements Screen {

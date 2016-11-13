@@ -43,6 +43,8 @@ public class Zoro extends Character {
 	private static float atkPower = 12;
 	private static float skill1Power = 20;
 	private static float skill2Power = 30;
+	private static float skill1MP = 20;
+	private static float skill2MP = 30;
 	private static float defPower = 12;
 	private static int criticalChance = 12;
 	
@@ -285,6 +287,14 @@ public class Zoro extends Character {
 		return skill2Power;
 	}
 	
+	public static float getSkill1MP() {
+		return skill1MP;
+	}
+
+	public static float getSkill2MP() {
+		return skill2MP;
+	}
+
 	public float[] getSkillCooldown() {
 		return skillCooldown;
 	}

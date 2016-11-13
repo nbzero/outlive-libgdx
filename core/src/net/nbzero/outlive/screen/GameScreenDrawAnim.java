@@ -1,9 +1,9 @@
 package net.nbzero.outlive.screen;
 
 import net.nbzero.outlive.player.characters.Character;
-import net.nbzero.outlive.player.characters.Fireball;
-import net.nbzero.outlive.player.characters.Stone;
 import net.nbzero.outlive.utils.CollideHandler;
+import net.nbzero.outlive.utils.Fireball;
+import net.nbzero.outlive.utils.Stone;
 
 public class GameScreenDrawAnim {
 	

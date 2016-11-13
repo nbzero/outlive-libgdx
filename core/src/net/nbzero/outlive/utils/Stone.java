@@ -1,9 +1,9 @@
-package net.nbzero.outlive.player.characters;
+package net.nbzero.outlive.utils;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Fireball {
+public class Stone {
 	
 	public static final int speed = 600;
 	private static Texture texture;
@@ -14,16 +14,16 @@ public class Fireball {
 	public boolean remove = false;
 	boolean isBig;
 	
-	public Fireball (float x, float y, boolean isRight, boolean isBig){
+	public Stone (float x, float y, boolean isRight, boolean isBig){
 		z = x;
-		px = 150;
+		px = 50;
 		this.x = x;
 		this.y = y;
 		this.isRight = isRight;
 		this.isBig = isBig;
 		
 		if (texture == null){
-			texture = new Texture("spritesheet/fireball.png");
+			texture = new Texture("spritesheet/stone.png");
 		}
 	}
 	
@@ -59,12 +59,12 @@ public class Fireball {
 	public void render (SpriteBatch batch){
 		if(isBig){
 			if(isRight){
-				batch.draw(texture, x+200, y, px+50, px);
+				batch.draw(texture, x+200, y+50, px, px);
 			}else{
-				batch.draw(texture, x+100, y, -px-50, px);
+				batch.draw(texture, x+100, y+50, -px, px);
 			}
 		} else{
-			px = 50;
+			px = 20;
 			if(isRight){
 				batch.draw(texture, x+200, y+50, px, px);
 			}else{
