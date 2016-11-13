@@ -27,6 +27,9 @@ public class LogoScreen implements Screen {
 	
 	@Override
 	public void show() {
+//		Sound sfx;
+//		sfx = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/sword17.mp3"));
+//		sfx.play(1.0f);
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());

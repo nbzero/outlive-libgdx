@@ -1,5 +1,6 @@
 package net.nbzero.outlive.player.characters;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -184,4 +185,11 @@ abstract public class Character {
 	public abstract float getOffsetY4();
 	public abstract float getOffsetY5();
 	public abstract float getOffsetY6();
+	
+	public abstract Sound getSoundAtk1();
+	public abstract Sound getSoundAtk2();
+	public abstract Sound getSoundAtk3();
+	public abstract Sound getSoundSkill1();
+	public abstract Sound getSoundSkill2();
+	
 }

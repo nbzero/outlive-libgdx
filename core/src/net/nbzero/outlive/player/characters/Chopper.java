@@ -1,5 +1,7 @@
 package net.nbzero.outlive.player.characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -56,6 +58,12 @@ public class Chopper extends Character {
 	private static float offsetY4 = 20f;
 	private static float offsetY5 = -60f;
 	private static float offsetY6 = 0f;
+	
+	private static Sound atk1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.wav"));
+	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.wav"));
+	private static Sound atk3 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.wav"));
+	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.wav"));
+	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.wav"));
 	
 	public Chopper(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
@@ -392,5 +400,25 @@ public class Chopper extends Character {
 	
 	public float getOffsetY6(){
 		return offsetY6;
+	}
+	
+	public Sound getSoundAtk1(){
+		return atk1;
+	}
+	
+	public Sound getSoundAtk2(){
+		return atk2;
+	}
+	
+	public Sound getSoundAtk3(){
+		return atk3;
+	}
+	
+	public Sound getSoundSkill1(){
+		return skill1;
+	}
+	
+	public Sound getSoundSkill2(){
+		return skill2;
 	}
 }
