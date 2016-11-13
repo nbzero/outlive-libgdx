@@ -104,6 +104,7 @@ public class Utils {
 	public static Skin gameScreenSkin;
 	public static BitmapFont hpMpFont;
 	public static BitmapFont timerFont;
+	public static BitmapFont skillNameFont;
 	
 	// Victory
 	public static Skin victorySkin;
@@ -298,6 +299,11 @@ public class Utils {
 		parameter.color = Color.BLACK;
 		p1CharFont = generator.generateFont(parameter);
 		gameScreenSkin.add("imagineFontPlayer", p1CharFont);
+		parameter.size = 22;
+		parameter.borderWidth = 2;
+		parameter.borderColor = Color.WHITE;
+		skillNameFont = generator.generateFont(parameter);
+		gameScreenSkin.add("imagineFontSkillName", skillNameFont);
 		parameter.size = 20;
 		parameter.borderWidth = 2;
 		parameter.borderColor = Color.WHITE;

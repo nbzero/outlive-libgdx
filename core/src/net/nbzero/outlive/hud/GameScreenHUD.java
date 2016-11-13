@@ -22,6 +22,10 @@ public class GameScreenHUD {
 	private static Rectangle p2Skill1Bar;
 	private static Rectangle p2Skill2Bar;
 	
+	private static PositionHandler p1Skill1CDLabelPos;
+	private static PositionHandler p1Skill2CDLabelPos;
+	private static PositionHandler p2Skill1CDLabelPos;
+	private static PositionHandler p2Skill2CDLabelPos;
 	private static PositionHandler p1Skill1LabelPos;
 	private static PositionHandler p1Skill2LabelPos;
 	private static PositionHandler p2Skill1LabelPos;
@@ -55,10 +59,14 @@ public class GameScreenHUD {
 		p1Skill2Bar = new Rectangle(0, p1Skill1Bar.getY()-70, 100, 50);
 		p2Skill1Bar = new Rectangle(Gdx.graphics.getWidth()-100, p1Skill1Bar.getY(), 100, 50);
 		p2Skill2Bar = new Rectangle(Gdx.graphics.getWidth()-100, p1Skill2Bar.getY(), 100, 50);
-		p1Skill1LabelPos = new PositionHandler(p1Skill1Bar.getX()+10, p1Skill1Bar.getY()+15);
-		p1Skill2LabelPos = new PositionHandler(p1Skill2Bar.getX()+10, p1Skill2Bar.getY()+15);
-		p2Skill1LabelPos = new PositionHandler(p2Skill1Bar.getX()+10, p2Skill1Bar.getY()+15);
-		p2Skill2LabelPos = new PositionHandler(p2Skill2Bar.getX()+10, p2Skill2Bar.getY()+15);
+		p1Skill1CDLabelPos = new PositionHandler(p1Skill1Bar.getX()+10, p1Skill1Bar.getY()+15);
+		p1Skill2CDLabelPos = new PositionHandler(p1Skill2Bar.getX()+10, p1Skill2Bar.getY()+15);
+		p2Skill1CDLabelPos = new PositionHandler(p2Skill1Bar.getX()+10, p2Skill1Bar.getY()+15);
+		p2Skill2CDLabelPos = new PositionHandler(p2Skill2Bar.getX()+10, p2Skill2Bar.getY()+15);
+		p1Skill1LabelPos = new PositionHandler(p1Skill1Bar.getX()+p1Skill1Bar.getWidth()+10, p1Skill1Bar.getY()+15);
+		p1Skill2LabelPos = new PositionHandler(p1Skill2Bar.getX()+p1Skill2Bar.getWidth()+10, p1Skill2Bar.getY()+15);
+		p2Skill1LabelPos = new PositionHandler(p2Skill1Bar.getX()-p2Skill1Bar.getWidth(), p2Skill1Bar.getY()+15);
+		p2Skill2LabelPos = new PositionHandler(p2Skill2Bar.getX()-p2Skill2Bar.getWidth(), p2Skill2Bar.getY()+15);
 		timerLabel = new PositionHandler(Gdx.graphics.getWidth()*0.48f, Gdx.graphics.getHeight()*0.92f);
 	}
 	
@@ -136,6 +144,22 @@ public class GameScreenHUD {
 
 	public static Rectangle getP2Skill2Bar() {
 		return p2Skill2Bar;
+	}
+
+	public static PositionHandler getP1Skill1CDLabelPos() {
+		return p1Skill1CDLabelPos;
+	}
+
+	public static PositionHandler getP1Skill2CDLabelPos() {
+		return p1Skill2CDLabelPos;
+	}
+
+	public static PositionHandler getP2Skill1CDLabelPos() {
+		return p2Skill1CDLabelPos;
+	}
+
+	public static PositionHandler getP2Skill2CDLabelPos() {
+		return p2Skill2CDLabelPos;
 	}
 
 	public static PositionHandler getP1Skill1LabelPos() {

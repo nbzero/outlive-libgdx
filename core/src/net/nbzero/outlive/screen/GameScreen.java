@@ -62,6 +62,10 @@ public class GameScreen implements Screen {
 	private static Label p1Skill2CDLabel;
 	private static Label p2Skill1CDLabel;
 	private static Label p2Skill2CDLabel;
+	private static Label p1Skill1Label;
+	private static Label p1Skill2Label;
+	private static Label p2Skill1Label;
+	private static Label p2Skill2Label;
 	private static Label timerLabel;
 	protected static ArrayList<Stone> stones; 
 	private static boolean paused = false;
@@ -343,7 +347,6 @@ public class GameScreen implements Screen {
 		for (Fireball fireball : fireballs){
 			fireball.render(batch);
 		}
-		
 
 		//update stone
 		ArrayList<Stone> stonesToRemove = new ArrayList<Stone>();
@@ -570,10 +573,18 @@ public class GameScreen implements Screen {
 		p1Skill2CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
 		p2Skill1CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
 		p2Skill2CDLabel = new Label("Ready", Utils.gameScreenSkin, "imagineFontHpMp", Color.WHITE);
-		p1Skill1CDLabel.setPosition(GameScreenHUD.getP1Skill1LabelPos().getX(), GameScreenHUD.getP1Skill1LabelPos().getY());
-		p1Skill2CDLabel.setPosition(GameScreenHUD.getP1Skill2LabelPos().getX(), GameScreenHUD.getP1Skill2LabelPos().getY());
-		p2Skill1CDLabel.setPosition(GameScreenHUD.getP2Skill1LabelPos().getX(), GameScreenHUD.getP2Skill1LabelPos().getY());
-		p2Skill2CDLabel.setPosition(GameScreenHUD.getP2Skill2LabelPos().getX(), GameScreenHUD.getP2Skill2LabelPos().getY());
+		p1Skill1Label = new Label("Skill1", Utils.gameScreenSkin, "imagineFontSkillName", Color.WHITE);
+		p1Skill2Label = new Label("Skill2", Utils.gameScreenSkin, "imagineFontSkillName", Color.WHITE);
+		p2Skill1Label = new Label("Skill1", Utils.gameScreenSkin, "imagineFontSkillName", Color.WHITE);
+		p2Skill2Label = new Label("Skill2", Utils.gameScreenSkin, "imagineFontSkillName", Color.WHITE);
+		p1Skill1CDLabel.setPosition(GameScreenHUD.getP1Skill1CDLabelPos().getX(), GameScreenHUD.getP1Skill1LabelPos().getY());
+		p1Skill2CDLabel.setPosition(GameScreenHUD.getP1Skill2CDLabelPos().getX(), GameScreenHUD.getP1Skill2LabelPos().getY());
+		p2Skill1CDLabel.setPosition(GameScreenHUD.getP2Skill1CDLabelPos().getX(), GameScreenHUD.getP2Skill1LabelPos().getY());
+		p2Skill2CDLabel.setPosition(GameScreenHUD.getP2Skill2CDLabelPos().getX(), GameScreenHUD.getP2Skill2LabelPos().getY());
+		p1Skill1Label.setPosition(GameScreenHUD.getP1Skill1LabelPos().getX(), GameScreenHUD.getP1Skill1LabelPos().getY());
+		p1Skill2Label.setPosition(GameScreenHUD.getP1Skill2LabelPos().getX(), GameScreenHUD.getP1Skill2LabelPos().getY());
+		p2Skill1Label.setPosition(GameScreenHUD.getP2Skill1LabelPos().getX(), GameScreenHUD.getP2Skill1LabelPos().getY());
+		p2Skill2Label.setPosition(GameScreenHUD.getP2Skill2LabelPos().getX(), GameScreenHUD.getP2Skill2LabelPos().getY());
 		p1Skill1CDLabel.setAlignment(Align.center);
 		p1Skill2CDLabel.setAlignment(Align.center);
 		p2Skill1CDLabel.setAlignment(Align.center);
@@ -617,6 +628,10 @@ public class GameScreen implements Screen {
 		stage.addActor(p1Skill2CDLabel);
 		stage.addActor(p2Skill1CDLabel);
 		stage.addActor(p2Skill2CDLabel);
+		stage.addActor(p1Skill1Label);
+		stage.addActor(p1Skill2Label);
+		stage.addActor(p2Skill1Label);
+		stage.addActor(p2Skill2Label);
 		stage.addActor(timerLabel);
 	}
 	
