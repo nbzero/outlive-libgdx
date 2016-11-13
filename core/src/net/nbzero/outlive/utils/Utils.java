@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
+import net.nbzero.outlive.sound.BGM;
 
 public class Utils {
 	public static float FADE_TIME;
@@ -39,7 +42,9 @@ public class Utils {
 	public static ImageButton startButton;
 	public static ImageButton tutorialButton;
 	
-	public static ImageButton[] buttonArray = {oneOneButton, twoTwoButton, configButton, creditsButton, exitButton, startButton, tutorialButton};
+	public static BitmapFont configFont;
+	public static Label configBGMLabel;
+	public static Label configBGMNumLabel;
 	
 	// Character Select
 	public static String characterSelectBGPath;
@@ -113,6 +118,7 @@ public class Utils {
 	}
 	
 	public static void loadMainMenu() {
+		
 		gameLogoPath = "Logo/GameLogo.png";
 		mainMenuBGPath = "MainMenu/bg.png";
 		creditsImagePath = "MainMenu/credit.png";
@@ -138,6 +144,18 @@ public class Utils {
 		exitButton = new ImageButton(skin.getDrawable("exitButton"), skin.getDrawable("exitButton"), skin.getDrawable("exitButtonSelected"));
 		oneOneButton = new ImageButton(skin.getDrawable("oneOneButton"), skin.getDrawable("oneOneButton"), skin.getDrawable("oneOneButtonSelected"));
 		twoTwoButton = new ImageButton(skin.getDrawable("twoTwoButton"), skin.getDrawable("twoTwoButton"), skin.getDrawable("twoTwoButtonSelected"));
+		
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("Font/imagine_font.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.characters = FONT_CHARACTERS;
+		parameter.size = 60;
+		parameter.color = Color.BLACK;
+		parameter.borderWidth = 3;
+		parameter.borderColor = Color.WHITE;
+		configFont = generator.generateFont(parameter);
+		skin.add("KitchenPoliceConfig", configFont);
+		configBGMLabel = new Label("BGM", skin, "KitchenPoliceConfig", Color.WHITE);
+		configBGMNumLabel = new Label((int)(BGM.MainMenu.getVolume()*100) + "%", skin, "KitchenPoliceConfig", Color.WHITE);
 	}
 	
 	public static void loadCharSelect() {
@@ -307,6 +325,9 @@ public class Utils {
 	
 	public static void exitGame() {
 		// Dispose everything
+		victorySkin.dispose();
+		charSelectSkin.dispose();
 		skin.dispose();
+		gameScreenSkin.dispose();
 	}
 }

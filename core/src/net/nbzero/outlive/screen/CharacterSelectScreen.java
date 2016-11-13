@@ -2,6 +2,7 @@ package net.nbzero.outlive.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -11,13 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 import net.nbzero.outlive.InputsControl;
-import net.nbzero.outlive.Outlive;
+import net.nbzero.outlive.sound.BGM;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
 import net.nbzero.outlive.utils.screenutils.CharacterScreenUtils;
@@ -54,14 +52,10 @@ public class CharacterSelectScreen implements Screen {
 	
 	@Override
 	public void show() {
-		Outlive.bgm.stop();
-		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Character select.wav"));
-		Outlive.bgm.play();
-		Outlive.bgm.setLooping(true);
-		Outlive.bgm.setVolume(0.5f);
 		click = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Click.mp3"));
 		select = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Select.mp3"));
 		exit = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Exit.mp3"));
+		BGM.CharacterSelect.play();
 		Utils.loadCharSelect();
 		Utils.loadKitchenFont();
 		
@@ -298,6 +292,11 @@ public class CharacterSelectScreen implements Screen {
 			fadeOutTime = 0;
 		}
 		
+		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
+			dispose();
+			((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+		}
+		
 		tweenManager.update(elapsedTime);
 	}
 
@@ -316,7 +315,7 @@ public class CharacterSelectScreen implements Screen {
 	@Override
 	public void dispose() {	
 		stage.dispose();
-		Utils.charSelectSkin.dispose();
+		BGM.CharacterSelect.getBGM().dispose();
 	}
 	
 	private void fadeOutToGameScreen(){

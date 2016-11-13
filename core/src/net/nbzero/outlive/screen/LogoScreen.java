@@ -5,14 +5,13 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
+import net.nbzero.outlive.sound.BGM;
 import net.nbzero.outlive.tween.SpriteAccessor;
 import net.nbzero.outlive.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -27,12 +26,10 @@ public class LogoScreen implements Screen {
 	
 	@Override
 	public void show() {
-//		Sound sfx;
-//		sfx = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/sword17.mp3"));
-//		sfx.play(1.0f);
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
+		BGM.Logo.play();
 		
 		splash = new Sprite(new Texture(Utils.gameLogoPath));
 		splash.setPosition(Gdx.graphics.getWidth()/2 - splash.getWidth()/2, Gdx.graphics.getHeight()/2 - splash.getHeight()/2);
@@ -40,11 +37,12 @@ public class LogoScreen implements Screen {
 		Timeline.createSequence().beginSequence()
 			.push(Tween.set(splash, SpriteAccessor.ALPHA).target(0))
 			.push(Tween.to(splash, SpriteAccessor.ALPHA, fadeTime).target(1))
-			.push(Tween.to(splash, SpriteAccessor.ALPHA, fadeTime-1).target(0))
+			.push(Tween.to(splash, SpriteAccessor.ALPHA, fadeTime-0.5f).target(0))
 			.end().setCallback(new TweenCallback() {
 				
 				@Override
 				public void onEvent(int type, BaseTween<?> source) {
+					dispose();
 					((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 				}
 			}).start(tweenManager);
@@ -81,6 +79,7 @@ public class LogoScreen implements Screen {
 	@Override
 	public void dispose() { 
 		batch.dispose();
+		BGM.Logo.getBGM().dispose();
 	}
 
 }

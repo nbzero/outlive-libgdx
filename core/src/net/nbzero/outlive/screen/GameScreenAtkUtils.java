@@ -6,7 +6,7 @@ import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.utils.CollideHandler;
 
 public class GameScreenAtkUtils {
-	protected static void checkAtkHit(Character attacker, Character defender){
+	public static void checkAtkHit(Character attacker, Character defender){
 		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getAttackBox(), defender.getHitbox())
 				|| CollideHandler.checkCollide("Right", attacker.getAttackBox2(), defender.getHitbox())
 				|| CollideHandler.checkCollide("Right", attacker.getAttackBox3(), defender.getHitbox())
@@ -47,14 +47,14 @@ public class GameScreenAtkUtils {
 	}
 	
 	
-	protected static float getAtkTime(Character player, float attackTime){
+	public static float getAtkTime(Character player, float attackTime){
 		if(player.getAttacking().isAnimationFinished(attackTime)){
 			return 0;
 		}
 		return attackTime;
 	}
 	
-	protected static void checkSkill1Hit(Character attacker, Character defender){
+	public static void checkSkill1Hit(Character attacker, Character defender){
 		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getSkill1Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
@@ -84,14 +84,14 @@ public class GameScreenAtkUtils {
 		}
 	}
 	
-	protected static float getSkill1Time(Character player, float skillTime){
+	public static float getSkill1Time(Character player, float skillTime){
 		if(player.getSkilling1().isAnimationFinished(player.getPlayer().getDelayTime())){
 			return 0;
 		}
 		return skillTime;
 	}
 	
-	protected static void checkSkill2Hit(Character attacker, Character defender){
+	public static void checkSkill2Hit(Character attacker, Character defender){
 		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getSkill2Box(), defender.getHitbox()) && defender.getPlayer().isHitable()){
 			defender.getPlayer().setHasControl(false);
 			defender.getPlayer().setHitted(true);
@@ -121,14 +121,14 @@ public class GameScreenAtkUtils {
 		}
 	}
 	
-	protected static float getSkill2Time(Character player, float skillTime){
+	public static float getSkill2Time(Character player, float skillTime){
 		if(player.getSkilling2().isAnimationFinished(player.getPlayer().getDelayTime())){
 			return 0;
 		}
 		return skillTime;
 	}
 	
-	protected static void checkSkillCD(Character player){
+	public static void checkSkillCD(Character player){
 		if(!player.getPlayer().isSkill1Ready()){
 			player.getPlayer().setSkill1CDTime(player.getPlayer().getSkill1CDTime()+Gdx.graphics.getDeltaTime());
 			if(player.getPlayer().getSkill1CDTime() >= player.getPlayer().getSkillCD(0)){
