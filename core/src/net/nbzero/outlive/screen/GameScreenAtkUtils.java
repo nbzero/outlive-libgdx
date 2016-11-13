@@ -182,6 +182,10 @@ public class GameScreenAtkUtils {
 		}
 	}
 	
+	public static void deceaseMPDash(Character player){
+		player.getPlayer().setMp(player.getPlayer().getMp()-5);
+	}
+	
 	public static void regenMP(Character player){
 		if(player.getPlayer().getMp()+4 <= player.getMaxMP()){
 			player.getPlayer().setMp(player.getPlayer().getMp()+4);

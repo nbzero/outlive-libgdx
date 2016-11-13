@@ -1,13 +1,15 @@
-package net.nbzero.outlive.screen;
+package net.nbzero.outlive.utils.screenutils;
 
 import net.nbzero.outlive.player.characters.Character;
+import net.nbzero.outlive.screen.GameScreen;
+import net.nbzero.outlive.screen.GameScreenAtkUtils;
 import net.nbzero.outlive.utils.CollideHandler;
 import net.nbzero.outlive.utils.Fireball;
 import net.nbzero.outlive.utils.Stone;
 
 public class GameScreenDrawAnim {
 	
-	protected static void idleAnim(Character player){
+	public static void idleAnim(Character player){
 		player.getPlayer().setHasControl(true);
 		player.getPlayer().setHitted(false);
 		player.setUping(false);
@@ -17,7 +19,7 @@ public class GameScreenDrawAnim {
 		player.getAttackBox3().set(player.getDefaultAttackBox3());
 		player.getSkill1Box().set(player.getDefaultSkill1Box());
 		player.getSkill2Box().set(player.getDefaultSkill2Box());
-		GameScreen.keyFrame = player.getStanding().getKeyFrame(GameScreen.elapsedTime, true);
+		GameScreen.keyFrame = player.getStanding().getKeyFrame(GameScreenUtils.elapsedTime, true);
 		if(!player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 		}
@@ -26,8 +28,8 @@ public class GameScreenDrawAnim {
 		}
 	}
 	
-	protected static void moveLeftAnim(Character player){
-		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
+	public static void moveLeftAnim(Character player){
+		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreenUtils.elapsedTime, true);
 		player.setUping(false);
 		player.setDowning(false);
 		player.getPlayer().setRight(false);
@@ -37,8 +39,8 @@ public class GameScreenDrawAnim {
 		GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 	}
 	
-	protected static void moveRightAnim(Character player){
-		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
+	public static void moveRightAnim(Character player){
+		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreenUtils.elapsedTime, true);
 		player.setUping(false);
 		player.setDowning(false);
 		player.getPlayer().setRight(true);
@@ -48,8 +50,8 @@ public class GameScreenDrawAnim {
 		GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 	}
 	
-	protected static void moveUpAnim(Character player){
-		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
+	public static void moveUpAnim(Character player){
+		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreenUtils.elapsedTime, true);
 		if(!CollideHandler.checkMapCollide("up", player.getHitbox())){
 			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), player.getMoveSpeed());
 		}
@@ -60,8 +62,8 @@ public class GameScreenDrawAnim {
 		}
 	}
 	
-	protected static void moveDownAnim(Character player){
-		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
+	public static void moveDownAnim(Character player){
+		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreenUtils.elapsedTime, true);
 		if(!CollideHandler.checkMapCollide("down", player.getHitbox())){
 			player.moveY(player.getPlayer().getPos().getY(), player.getHitbox().getY(), -player.getMoveSpeed());
 		}
@@ -72,7 +74,7 @@ public class GameScreenDrawAnim {
 		}
 	}
 	
-	protected static void dashingAnim(Character player){
+	public static void dashingAnim(Character player){
 		player.getPlayer().setHitable(false);
 		GameScreen.keyFrame = player.getDashing().getKeyFrame(player.getPlayer().getDelayTime());
 		if(!player.getPlayer().isRight()){
@@ -90,14 +92,15 @@ public class GameScreenDrawAnim {
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX()+300, player.getPlayer().getPos().getY(), -300, 300);
 		}
 		if(player.getPlayer().getDelayTime()>=0.1f){
+			GameScreenAtkUtils.deceaseMPDash(player);
 			player.getPlayer().setDashing(false);
 			player.getPlayer().setHitable(true);
 			player.getPlayer().setDelayTime(0);
 		}
 	}
 	
-	protected static void getHitAnim(Character player){
-		GameScreen.keyFrame = player.getGetHit().getKeyFrame(GameScreen.elapsedTime, true);
+	public static void getHitAnim(Character player){
+		GameScreen.keyFrame = player.getGetHit().getKeyFrame(GameScreenUtils.elapsedTime, true);
 		if(!player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 		}
@@ -106,10 +109,10 @@ public class GameScreenDrawAnim {
 		}
 	}
 	
-	protected static void defenseAnim(Character player){
+	public static void defenseAnim(Character player){
 		player.getPlayer().setDefending(true);
 		player.getPlayer().setHasControl(false);
-		GameScreen.keyFrame = player.getDefending().getKeyFrame(GameScreen.elapsedTime);
+		GameScreen.keyFrame = player.getDefending().getKeyFrame(GameScreenUtils.elapsedTime);
 		if(!player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
 		}
@@ -118,7 +121,7 @@ public class GameScreenDrawAnim {
 		}
 	}
 	
-	protected static void attackingAnim(Character player){
+	public static void attackingAnim(Character player){
 		
 		//-------------------Sabo---
 		if(player.getNameCharacter() == "Sabo"){
@@ -133,7 +136,7 @@ public class GameScreenDrawAnim {
 			else if(!player.getPlayer().isRight() && player.getAtkCount()%3==1){
 				if (player.getPlayer().getAttackTime()<0.02f){
 					player.getSoundAtk2().play();
-					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
+					GameScreenUtils.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox2().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking2().getKeyFrame(player.getPlayer().getAttackTime());
@@ -142,7 +145,7 @@ public class GameScreenDrawAnim {
 			else if(!player.getPlayer().isRight() && player.getAtkCount()%3==2){
 				if (player.getPlayer().getAttackTime()<0.02f){
 					player.getSoundAtk3().play();
-					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
+					GameScreenUtils.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox3().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking3().getKeyFrame(player.getPlayer().getAttackTime());
@@ -162,7 +165,7 @@ public class GameScreenDrawAnim {
 			else if(player.getPlayer().isRight() && player.getAtkCount()%3==1){
 				if (player.getPlayer().getAttackTime()<0.02f){
 					player.getSoundAtk2().play();
-					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
+					GameScreenUtils.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox2().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking2().getKeyFrame(player.getPlayer().getAttackTime());
@@ -171,7 +174,7 @@ public class GameScreenDrawAnim {
 			else if(player.getPlayer().isRight() && player.getAtkCount()%3==2){
 				if (player.getPlayer().getAttackTime()<0.02f){
 					player.getSoundAtk3().play();
-					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
+					GameScreenUtils.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox3().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking3().getKeyFrame(player.getPlayer().getAttackTime());
@@ -193,7 +196,7 @@ public class GameScreenDrawAnim {
 			else if(!player.getPlayer().isRight() && player.getAtkCount()%3==1){
 				if (player.getPlayer().getAttackTime()<0.02f){
 					player.getSoundAtk2().play();
-					GameScreen.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
+					GameScreenUtils.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox2().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking2().getKeyFrame(player.getPlayer().getAttackTime());
@@ -202,7 +205,7 @@ public class GameScreenDrawAnim {
 			else if(!player.getPlayer().isRight() && player.getAtkCount()%3==2){
 				if (player.getPlayer().getAttackTime()<0.02f){
 					player.getSoundAtk3().play();
-					GameScreen.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY()+40, player.getPlayer().isRight(), false));
+					GameScreenUtils.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY()+40, player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox2().setPosition(player.getHitboxPosXLeft()-player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY()+30);
 				GameScreen.keyFrame = player.getAttacking3().getKeyFrame(player.getPlayer().getAttackTime());
@@ -224,7 +227,7 @@ public class GameScreenDrawAnim {
 					player.getSoundAtk2().play();
 				}
 				if (player.getPlayer().getAttackTime()<0.02f){
-					GameScreen.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
+					GameScreenUtils.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox3().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY());
 				GameScreen.keyFrame = player.getAttacking2().getKeyFrame(player.getPlayer().getAttackTime());
@@ -235,7 +238,7 @@ public class GameScreenDrawAnim {
 					player.getSoundAtk3().play();
 				}
 				if (player.getPlayer().getAttackTime()<0.02f){
-					GameScreen.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY()+40, player.getPlayer().isRight(), false));
+					GameScreenUtils.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY()+40, player.getPlayer().isRight(), false));
 				}
 				player.getAttackBox3().setPosition(player.getHitboxPosXRight()+player.getPlayer().getAttackTime()*(player.getAtkSpeed()*34), player.getHitboxPosY()+30);
 				GameScreen.keyFrame = player.getAttacking3().getKeyFrame(player.getPlayer().getAttackTime());
@@ -311,13 +314,13 @@ public class GameScreenDrawAnim {
 		
 	}
 	
-	protected static void skill1Anim(Character player){
+	public static void skill1Anim(Character player){
 		if(player.getNameCharacter() == "Sabo"){
 			GameScreen.keyFrame = player.getSkilling1().getKeyFrame(player.getPlayer().getDelayTime());
 			if(!player.getPlayer().isRight()){
 				if (player.getPlayer().getDelayTime()<0.02f){
 					player.getSoundSkill1().play();
-					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
+					GameScreenUtils.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
 				}
 				if(player.getPlayer().getDelayTime()>=player.getSkill1HitboxDelay() && player.getPlayer().getDelayTime()<=player.getSkill1HitboxDelay()+0.5f)
 					player.getSkill1Box().setPosition(player.getSkillPosXLeft()-((player.getPlayer().getDelayTime()*player.getSkill1Speed())+130), player.getHitboxPosY()-15);
@@ -326,7 +329,7 @@ public class GameScreenDrawAnim {
 			else if(player.getPlayer().isRight()){
 				if (player.getPlayer().getDelayTime()<0.02f){
 					player.getSoundSkill1().play();
-					GameScreen.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
+					GameScreenUtils.fireballs.add(new Fireball(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
 				}
 				if(player.getPlayer().getDelayTime()>=player.getSkill1HitboxDelay() && player.getPlayer().getDelayTime()<=player.getSkill1HitboxDelay()+0.5f)
 					player.getSkill1Box().setPosition(player.getSkillPosXRight()+((player.getPlayer().getDelayTime()*player.getSkill1Speed())+130), player.getHitboxPosY()-15);
@@ -342,7 +345,7 @@ public class GameScreenDrawAnim {
 			if(!player.getPlayer().isRight()){
 				if (1.0f<player.getPlayer().getDelayTime() && player.getPlayer().getDelayTime()<1.02f){
 					player.getSoundSkill1().play();
-					GameScreen.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
+					GameScreenUtils.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
 				}
 				if(player.getPlayer().getDelayTime()>=player.getSkill1HitboxDelay()+0.2f){
 					player.getSkill1Box().setPosition(player.getSkillPosXLeft()-player.getPlayer().getDelayTime()*player.getSkill1Speed()+player.getOffsetX4()+400, player.getHitboxPosY()+player.getOffsetY4());
@@ -353,7 +356,7 @@ public class GameScreenDrawAnim {
 			else if(player.getPlayer().isRight()){
 				if (1.0f<player.getPlayer().getDelayTime() && player.getPlayer().getDelayTime()<1.02f){
 					player.getSoundSkill1().play();
-					GameScreen.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
+					GameScreenUtils.stones.add(new Stone(player.getPlayer().getPos().getX(), player.getHitbox().getY(), player.getPlayer().isRight(), true));
 				}
 				if(player.getPlayer().getDelayTime()>=player.getSkill1HitboxDelay()+0.2f)
 					player.getSkill1Box().setPosition(player.getSkillPosXRight()+player.getPlayer().getDelayTime()*player.getSkill1Speed()-400, player.getHitboxPosY()+player.getOffsetY4());
@@ -389,7 +392,7 @@ public class GameScreenDrawAnim {
 		
 	}
 	
-	protected static void skill2Anim(Character player){
+	public static void skill2Anim(Character player){
 		if (player.getPlayer().getDelayTime()<0.02f){
 			player.getSoundSkill2().play();
 		}
@@ -412,7 +415,7 @@ public class GameScreenDrawAnim {
 		}
 	}
 	
-	protected static void deadAnim(Character player){
+	public static void deadAnim(Character player){
 		GameScreen.keyFrame = player.getDead().getKeyFrame(player.getPlayer().getDeadTime());
 		if(!player.getPlayer().isRight()){
 			GameScreen.batch.draw(GameScreen.keyFrame, player.getPlayer().getPos().getX(), player.getPlayer().getPos().getY(), 300, 300);
