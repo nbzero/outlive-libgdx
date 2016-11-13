@@ -18,6 +18,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 import net.nbzero.outlive.sound.BGM;
+import net.nbzero.outlive.sound.SoundUtils;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
 import net.nbzero.outlive.utils.screenutils.MainMenuUtils;
@@ -44,6 +45,7 @@ public class MainMenuScreen implements Screen {
 		configTable.add(Utils.configBGMNumLabel).padLeft(50).row();
 		configTable.add(Utils.configBGMLabel);
 		BGM.MainMenu.play();
+		System.out.println(BGM.MainMenu.getVolume());
 		
 		stage = new Stage();
 		
@@ -151,11 +153,12 @@ public class MainMenuScreen implements Screen {
 			}
 		}
 		else if(menu == 2){
-			if(Gdx.input.isKeyJustPressed(Keys.LEFT) && BGM.MainMenu.getVolume()>=0.049f){
+			if(Gdx.input.isKeyJustPressed(Keys.LEFT) && BGM.MainMenu.getVolume()>=0.05f){
 				BGM.MainMenu.setVolume(BGM.MainMenu.getVolume()-0.05f);
+				System.out.println(SoundUtils.getMasterVolume());
 				Utils.configBGMNumLabel.setText((int)(BGM.MainMenu.getVolume()*100) + "%");
 			}
-			if(Gdx.input.isKeyJustPressed(Keys.RIGHT) && BGM.MainMenu.getVolume()<=0.951f){
+			if(Gdx.input.isKeyJustPressed(Keys.RIGHT) && BGM.MainMenu.getVolume()<=0.95f){
 				BGM.MainMenu.setVolume(BGM.MainMenu.getVolume()+0.05f);
 				Utils.configBGMNumLabel.setText((int)(BGM.MainMenu.getVolume()*100) + "%");
 			}
@@ -195,6 +198,6 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		BGM.MainMenu.getBGM().dispose();
+		BGM.MainMenu.getBGM().stop();
 	}
 }

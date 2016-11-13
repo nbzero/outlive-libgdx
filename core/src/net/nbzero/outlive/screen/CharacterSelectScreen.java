@@ -16,6 +16,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.sound.BGM;
+import net.nbzero.outlive.sound.SoundUtils;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
 import net.nbzero.outlive.utils.screenutils.CharacterScreenUtils;
@@ -26,13 +27,16 @@ public class CharacterSelectScreen implements Screen {
 	private TweenManager tweenManager;
 	private Table table;
 	private Table table2;
+	private Table stageTable;
 	private int p1Selected = 0;
 	private int p2Selected = 0;
+	private int stageSelected = 0;
 	private boolean p1Lock = false;
 	private boolean p2Lock = false;
+	private boolean stageLock = false;
 	protected static String p1Char = null;
 	protected static String p2Char = null;
-	private float delayTime;
+	protected static String stagePath = null;
 	private Label titleText1;
 	private Label titleText2;
 	private Label vsText1;
@@ -43,9 +47,12 @@ public class CharacterSelectScreen implements Screen {
 	private Label p2Locked;
 	private Label readyText;
 	private Label countDownText;
-	private float elapsedTime = 0;
-	private float fadeOutTime = 0;
-	private float fadeInTime = 0;
+	private float elapsedTime;
+	private float fadeOutTime;
+	private float fadeInTime;
+	private float delayTime;
+	private float clickTime;
+	private int countClick;
 	private Sound click;
 	private Sound select;
 	private Sound exit;
@@ -78,6 +85,14 @@ public class CharacterSelectScreen implements Screen {
 		table2.add(Utils.chopperButton).width(Utils.charButtonWidth).height(Utils.charButtonHeight);
 		table2.add(Utils.usoppButton).width(Utils.charButtonWidth).height(Utils.charButtonHeight);
 		
+		stageTable = new Table(Utils.charSelectSkin);
+		stageTable.setPosition(Gdx.graphics.getWidth()*0.5f, Gdx.graphics.getHeight()*0.26f);
+		stageTable.setZIndex(3);
+		stageTable.add(Utils.forestSmall).width(Utils.forestSmall.getWidth()*0.85f).height(Utils.forestSmall.getHeight()*0.85f);
+		stageTable.add(Utils.waterSmall).width(Utils.waterSmall.getWidth()*0.85f).height(Utils.waterSmall.getHeight()*0.85f).padLeft(20);
+		stageTable.add(Utils.trainSmall).width(Utils.trainSmall.getWidth()*0.85f).height(Utils.trainSmall.getHeight()*0.85f).padLeft(20);
+		stageTable.setColor(1, 1, 1, 0);
+		
 		titleText1 = new Label("Character", Utils.charSelectSkin, "KitchenPoliceTitle", Color.WHITE);
 		titleText2 = new Label("Selection", Utils.charSelectSkin, "KitchenPoliceTitle", Color.WHITE);
 		vsText1 = new Label("V", Utils.charSelectSkin, "KitchenPoliceVs", Color.SCARLET);
@@ -108,6 +123,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(Utils.characterSelectCharBG);
 		Utils.characterSelectBG.setZIndex(0);
 		Utils.characterSelectCharBG.setZIndex(2);
+		stage.addActor(stageTable);
 		stage.addActor(table);
 		stage.addActor(table2);
 		
@@ -270,7 +286,68 @@ public class CharacterSelectScreen implements Screen {
 		}
 		
 		if(p1Lock && p2Lock){
+			switch(stageSelected){
+			case 0:
+				Utils.forestSmall.setChecked(true);
+				Utils.waterSmall.setChecked(false);
+				break;
+			case 1:
+				Utils.forestSmall.setChecked(false);
+				Utils.waterSmall.setChecked(true);
+				Utils.trainSmall.setChecked(false);
+				break;
+			case 2:
+				Utils.waterSmall.setChecked(false);
+				Utils.trainSmall.setChecked(true);
+				break;
+			}
+			titleText1.setText("Stage");
+			table.setColor(1, 1, 1, 0);
+			table2.setColor(1, 1, 1, 0);
+			stageTable.setColor(1, 1, 1, 1);
+			if(Gdx.input.isKeyJustPressed(Keys.LEFT) && stageSelected > 0){
+				click.play();
+				stageSelected--;
+			}
+			else if(Gdx.input.isKeyJustPressed(Keys.RIGHT) && stageSelected < 2){
+				click.play();
+				stageSelected++;
+			}
+			else if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
+				select.play();
+				switch(stageSelected){
+				case 0:
+					stagePath = "Stage/forest.png";
+					break;
+				case 1:
+					stagePath = "Stage/water.png";
+					break;
+				case 2:
+					stagePath = "Stage/train.png";
+					break;
+				}
+				stageLock = true;
+			}
+		}
+		else{
+			titleText1.setText("Character");
+			table.setColor(1, 1, 1, 1);
+			table2.setColor(1, 1, 1, 1);
+			stageTable.setColor(1, 1, 1, 0);
+		}
+		if(p1Lock && p2Lock && stageLock){
 			delayTime += Gdx.graphics.getDeltaTime();
+			clickTime += Gdx.graphics.getDeltaTime();
+			if(clickTime >= 1 && countClick<4){
+				click.play();
+				clickTime -= 1;
+				countClick++;
+			}
+			else if(clickTime >=1 && countClick==4){
+				exit.play();
+				clickTime -= 1;
+				countClick++;
+			}
 			Utils.characterSelectReadyBG.setColor(1, 1, 1, 1);
 			readyText.setColor(1, 1, 1, 1);
 			countDownText.setColor(1, 1, 1, 1);
@@ -290,9 +367,22 @@ public class CharacterSelectScreen implements Screen {
 			countDownText.setColor(1, 1, 1, 0);
 			delayTime = 0;
 			fadeOutTime = 0;
+			clickTime = 0;
+			countClick = 0;
 		}
 		
-		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
+		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE) && stageLock && delayTime < 5f){
+			exit.play();
+			Utils.characterSelectReadyBG.setColor(1, 1, 1, 0);
+			readyText.setColor(1, 1, 1, 0);
+			countDownText.setColor(1, 1, 1, 0);
+			delayTime = 0;
+			fadeOutTime = 0;
+			clickTime = 0;
+			countClick = 0;
+			stageLock = false;
+		}
+		else if (Gdx.input.isKeyJustPressed(Keys.ESCAPE) && !stageLock){
 			dispose();
 			((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 		}
@@ -321,8 +411,7 @@ public class CharacterSelectScreen implements Screen {
 	private void fadeOutToGameScreen(){
 		Utils.characterSelectBG.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.characterSelectCharBG.setColor(1, 1, 1, 1-fadeOutTime);
-		table.setColor(1, 1, 1, 1-fadeOutTime);
-		table2.setColor(1, 1, 1, 1-fadeOutTime);
+		stageTable.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.chopperBGP1.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.lawBGP1.setColor(1, 1, 1, 1-fadeOutTime);
 		Utils.luffyBGP1.setColor(1, 1, 1, 1-fadeOutTime);

@@ -163,5 +163,8 @@ public class GameScreenAtkUtils {
 		if(player.getPlayer().getMp()+4 <= player.getMaxMP()){
 			player.getPlayer().setMp(player.getPlayer().getMp()+4);
 		}
+		else{
+			player.getPlayer().setMp(player.getMaxMP());
+		}
 	}
 }

@@ -85,6 +85,11 @@ public class Utils {
 	public static Image zoroBGP2;
 	public static Image usoppBGP2;
 	
+	public static TextureAtlas stageAtlas;
+	public static ImageButton forestSmall;
+	public static ImageButton trainSmall;
+	public static ImageButton waterSmall;
+	
 	public static FreeTypeFontGenerator generator;
 	public static FreeTypeFontParameter parameter;
 	public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
@@ -171,7 +176,12 @@ public class Utils {
 		charSelectSkin = new Skin();
 		characterButtonAtlas = new TextureAtlas(Gdx.files.internal("CharacterSelect/characterButton.atlas"));
 		bgCharacterAtlas = new TextureAtlas(Gdx.files.internal("CharacterSelect/bgCharacter.atlas"));
+		stageAtlas = new TextureAtlas(Gdx.files.internal("CharacterSelect/stageSmall.atlas"));
 
+		charSelectSkin.addRegions(stageAtlas);
+		forestSmall = new ImageButton(charSelectSkin.getDrawable("forestSmall"), charSelectSkin.getDrawable("forestSmall"), charSelectSkin.getDrawable("forestSmallSelected"));
+		trainSmall = new ImageButton(charSelectSkin.getDrawable("trainSmall"), charSelectSkin.getDrawable("trainSmall"), charSelectSkin.getDrawable("trainSmallSelected"));
+		waterSmall = new ImageButton(charSelectSkin.getDrawable("waterSmall"), charSelectSkin.getDrawable("waterSmall"), charSelectSkin.getDrawable("waterSmallSelected"));
 		charSelectSkin.addRegions(characterButtonAtlas);
 		chopperButton = new ImageButton(charSelectSkin.getDrawable("Chopper"), charSelectSkin.getDrawable("Chopper"), charSelectSkin.getDrawable("ChopperSelected"));
 		lawButton = new ImageButton(charSelectSkin.getDrawable("Law"), charSelectSkin.getDrawable("Law"), charSelectSkin.getDrawable("LawSelected"));

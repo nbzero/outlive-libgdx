@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,6 +23,7 @@ import net.nbzero.outlive.player.PlayerData;
 import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.player.characters.CharacterFactory;
 import net.nbzero.outlive.sound.BGM;
+import net.nbzero.outlive.sound.SoundUtils;
 import net.nbzero.outlive.utils.CollideHandler;
 import net.nbzero.outlive.utils.Fireball;
 import net.nbzero.outlive.utils.PositionHandler;
@@ -46,7 +48,7 @@ public class GameScreen implements Screen {
 	// Set From Character select screen
 	protected static String p1Char = "Luffy";
 	protected static String p2Char = "Usopp";
-	private static String bgPath = "Stage/forest.png";
+	private static String bgPath;
 	protected static ArrayList<Fireball> fireballs; 
 	protected static int checkFireball=1;
 	private static Label player1Label;
@@ -64,12 +66,16 @@ public class GameScreen implements Screen {
 	private static Label winner20Label;
 	private static Label winner10Label;
 	private float regenTime = 0;
+	private Sound click;
+	private Sound select;
+	private Sound exit;
 	
 	@Override
 	public void show() {
 		debugMode = false;
 		initialize();
 		initialHUD();
+		
 	}
 
 	@Override
@@ -414,17 +420,23 @@ public class GameScreen implements Screen {
 	}
 	
 	private void initialize(){
+		click = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Click.mp3"));
+		bgPath = CharacterSelectScreen.stagePath;
 		switch(bgPath){
 		case "Stage/forest.png":
-			BGM.Battle1.getBGM().play();
+			BGM.Battle2.getBGM().play();
+			BGM.Battle2.getBGM().setVolume(SoundUtils.getMasterVolume());
 			break;
 		case "Stage/water.png":
-			BGM.Battle2.getBGM().play();
+			BGM.Battle3.getBGM().play();
+			BGM.Battle3.getBGM().setVolume(SoundUtils.getMasterVolume());
 			break;
 		case "Stage/train.png":
-			BGM.Battle3.getBGM().play();
+			BGM.Battle1.getBGM().play();
+			BGM.Battle1.getBGM().setVolume(SoundUtils.getMasterVolume());
 			break;
 		}
+		System.out.println(SoundUtils.getMasterVolume());
 		p1 = new PlayerData(100, 100, 0, new PositionHandler(160, 50), "Right");
 		p2 = new PlayerData(100, 100, 0, new PositionHandler(820, 50), "Left");
 		player1 = CharacterFactory.valueOf(CharacterSelectScreen.p1Char).getNew(p1);
@@ -618,9 +630,11 @@ public class GameScreen implements Screen {
 	
 	private void pauseMenuChecker(){
 		if(Gdx.input.isKeyJustPressed(Keys.UP) && menuSelected > 0){
+			click.play();
 			menuSelected--;
 		}
 		else if(Gdx.input.isKeyJustPressed(Keys.DOWN) && menuSelected < 2){
+			click.play();
 			menuSelected++;
 		}
 		

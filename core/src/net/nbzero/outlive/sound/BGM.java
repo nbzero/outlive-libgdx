@@ -11,12 +11,6 @@ public enum BGM {
 	Battle2(getBGM("Battle2.mp3")),
 	Battle3(getBGM("Battle3.mp3"));
 	
-	private static final float defaultVolume = 0.5f;
-	
-	private static float getDefaultvolume() {
-		return defaultVolume;
-	}
-
 	private Music BGM;
 	private float volume;
 	
@@ -26,7 +20,7 @@ public enum BGM {
 	}
 	
 	private BGM(Music BGM){
-		this(BGM, getDefaultvolume());
+		this(BGM, SoundUtils.getMasterVolume());
 	}
 	
 	public Music getBGM(){
@@ -49,7 +43,8 @@ public enum BGM {
 
 	public void setVolume(float volume) {
 		this.volume = volume;
-		getBGM().setVolume(volume);
+		SoundUtils.setMasterVolume(volume);
+		getBGM().setVolume(SoundUtils.getMasterVolume());
 	}
 	
 }

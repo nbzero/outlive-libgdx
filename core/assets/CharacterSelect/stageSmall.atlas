@@ -1,0 +1,47 @@
+
+stageSmall.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+forestSmall
+  rotate: false
+  xy: 1, 183
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+forestSmallSelected
+  rotate: false
+  xy: 1, 1
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+trainSmall
+  rotate: false
+  xy: 323, 183
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+trainSmallSelected
+  rotate: false
+  xy: 323, 1
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+waterSmall
+  rotate: false
+  xy: 645, 183
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
+waterSmallSelected
+  rotate: false
+  xy: 645, 1
+  size: 320, 180
+  orig: 320, 180
+  offset: 0, 0
+  index: -1
