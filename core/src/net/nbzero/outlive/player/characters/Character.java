@@ -25,6 +25,9 @@ abstract public class Character {
 	protected float skillPosXLeft;
 	protected float skillPosXRight;
 	
+	protected boolean uping;
+	protected boolean downing;
+	
 	
 	// Constructors	
 	public Character(PlayerData playerData, PositionHandler size){
@@ -107,6 +110,22 @@ abstract public class Character {
 	
 	public float getAtkCount(){
 		return atkCount;
+	}
+	
+	public boolean isUping() {
+		return uping;
+	}
+
+	public boolean isDowning() {
+		return downing;
+	}
+	
+	public void setUping(boolean uping) {
+		this.uping = uping;
+	}
+
+	public void setDowning(boolean downing) {
+		this.downing = downing;
 	}
 
 	protected abstract Animation drawStanding();

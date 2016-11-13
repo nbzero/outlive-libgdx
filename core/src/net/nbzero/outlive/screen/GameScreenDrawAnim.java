@@ -10,6 +10,8 @@ public class GameScreenDrawAnim {
 	protected static void idleAnim(Character player){
 		player.getPlayer().setHasControl(true);
 		player.getPlayer().setHitted(false);
+		player.setUping(false);
+		player.setDowning(false);
 		player.getAttackBox().set(player.getDefaultAttackBox());
 		player.getAttackBox2().set(player.getDefaultAttackBox2());
 		player.getAttackBox3().set(player.getDefaultAttackBox3());
@@ -26,6 +28,8 @@ public class GameScreenDrawAnim {
 	
 	protected static void moveLeftAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
+		player.setUping(false);
+		player.setDowning(false);
 		player.getPlayer().setRight(false);
 		if(!CollideHandler.checkMapCollide("left", player.getHitbox())){
 			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), -player.getMoveSpeed());
@@ -35,6 +39,8 @@ public class GameScreenDrawAnim {
 	
 	protected static void moveRightAnim(Character player){
 		GameScreen.keyFrame = player.getRunning().getKeyFrame(GameScreen.elapsedTime, true);
+		player.setUping(false);
+		player.setDowning(false);
 		player.getPlayer().setRight(true);
 		if(!CollideHandler.checkMapCollide("right", player.getHitbox())){
 			player.moveX(player.getPlayer().getPos().getX(), player.getHitbox().getX(), player.getMoveSpeed());

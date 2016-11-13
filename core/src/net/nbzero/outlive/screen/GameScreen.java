@@ -108,38 +108,24 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(InputsControl.P1_LEFT) && player1.getPlayer().hasControl() 
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveLeftAnim(player1);
-			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
-				if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
-					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
-				}
-			}
-			else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN)){
-				if(!CollideHandler.checkMapCollide("down", player1.getHitbox())){
-					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
-				}
-			}
+			p1MultiCommand();
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_RIGHT) && player1.getPlayer().hasControl() 
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveRightAnim(player1);
-			if(Gdx.input.isKeyPressed(InputsControl.P1_UP)){
-				if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
-					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
-				}
-			}
-			else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN)){
-				if(!CollideHandler.checkMapCollide("down", player1.getHitbox())){
-					player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
-				}
-			}
+			p1MultiCommand();
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl() 
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveUpAnim(player1);
+			player1.setUping(true);
+			p1MultiCommand();
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl() 
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveDownAnim(player1);
+			player1.setDowning(true);
+			p1MultiCommand();
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()
 				&& !paused && !matchFinished){
@@ -164,7 +150,7 @@ public class GameScreen implements Screen {
 			player1.getPlayer().setSkill1Ready(false);
 			player1.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2)&& !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_SKILL2) && !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
 				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready()){
 			player1.getPlayer().setSkilling2(true);
 			player1.getPlayer().setSkill2Ready(false);
@@ -225,38 +211,24 @@ public class GameScreen implements Screen {
 		if(Gdx.input.isKeyPressed(InputsControl.P2_LEFT) && player2.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveLeftAnim(player2);
-			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
-				if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
-					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
-				}
-			}
-			else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN)){
-				if(!CollideHandler.checkMapCollide("down", player2.getHitbox())){
-					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
-				}
-			}
+			p2MultiCommand();
 		} 
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_RIGHT) && player2.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveRightAnim(player2);
-			if(Gdx.input.isKeyPressed(InputsControl.P2_UP)){
-				if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
-					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
-				}
-			}
-			else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN)){
-				if(!CollideHandler.checkMapCollide("down", player2.getHitbox())){
-					player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
-				}
-			}
+			p2MultiCommand();			
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveUpAnim(player2);
+			player2.setUping(true);
+			p2MultiCommand();
 		}
 		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl() 
 				&& !paused && !matchFinished) {
 			GameScreenDrawAnim.moveDownAnim(player2);
+			player2.setDowning(true);
+			p2MultiCommand();
 		}
 		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() 
 				&& player2.getPlayer().hasControl() && !paused  && !matchFinished){
@@ -281,7 +253,7 @@ public class GameScreen implements Screen {
 			player2.getPlayer().setSkill1Ready(false);
 			player2.getPlayer().setHasControl(false);
 		}
-		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2)&& !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_SKILL2) && !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
 				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready()){
 			player2.getPlayer().setSkilling2(true);
 			player2.getPlayer().setSkill2Ready(false);
@@ -755,6 +727,93 @@ public class GameScreen implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
 				break;
 			}
+		}
+	}
+	
+	private void p1MultiCommand(){
+		if(Gdx.input.isKeyPressed(InputsControl.P1_UP) && player1.getPlayer().hasControl()
+				&& !paused && !matchFinished && !player1.isUping()){
+			if(!CollideHandler.checkMapCollide("up", player1.getHitbox())){
+				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), player1.getMoveSpeed());
+			}
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P1_DOWN) && player1.getPlayer().hasControl()
+				&& !paused && !matchFinished && !player1.isDowning()){
+			if(!CollideHandler.checkMapCollide("down", player1.getHitbox())){
+				player1.moveY(player1.getPlayer().getPos().getY(), player1.getHitbox().getY(), -player1.getMoveSpeed());
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DASH) && !player1.getPlayer().isDashing() && player1.getPlayer().hasControl()
+				&& !paused && !matchFinished){
+			player1.getPlayer().setDashing(true);
+			player1.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_ATTACK) && !player1.getPlayer().isAttacking() && player1.getPlayer().hasControl()
+				&& !paused && !matchFinished){
+			player1.getPlayer().setAttacking(true);
+			player1.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE) && !player1.getPlayer().isAttacking()
+				&& !player1.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+				&& !player1.getPlayer().isSkilling1() && !player1.getPlayer().isSkilling2()
+				&& !paused && !matchFinished){
+			GameScreenDrawAnim.defenseAnim(player1);
+			player1.getPlayer().setDefending(true);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_SKILL1) && !player1.getPlayer().isSkilling1()&& player1.getPlayer().hasControl() 
+				&& !paused && !matchFinished && player1.getPlayer().isSkill1Ready()){
+			player1.getPlayer().setSkilling1(true);
+			player1.getPlayer().setSkill1Ready(false);
+			player1.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_SKILL2) && !player1.getPlayer().isSkilling2()&& player1.getPlayer().hasControl()
+				&& !paused && !matchFinished && player1.getPlayer().isSkill2Ready()){
+			player1.getPlayer().setSkilling2(true);
+			player1.getPlayer().setSkill2Ready(false);
+			player1.getPlayer().setHasControl(false);
+		}
+	}
+	private void p2MultiCommand(){
+		if(Gdx.input.isKeyPressed(InputsControl.P2_UP) && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished && !player2.isUping()){
+			if(!CollideHandler.checkMapCollide("up", player2.getHitbox())){
+				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), player2.getMoveSpeed());
+			}
+		}
+		else if(Gdx.input.isKeyPressed(InputsControl.P2_DOWN) && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished && !player2.isDowning()){
+			if(!CollideHandler.checkMapCollide("down", player2.getHitbox())){
+				player2.moveY(player2.getPlayer().getPos().getY(), player2.getHitbox().getY(), -player2.getMoveSpeed());
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DASH) && !player2.getPlayer().isDashing() && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished){
+			player2.getPlayer().setDashing(true);
+			player2.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_ATTACK) && !player2.getPlayer().isAttacking() && player2.getPlayer().hasControl()
+				&& !paused && !matchFinished){
+			player2.getPlayer().setAttacking(true);
+			player2.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE) && !player2.getPlayer().isAttacking()
+				&& !player2.getPlayer().isDead() && !player2.getPlayer().isHitted() 
+				&& !player2.getPlayer().isSkilling1() && !player2.getPlayer().isSkilling2()
+				&& !paused && !matchFinished){
+			GameScreenDrawAnim.defenseAnim(player2);
+			player2.getPlayer().setDefending(true);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_SKILL1) && !player2.getPlayer().isSkilling1()&& player2.getPlayer().hasControl() 
+				&& !paused && !matchFinished && player2.getPlayer().isSkill1Ready()){
+			player2.getPlayer().setSkilling1(true);
+			player2.getPlayer().setSkill1Ready(false);
+			player2.getPlayer().setHasControl(false);
+		}
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_SKILL2) && !player2.getPlayer().isSkilling2()&& player2.getPlayer().hasControl()
+				&& !paused && !matchFinished && player2.getPlayer().isSkill2Ready()){
+			player2.getPlayer().setSkilling2(true);
+			player2.getPlayer().setSkill2Ready(false);
+			player2.getPlayer().setHasControl(false);
 		}
 	}
 }
