@@ -16,7 +16,6 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import net.nbzero.outlive.InputsControl;
 import net.nbzero.outlive.sound.BGM;
-import net.nbzero.outlive.sound.SoundUtils;
 import net.nbzero.outlive.tween.ActorAccessor;
 import net.nbzero.outlive.utils.Utils;
 import net.nbzero.outlive.utils.screenutils.CharacterScreenUtils;
@@ -237,7 +236,7 @@ public class CharacterSelectScreen implements Screen {
 				p1Char = CharacterScreenUtils.getCharName(p1Selected);
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE) && delayTime < 5f){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P1_DEFENSE) && delayTime < 5f && !stageLock){
 			exit.play();
 			p1Locked.setColor(1, 1, 1, 0);
 			p1Lock = false;
@@ -278,7 +277,7 @@ public class CharacterSelectScreen implements Screen {
 				p2Char = CharacterScreenUtils.getCharName(p2Selected);
 			}
 		}
-		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE) && delayTime < 5f){
+		else if(Gdx.input.isKeyJustPressed(InputsControl.P2_DEFENSE) && delayTime < 5f && !stageLock){
 			exit.play();
 			p2Locked.setColor(1, 1, 1, 0);
 			p2Lock = false;
@@ -305,11 +304,11 @@ public class CharacterSelectScreen implements Screen {
 			table.setColor(1, 1, 1, 0);
 			table2.setColor(1, 1, 1, 0);
 			stageTable.setColor(1, 1, 1, 1);
-			if(Gdx.input.isKeyJustPressed(Keys.LEFT) && stageSelected > 0){
+			if(Gdx.input.isKeyJustPressed(Keys.LEFT) && stageSelected > 0 && !stageLock){
 				click.play();
 				stageSelected--;
 			}
-			else if(Gdx.input.isKeyJustPressed(Keys.RIGHT) && stageSelected < 2){
+			else if(Gdx.input.isKeyJustPressed(Keys.RIGHT) && stageSelected < 2 && !stageLock){
 				click.play();
 				stageSelected++;
 			}
