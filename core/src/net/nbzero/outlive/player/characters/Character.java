@@ -156,6 +156,8 @@ abstract public class Character {
 	public abstract void setAtkPower(float atkPower);
 	public abstract float getSkill1Power();
 	public abstract float getSkill2Power();
+	public abstract float getSkill1MP();
+	public abstract float getSkill2MP();
 	public abstract float[] getSkillCooldown();
 	public abstract float getDefPower();
 	public abstract void setDefPower(float defPower);

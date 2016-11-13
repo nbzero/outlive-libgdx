@@ -286,11 +286,11 @@ public class Luffy extends Character {
 		return skill2Power;
 	}
 	
-	public static float getSkill1MP() {
+	public float getSkill1MP() {
 		return skill1MP;
 	}
 
-	public static float getSkill2MP() {
+	public float getSkill2MP() {
 		return skill2MP;
 	}
 

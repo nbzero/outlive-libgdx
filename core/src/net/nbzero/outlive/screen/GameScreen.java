@@ -63,25 +63,10 @@ public class GameScreen implements Screen {
 	private static int menuSelected;
 	private static Label winner20Label;
 	private static Label winner10Label;
+	private float regenTime = 0;
 	
 	@Override
 	public void show() {
-		switch(bgPath){
-		case "Stage/forest.png":
-			BGM.Battle1.getBGM().play();
-			break;
-		case "Stage/water.png":
-			BGM.Battle2.getBGM().play();
-			break;
-		case "Stage/train.png":
-			BGM.Battle3.getBGM().play();
-			break;
-		}
-//		Outlive.bgm.stop();
-//		Outlive.bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/BGM/Battle1.wav"));
-//		Outlive.bgm.play();
-//		Outlive.bgm.setVolume(0.5f);
-//		Outlive.bgm.setLooping(true);
 		debugMode = false;
 		initialize();
 		initialHUD();
@@ -92,6 +77,7 @@ public class GameScreen implements Screen {
 		// To keep track of time and animation
 		elapsedTime += Gdx.graphics.getDeltaTime();
 		if(!paused && !matchFinished){
+			regenTime += Gdx.graphics.getDeltaTime();
 			trackTime += Gdx.graphics.getDeltaTime();
 		}
 		// To update every character hitbox every render
@@ -182,13 +168,13 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkAtkHit(player1, player2);
 			player1.getPlayer().setAttackTime(GameScreenAtkUtils.getAtkTime(player1, player1.getPlayer().getAttackTime()));
 		}
-		else if(player1.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+		else if(player1.getPlayer().isSkilling1()){
 			player1.getPlayer().setDelayTime(player1.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.skill1Anim(player1);
 			GameScreenAtkUtils.checkSkill1Hit(player1, player2);
 			player1.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill1Time(player1, player1.getPlayer().getDelayTime()));
 		}
-		else if(player1.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+		else if(player1.getPlayer().isSkilling2()){
 			player1.getPlayer().setDelayTime(player1.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.skill2Anim(player1);
 			GameScreenAtkUtils.checkSkill2Hit(player1, player2);
@@ -298,13 +284,13 @@ public class GameScreen implements Screen {
 			GameScreenAtkUtils.checkAtkHit(player2, player1);
 			player2.getPlayer().setAttackTime(GameScreenAtkUtils.getAtkTime(player2, player2.getPlayer().getAttackTime()));
 		}
-		else if(player2.getPlayer().isSkilling1()){ // Need to check cooldown skill1
+		else if(player2.getPlayer().isSkilling1()){
 			player2.getPlayer().setDelayTime(player2.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.skill1Anim(player2);
 			GameScreenAtkUtils.checkSkill1Hit(player2, player1);
 			player2.getPlayer().setDelayTime(GameScreenAtkUtils.getSkill1Time(player2, player2.getPlayer().getDelayTime()));
 		}
-		else if(player2.getPlayer().isSkilling2()){ // Need to check cooldown skill2
+		else if(player2.getPlayer().isSkilling2()){
 			player2.getPlayer().setDelayTime(player2.getPlayer().getDelayTime()+Gdx.graphics.getDeltaTime());
 			GameScreenDrawAnim.skill2Anim(player2);
 			GameScreenAtkUtils.checkSkill2Hit(player2, player1);
@@ -366,6 +352,11 @@ public class GameScreen implements Screen {
 		
 		batch.end();
 		
+		if(regenTime>=1){
+			GameScreenAtkUtils.regenMP(player1);
+			GameScreenAtkUtils.regenMP(player2);
+			regenTime -= 1f;
+		}
 		// Check pause
 		if(Gdx.input.isKeyJustPressed(InputsControl.ESCAPE_MENU) && !paused && !matchFinished){
 			paused = true;
@@ -423,10 +414,19 @@ public class GameScreen implements Screen {
 	}
 	
 	private void initialize(){
+		switch(bgPath){
+		case "Stage/forest.png":
+			BGM.Battle1.getBGM().play();
+			break;
+		case "Stage/water.png":
+			BGM.Battle2.getBGM().play();
+			break;
+		case "Stage/train.png":
+			BGM.Battle3.getBGM().play();
+			break;
+		}
 		p1 = new PlayerData(100, 100, 0, new PositionHandler(160, 50), "Right");
 		p2 = new PlayerData(100, 100, 0, new PositionHandler(820, 50), "Left");
-//		player1 = CharacterFactory.valueOf(p1Char).getNew(p1);
-//		player2 = CharacterFactory.valueOf(p2Char).getNew(p2);
 		player1 = CharacterFactory.valueOf(CharacterSelectScreen.p1Char).getNew(p1);
 		player2 = CharacterFactory.valueOf(CharacterSelectScreen.p2Char).getNew(p2);
 		bg = new Texture(bgPath);

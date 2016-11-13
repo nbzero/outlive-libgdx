@@ -6,6 +6,7 @@ import net.nbzero.outlive.player.characters.Character;
 import net.nbzero.outlive.utils.CollideHandler;
 
 public class GameScreenAtkUtils {
+	
 	public static void checkAtkHit(Character attacker, Character defender){
 		if(attacker.getPlayer().isRight() && CollideHandler.checkCollide("Right", attacker.getAttackBox(), defender.getHitbox())
 				|| CollideHandler.checkCollide("Right", attacker.getAttackBox2(), defender.getHitbox())
@@ -86,6 +87,7 @@ public class GameScreenAtkUtils {
 	
 	public static float getSkill1Time(Character player, float skillTime){
 		if(player.getSkilling1().isAnimationFinished(player.getPlayer().getDelayTime())){
+			GameScreenAtkUtils.deceaseMP(player, 1);
 			return 0;
 		}
 		return skillTime;
@@ -123,6 +125,7 @@ public class GameScreenAtkUtils {
 	
 	public static float getSkill2Time(Character player, float skillTime){
 		if(player.getSkilling2().isAnimationFinished(player.getPlayer().getDelayTime())){
+			GameScreenAtkUtils.deceaseMP(player, 2);
 			return 0;
 		}
 		return skillTime;
@@ -142,6 +145,23 @@ public class GameScreenAtkUtils {
 				player.getPlayer().setSkill2CDTime(0);
 				player.getPlayer().setSkill2Ready(true);
 			}
+		}
+	}
+	
+	public static void deceaseMP(Character player, int num){
+		switch(num){
+		case 1:
+			player.getPlayer().setMp(player.getPlayer().getMp()-player.getSkill1MP());
+			break;
+		case 2:
+			player.getPlayer().setMp(player.getPlayer().getMp()-player.getSkill2MP());
+			break;
+		}
+	}
+	
+	public static void regenMP(Character player){
+		if(player.getPlayer().getMp()+4 <= player.getMaxMP()){
+			player.getPlayer().setMp(player.getPlayer().getMp()+4);
 		}
 	}
 }
