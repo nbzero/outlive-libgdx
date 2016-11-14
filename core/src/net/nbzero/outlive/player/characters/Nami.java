@@ -64,7 +64,7 @@ public class Nami extends Character {
 	private static Sound atk1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack2.mp3"));
 	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack3.mp3"));
 	private static Sound atk3 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
-	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
+	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Nami_skill1.mp3"));
 	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
 	
 	public Nami(PlayerData playerData){

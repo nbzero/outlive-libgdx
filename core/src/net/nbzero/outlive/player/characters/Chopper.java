@@ -62,10 +62,10 @@ public class Chopper extends Character {
 	private static float offsetY6 = 0f;
 	
 	private static Sound atk1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
-	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack4.mp3"));
+	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack5.mp3"));
 	private static Sound atk3 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack3.mp3"));
-	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack2.mp3"));
-	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack3.mp3"));
+	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Chopper_skill1.mp3"));
+	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Chopper_skill2.mp3"));
 	
 	public Chopper(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));

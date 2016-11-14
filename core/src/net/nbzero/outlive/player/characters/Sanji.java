@@ -64,8 +64,8 @@ public class Sanji extends Character {
 	private static Sound atk1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
 	private static Sound atk2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack2.mp3"));
 	private static Sound atk3 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack3.mp3"));
-	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
-	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/attack.mp3"));
+	private static Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Sanji_skill1.mp3"));
+	private static Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sound/SFX/Sanji_skill2.mp3"));
 	
 	public Sanji(PlayerData playerData){
 		super(playerData, new PositionHandler(50, 90));
